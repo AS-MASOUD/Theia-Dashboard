@@ -90,7 +90,7 @@ export interface AuthResponse {
 
 export interface OTPResponse {
   identifier: string;
-  channel: "sms" | "email" | string;
+  channel: "sms" | "bale" | "email" | string;
   expires_in: number;
   cooldown_seconds: number;
   message: string;
@@ -101,6 +101,7 @@ export interface RegisterRequestOTPInput {
   phone_number: string;
   email?: string;
   password?: string;
+  channel?: "bale" | "sms" | string;
 }
 
 export interface RegisterVerifyOTPInput {

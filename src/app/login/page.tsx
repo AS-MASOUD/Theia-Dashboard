@@ -140,7 +140,9 @@ function LoginContent() {
       setCountdown(res.cooldown_seconds || 120);
       setOtpChannel(res.channel);
       const successText =
-        res.channel === "sms"
+        res.channel === "bale"
+          ? `کد تایید یکبار مصرف در پیام‌رسان بله به شماره ${res.identifier} ارسال شد.`
+          : res.channel === "sms"
           ? `کد یکبار مصرف پیامکی به شماره ${res.identifier} ارسال شد.`
           : `کد تایید یکبار مصرف به ایمیل ${res.identifier} ارسال شد.`;
       setSuccessMsg(successText);
@@ -388,7 +390,7 @@ function LoginContent() {
                   <div className="space-y-1.5">
                     <div className="flex items-center justify-between">
                       <label className="text-xs font-semibold text-slate-700 dark:text-slate-300">
-                        کد تایید ۵ رقمی ({otpChannel === "sms" ? "پیامک‌شده" : "ایمیل‌شده"})
+                        کد تایید ۵ رقمی ({otpChannel === "bale" ? "ارسال‌شده در بله" : otpChannel === "sms" ? "پیامک‌شده" : "ایمیل‌شده"})
                       </label>
                       <button
                         type="button"

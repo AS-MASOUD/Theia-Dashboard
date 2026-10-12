@@ -47,6 +47,7 @@ function RegisterContent() {
   // OTP details
   const [otpCode, setOtpCode] = useState("");
   const [countdown, setCountdown] = useState(0);
+  const [otpChannel, setOtpChannel] = useState<string>("sms");
 
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
@@ -167,9 +168,12 @@ function RegisterContent() {
       });
 
       setCountdown(res.cooldown_seconds || 120);
+      setOtpChannel(res.channel);
       setStep("otp");
       toast.success(
-        `کد تایید یکبار مصرف به شماره ${valid.cleanPhone} پیامک شد.`,
+        res.channel === "bale"
+          ? `کد تایید یکبار مصرف در پیام‌رسان بله به شماره ${valid.cleanPhone} ارسال شد.`
+          : `کد تایید یکبار مصرف به شماره ${valid.cleanPhone} پیامک شد.`,
         "کد تایید ارسال شد",
       );
     } catch (err: unknown) {
@@ -266,6 +270,8 @@ function RegisterContent() {
           <p className="text-sm text-slate-500 dark:text-slate-400">
             {step === "details"
               ? "مشخصات خود را جهت دریافت کد تایید وارد فرمایید"
+              : otpChannel === "bale"
+              ? `کد تایید ۵ رقمی در پیام‌رسان بله به شماره ${phoneNumber} ارسال شد`
               : `کد تایید ۵ رقمی به شماره ${phoneNumber} پیامک شد`}
           </p>
         </div>
@@ -580,7 +586,9 @@ function RegisterContent() {
 
               <div key={`otp-${fieldErrors.otpCode ? shakeKey : 0}`} className="space-y-2">
                 <label className="text-xs font-semibold text-slate-700 dark:text-slate-300 text-center block">
-                  کد تایید ۵ رقمی پیامک شده را وارد فرمایید
+                  {otpChannel === "bale"
+                    ? "کد تایید ۵ رقمی ارسال‌شده در پیام‌رسان بله را وارد فرمایید"
+                    : "کد تایید ۵ رقمی پیامک شده را وارد فرمایید"}
                 </label>
                 <div className="relative">
                   <input

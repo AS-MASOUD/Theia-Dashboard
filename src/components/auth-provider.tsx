@@ -21,7 +21,7 @@ interface AuthContextType {
   isAdmin: boolean;
   isViewer: boolean;
   login: (credentials: { identifier?: string; email?: string; password: string }) => Promise<User>;
-  requestOTP: (identifier: string) => Promise<OTPResponse>;
+  requestOTP: (identifier: string, channel?: string) => Promise<OTPResponse>;
   loginWithOTP: (identifier: string, code: string) => Promise<User>;
   register: (payload: { email?: string; phone_number?: string; password?: string; full_name: string; code?: string }) => Promise<User>;
   requestRegisterOTP: (payload: RegisterRequestOTPInput) => Promise<OTPResponse>;
@@ -82,8 +82,8 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     []
   );
 
-  const requestOTP = useCallback(async (identifier: string): Promise<OTPResponse> => {
-    return await api.requestOTP(identifier);
+  const requestOTP = useCallback(async (identifier: string, channel?: string): Promise<OTPResponse> => {
+    return await api.requestOTP(identifier, channel);
   }, []);
 
   const loginWithOTP = useCallback(

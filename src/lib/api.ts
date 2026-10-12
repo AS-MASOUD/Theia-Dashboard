@@ -47,10 +47,20 @@ import {
 
 function getApiBase(): string {
   const isServer = typeof window === "undefined";
-  let base = isServer
-    ? (process.env.INTERNAL_API_URL || process.env.NEXT_PUBLIC_API_URL || "http://backend:8000")
-    : (process.env.NEXT_PUBLIC_API_URL || "http://localhost:8000");
+  if (!isServer) {
+    if (window.location.hostname.includes("theia-finance.ir")) {
+      return "https://api.theia-finance.ir";
+    }
+    if (process.env.NEXT_PUBLIC_API_URL) {
+      let clientBase = process.env.NEXT_PUBLIC_API_URL.replace(/\/+$/, "");
+      if (clientBase.endsWith("/api/v1")) clientBase = clientBase.slice(0, -"/api/v1".length);
+      else if (clientBase.endsWith("/api")) clientBase = clientBase.slice(0, -"/api".length);
+      return clientBase;
+    }
+    return window.location.origin;
+  }
 
+  let base = process.env.INTERNAL_API_URL || process.env.NEXT_PUBLIC_API_URL || "http://backend:8000";
   base = base.replace(/\/+$/, "");
   if (base.endsWith("/api/v1")) {
     base = base.slice(0, -"/api/v1".length);
@@ -128,10 +138,10 @@ export const api = {
       body: JSON.stringify(credentials),
     }),
 
-  requestOTP: (identifier: string) =>
+  requestOTP: (identifier: string, channel?: string) =>
     request<OTPResponse>("/auth/otp/request", {
       method: "POST",
-      body: JSON.stringify({ identifier }),
+      body: JSON.stringify({ identifier, channel: channel || undefined }),
     }),
 
   verifyOTP: (identifier: string, code: string) =>
