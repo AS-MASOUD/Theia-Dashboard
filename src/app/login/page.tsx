@@ -227,42 +227,7 @@ function LoginContent() {
           </p>
         </div>
 
-        {/* Mode Selector Tabs */}
-        <div className="grid grid-cols-2 p-1 rounded-xl bg-slate-200/70 dark:bg-slate-800/70 border border-slate-300 dark:border-slate-700/60 text-xs font-semibold">
-          <button
-            type="button"
-            onClick={() => {
-              setAuthMode("password");
-              setError(null);
-              setSuccessMsg(null);
-            }}
-            className={`py-2 rounded-lg transition-all flex items-center justify-center gap-1.5 ${
-              authMode === "password"
-                ? "bg-white dark:bg-slate-900 text-slate-900 dark:text-slate-100 shadow-sm"
-                : "text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-slate-200"
-            }`}
-          >
-            <Lock className="h-3.5 w-3.5" />
-            <span>ورود با رمز عبور</span>
-          </button>
 
-          <button
-            type="button"
-            onClick={() => {
-              setAuthMode("otp");
-              setError(null);
-              setSuccessMsg(null);
-            }}
-            className={`py-2 rounded-lg transition-all flex items-center justify-center gap-1.5 ${
-              authMode === "otp"
-                ? "bg-white dark:bg-slate-900 text-slate-900 dark:text-slate-100 shadow-sm"
-                : "text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-slate-200"
-            }`}
-          >
-            <Smartphone className="h-3.5 w-3.5" />
-            <span>ورود با کد یکبار مصرف (OTP)</span>
-          </button>
-        </div>
 
         {/* Success Alert */}
         {successMsg && (

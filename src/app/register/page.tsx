@@ -23,7 +23,7 @@ import {
 import { normalizeDigitsToEnglish, isValidIranPhone, getSafeRedirect } from "@/lib/utils";
 
 function RegisterContent() {
-  const { requestRegisterOTP, registerWithOTP } = useAuth();
+  const { register, registerWithOTP, requestRegisterOTP } = useAuth();
   const { toast } = useToast();
   const router = useRouter();
   const searchParams = useSearchParams();
@@ -150,7 +150,56 @@ function RegisterContent() {
     return `${m.toString().padStart(2, "0")}:${s.toString().padStart(2, "0")}`;
   };
 
-  // Step 1: Request OTP
+  // Static Password Registration (OTP temporarily disabled)
+  const handleRegister = async (e?: React.FormEvent) => {
+    if (e) e.preventDefault();
+    setError(null);
+
+    const valid = validateDetails();
+    if (!valid) return;
+
+    setIsLoading(true);
+
+    try {
+      await register({
+        full_name: valid.cleanName,
+        phone_number: valid.cleanPhone,
+        password: password,
+      });
+
+      toast.success(
+        "ثبت‌نام شما با موفقیت انجام شد. خوش آمدید!",
+        "ثبت‌نام موفق",
+      );
+      const redirectParam = searchParams.get("redirect");
+      const targetUrl = redirectParam
+        ? getSafeRedirect(redirectParam, "/?onboarding=1")
+        : "/?onboarding=1";
+      router.push(targetUrl);
+    } catch (err: unknown) {
+      const errorObj = err as Error & { code?: string; status?: number };
+      const isConflict =
+        errorObj.status === 409 ||
+        errorObj.code === "CONFLICT" ||
+        errorObj.message?.includes("ثبت‌نام کرده است") ||
+        errorObj.message?.includes("ثبت شده است");
+
+      if (isConflict) {
+        const conflictMsg =
+          "کاربری با این شماره موبایل قبلاً در سامانه ثبت‌نام کرده است. لطفاً وارد شوید.";
+        setError(conflictMsg);
+        toast.error(conflictMsg, "حساب قبلاً وجود دارد");
+      } else {
+        const msg = errorObj.message || "خطا در ثبت‌نام حساب کاربری.";
+        setError(msg);
+        toast.error(msg, "خطای ثبت‌نام");
+      }
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  // Step 1: Request OTP (when OTP is enabled)
   const handleRequestOTP = async (e?: React.FormEvent) => {
     if (e) e.preventDefault();
     setError(null);
@@ -167,13 +216,13 @@ function RegisterContent() {
         password: password,
       });
 
-      setCountdown(res.cooldown_seconds || 120);
-      setOtpChannel(res.channel);
+      setOtpChannel(res.channel || "sms");
+      setCountdown(res.expires_in || 120);
       setStep("otp");
       toast.success(
         res.channel === "bale"
-          ? `کد تایید یکبار مصرف در پیام‌رسان بله به شماره ${valid.cleanPhone} ارسال شد.`
-          : `کد تایید یکبار مصرف به شماره ${valid.cleanPhone} پیامک شد.`,
+          ? "کد تایید با موفقیت از طریق پیام‌رسان بله ارسال شد."
+          : "کد تایید با موفقیت از طریق پیامک ارسال شد.",
         "کد تایید ارسال شد",
       );
     } catch (err: unknown) {
@@ -190,9 +239,9 @@ function RegisterContent() {
         setError(conflictMsg);
         toast.error(conflictMsg, "حساب قبلاً وجود دارد");
       } else {
-        const msg = errorObj.message || "خطا در ارسال کد تایید یکبار مصرف.";
+        const msg = errorObj.message || "خطا در ارسال کد تایید.";
         setError(msg);
-        toast.error(msg, "خطا در ارسال کد");
+        toast.error(msg, "خطای ارسال کد");
       }
     } finally {
       setIsLoading(false);
@@ -263,16 +312,10 @@ function RegisterContent() {
             )}
           </div>
           <h2 className="text-2xl font-bold tracking-tight text-slate-900 dark:text-slate-100">
-            {step === "details"
-              ? "ایجاد حساب کاربری جدید"
-              : "تایید شماره موبایل"}
+            ایجاد حساب کاربری جدید
           </h2>
           <p className="text-sm text-slate-500 dark:text-slate-400">
-            {step === "details"
-              ? "مشخصات خود را جهت دریافت کد تایید وارد فرمایید"
-              : otpChannel === "bale"
-              ? `کد تایید ۵ رقمی در پیام‌رسان بله به شماره ${phoneNumber} ارسال شد`
-              : `کد تایید ۵ رقمی به شماره ${phoneNumber} پیامک شد`}
+            مشخصات خود را جهت ثبت‌نام و ورود به سامانه وارد فرمایید
           </p>
         </div>
 
@@ -297,7 +340,7 @@ function RegisterContent() {
         {/* Form Card */}
         <div className="rounded-2xl border border-slate-200 dark:border-slate-800 bg-white/70 dark:bg-slate-900/70 backdrop-blur-xl p-6 shadow-xl shadow-slate-950/5">
           {step === "details" ? (
-            <form noValidate onSubmit={handleRequestOTP} className="space-y-4">
+            <form noValidate onSubmit={handleRegister} className="space-y-4">
               {/* Full Name Field */}
               <div key={`name-${fieldErrors.fullName ? shakeKey : 0}`} className="space-y-1.5">
                 <label className="text-xs font-semibold text-slate-700 dark:text-slate-300">
@@ -556,7 +599,7 @@ function RegisterContent() {
                   <div className="h-4 w-4 border-2 border-white border-t-transparent rounded-full animate-spin" />
                 ) : (
                   <>
-                    <span>دریافت کد تایید و ادامه</span>
+                    <span>ثبت‌نام و ورود به سامانه</span>
                     <ArrowRight className="h-4 w-4" />
                   </>
                 )}

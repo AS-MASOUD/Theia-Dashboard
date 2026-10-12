@@ -28,6 +28,7 @@ import {
   Coins,
   AlertTriangle,
   Sliders,
+  LogOut,
 } from "lucide-react";
 import { SystemRole } from "@/types/auth";
 import { FinancialOnboardingModal } from "@/components/onboarding/financial-onboarding-modal";
@@ -47,6 +48,7 @@ export default function ProfilePage() {
     refreshProfile,
     isAuthenticated,
     isLoading: authLoading,
+    logout,
   } = useAuth();
   const { toast } = useToast();
 
@@ -320,16 +322,31 @@ export default function ProfilePage() {
 
   return (
     <div className="max-w-5xl mx-auto space-y-8 pb-12">
-      {/* Page Title */}
-      <div>
-        <h1 className="text-2xl font-bold tracking-tight text-slate-900 dark:text-slate-100 flex items-center gap-2.5">
-          <UserCircle className="h-6 w-6 text-sky-500" />
-          <span>پروفایل و اطلاعات کاربری</span>
-        </h1>
-        <p className="text-xs text-slate-500 dark:text-slate-400 mt-1">
-          مشاهده، تکمیل و ویرایش مشخصات شخصی، سن، شغل، اطلاعات تماس و تنظیمات
-          امنیتی
-        </p>
+      {/* Page Title & Quick Actions */}
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+        <div>
+          <h1 className="text-2xl font-bold tracking-tight text-slate-900 dark:text-slate-100 flex items-center gap-2.5">
+            <UserCircle className="h-6 w-6 text-sky-500" />
+            <span>پروفایل و اطلاعات کاربری</span>
+          </h1>
+          <p className="text-xs text-slate-500 dark:text-slate-400 mt-1">
+            مشاهده، تکمیل و ویرایش مشخصات شخصی، سن، شغل، اطلاعات تماس و تنظیمات
+            امنیتی
+          </p>
+        </div>
+
+        <button
+          type="button"
+          onClick={() => {
+            logout();
+            toast.success("با موفقیت از حساب کاربری خارج شدید.", "خروج از سامانه");
+          }}
+          className="inline-flex items-center justify-center gap-2 px-4 py-2.5 rounded-xl border border-rose-200 dark:border-rose-900/40 bg-rose-50/80 dark:bg-rose-950/20 hover:bg-rose-100 dark:hover:bg-rose-900/40 text-rose-600 dark:text-rose-400 text-xs font-semibold shadow-xs transition-all cursor-pointer active:scale-95 shrink-0"
+          title="خروج از حساب کاربری"
+        >
+          <LogOut className="h-4 w-4" />
+          <span>خروج از حساب کاربری</span>
+        </button>
       </div>
 
       {/* User Hero Banner Card */}
@@ -974,6 +991,31 @@ export default function ProfilePage() {
             </div>
           </div>
         </div>
+      </div>
+
+      {/* Session Termination / Logout Card */}
+      <div className="rounded-3xl border border-rose-200/80 dark:border-rose-900/40 bg-white/70 dark:bg-slate-900/70 backdrop-blur-xl p-6 shadow-xl shadow-slate-950/5 flex flex-col sm:flex-row items-center justify-between gap-4">
+        <div className="space-y-1 text-center sm:text-right">
+          <h3 className="text-sm font-bold text-rose-600 dark:text-rose-400 flex items-center gap-2 justify-center sm:justify-start">
+            <LogOut className="h-4 w-4" />
+            <span>پایان نشست و خروج از حساب کاربری</span>
+          </h3>
+          <p className="text-xs text-slate-500 dark:text-slate-400">
+            با خروج از حساب، نشست فعلی شما خاتمه یافته و توکن دسترسی از این دستگاه پاک خواهد شد.
+          </p>
+        </div>
+
+        <button
+          type="button"
+          onClick={() => {
+            logout();
+            toast.success("با موفقیت از حساب کاربری خارج شدید.", "خروج از سامانه");
+          }}
+          className="px-5 py-2.5 rounded-xl bg-rose-600 hover:bg-rose-500 active:scale-95 text-white text-xs font-semibold shadow-md shadow-rose-600/20 transition-all cursor-pointer flex items-center gap-2 shrink-0"
+        >
+          <LogOut className="h-4 w-4" />
+          <span>خروج از حساب</span>
+        </button>
       </div>
 
       {/* Onboarding Modals */}
