@@ -45,7 +45,22 @@ import {
   UserUpdateInput,
 } from "@/types/auth";
 
-const API_BASE = process.env.NEXT_PUBLIC_API_URL || "http://localhost:8000";
+function getApiBase(): string {
+  const isServer = typeof window === "undefined";
+  let base = isServer
+    ? (process.env.INTERNAL_API_URL || process.env.NEXT_PUBLIC_API_URL || "http://backend:8000")
+    : (process.env.NEXT_PUBLIC_API_URL || "http://localhost:8000");
+
+  base = base.replace(/\/+$/, "");
+  if (base.endsWith("/api/v1")) {
+    base = base.slice(0, -"/api/v1".length);
+  } else if (base.endsWith("/api")) {
+    base = base.slice(0, -"/api".length);
+  }
+  return base;
+}
+
+const API_BASE = getApiBase();
 const TOKEN_KEY = "pfc_access_token";
 
 export const tokenStorage = {

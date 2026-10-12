@@ -1,5 +1,54 @@
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Vazirmatn:wght@300;400;500;600;700;800;900&display=swap');
 @import "tailwindcss";
+
+/* Zero External Font Dependencies: Local Persian WOFF2 Fonts with swap */
+@font-face {
+  font-family: 'Kalameh';
+  src: url('/fonts/KalamehWeb-Thin.woff2') format('woff2');
+  font-weight: 100;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Kalameh';
+  src: url('/fonts/KalamehWeb-Regular.woff2') format('woff2');
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Kalameh';
+  src: url('/fonts/KalamehWeb-Bold.woff2') format('woff2');
+  font-weight: 700;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Kalameh';
+  src: url('/fonts/KalamehWeb-Black.woff2') format('woff2');
+  font-weight: 900;
+  font-style: normal;
+  font-display: swap;
+}
+
+/* Fallback alias for Vazirmatn pointing to bundled local fonts */
+@font-face {
+  font-family: 'Vazirmatn';
+  src: url('/fonts/KalamehWeb-Regular.woff2') format('woff2');
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Vazirmatn';
+  src: url('/fonts/KalamehWeb-Bold.woff2') format('woff2');
+  font-weight: 700;
+  font-style: normal;
+  font-display: swap;
+}
 
 :root {
   --background: #f8fafc;
@@ -68,12 +117,25 @@
   --finance-brand: #60a5fa;
 }
 
+/* Mobile 60-120 FPS Scrolling & Animation: Dedicated GPU layer, no background-attachment: fixed */
 body {
-  font-family: 'Vazirmatn', 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  font-family: 'Kalameh', 'Vazirmatn', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
   background-color: var(--background);
   color: var(--foreground);
-  font-feature-settings: "cv02", "cv03", "cv04"; /* cv11 removed: ensures English numbers across the whole app */
+  font-feature-settings: "cv02", "cv03", "cv04";
   min-height: 100vh;
+  -webkit-overflow-scrolling: touch;
+  touch-action: pan-y;
+  overscroll-behavior-y: auto;
+}
+
+body::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  transform: translateZ(0);
+  pointer-events: none;
 }
 
 /* Enforce English font & tabular digits for numbers, prices, and metrics */
@@ -82,7 +144,7 @@ body {
 .tabular-nums,
 [data-currency],
 input[dir="ltr"] {
-  font-family: 'Inter', ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", monospace;
+  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", monospace;
   font-feature-settings: "cv11" 0, "tnum" 1;
   font-variant-numeric: tabular-nums lining-nums;
 }
@@ -128,4 +190,14 @@ input[dir="ltr"] {
 
 .animate-shake {
   animation: shake 0.4s cubic-bezier(0.36, 0.07, 0.19, 0.97) both;
+}
+
+/* Lightweight Touch Transitions & Hover cancellation on mobile touchscreens */
+@media (hover: none) and (max-width: 768px) {
+  *, ::before, ::after {
+    transition-duration: 0.15s !important;
+  }
+  *:hover {
+    transform: none !important;
+  }
 }
