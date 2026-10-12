@@ -11,6 +11,7 @@ import {
   Loader2,
 } from "lucide-react";
 import { api } from "@/lib/api";
+import { SafeMarkdown } from "@/components/safe-markdown";
 
 const SUGGESTED_PROMPTS = [
   "وضعیت فعلی دارایی‌ها و ارزش خالص من را بررسی و خلاصه کن.",
@@ -123,8 +124,8 @@ export default function AIAssistantPage() {
                   </div>
                 )}
 
-                <div className="leading-relaxed whitespace-pre-line text-xs font-normal">
-                  {msg.content}
+                <div className="leading-relaxed text-xs font-normal">
+                  <SafeMarkdown content={msg.content} />
                 </div>
               </div>
 

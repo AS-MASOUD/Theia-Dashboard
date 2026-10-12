@@ -20,7 +20,7 @@ import {
   EyeOff,
   Check,
 } from "lucide-react";
-import { normalizeDigitsToEnglish, isValidIranPhone } from "@/lib/utils";
+import { normalizeDigitsToEnglish, isValidIranPhone, getSafeRedirect } from "@/lib/utils";
 
 function RegisterContent() {
   const { requestRegisterOTP, registerWithOTP } = useAuth();
@@ -47,7 +47,6 @@ function RegisterContent() {
   // OTP details
   const [otpCode, setOtpCode] = useState("");
   const [countdown, setCountdown] = useState(0);
-  const [debugCode, setDebugCode] = useState<string | null>(null);
 
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
@@ -168,9 +167,6 @@ function RegisterContent() {
       });
 
       setCountdown(res.cooldown_seconds || 120);
-      if (res.debug_code) {
-        setDebugCode(res.debug_code);
-      }
       setStep("otp");
       toast.success(
         `کد تایید یکبار مصرف به شماره ${valid.cleanPhone} پیامک شد.`,
@@ -234,7 +230,11 @@ function RegisterContent() {
         "ثبت‌نام شما با موفقیت انجام شد. خوش آمدید!",
         "ثبت‌نام موفق",
       );
-      router.push("/?onboarding=1");
+      const redirectParam = searchParams.get("redirect");
+      const targetUrl = redirectParam
+        ? getSafeRedirect(redirectParam, "/?onboarding=1")
+        : "/?onboarding=1";
+      router.push(targetUrl);
     } catch (err: unknown) {
       const errorObj = err as Error & { code?: string; status?: number };
       const msg =

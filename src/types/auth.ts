@@ -93,7 +93,6 @@ export interface OTPResponse {
   channel: "sms" | "email" | string;
   expires_in: number;
   cooldown_seconds: number;
-  debug_code?: string | null;
   message: string;
 }
 

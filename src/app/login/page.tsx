@@ -1,8 +1,8 @@
 "use client";
 
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, Suspense } from "react";
 import Link from "next/link";
-import { useRouter } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 import { useAuth } from "@/components/auth-provider";
 import { useToast } from "@/components/toast-provider";
 import {
@@ -15,12 +15,14 @@ import {
   Smartphone,
   RotateCcw,
 } from "lucide-react";
-import { normalizeDigitsToEnglish, isValidIranPhone } from "@/lib/utils";
+import { normalizeDigitsToEnglish, isValidIranPhone, getSafeRedirect } from "@/lib/utils";
 
-export default function LoginPage() {
+function LoginContent() {
   const { login, requestOTP, loginWithOTP } = useAuth();
   const { toast } = useToast();
   const router = useRouter();
+  const searchParams = useSearchParams();
+  const redirectTarget = getSafeRedirect(searchParams.get("redirect"), "/");
 
   // Mode: "password" or "otp"
   const [authMode, setAuthMode] = useState<"password" | "otp">("password");
@@ -90,7 +92,7 @@ export default function LoginPage() {
     try {
       await login({ identifier: cleanId, password });
       toast.success("ورود با موفقیت انجام شد. خوش آمدید!", "ورود موفق");
-      router.push("/");
+      router.push(redirectTarget);
     } catch (err: unknown) {
       const errorObj = err as Error & { code?: string; status?: number };
       const isNotFound =
@@ -180,7 +182,7 @@ export default function LoginPage() {
     try {
       await loginWithOTP(cleanId, cleanCode);
       toast.success("ورود موفقیت‌آمیز بود. خوش آمدید!", "ورود موفق");
-      router.push("/");
+      router.push(redirectTarget);
     } catch (err: unknown) {
       const errorObj = err as Error & { code?: string; status?: number };
       const isNotFound =
@@ -470,5 +472,19 @@ export default function LoginPage() {
         </div>
       </div>
     </div>
+  );
+}
+
+export default function LoginPage() {
+  return (
+    <Suspense
+      fallback={
+        <div className="min-h-[85vh] flex items-center justify-center p-4">
+          <div className="h-8 w-8 border-2 border-sky-500 border-t-transparent rounded-full animate-spin" />
+        </div>
+      }
+    >
+      <LoginContent />
+    </Suspense>
   );
 }

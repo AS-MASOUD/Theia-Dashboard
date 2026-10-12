@@ -95,3 +95,33 @@ export function isValidFullName(name: string | null | undefined): boolean {
   return trimmed.length >= 2 && trimmed.length <= 50;
 }
 
+/**
+ * Safely validates and sanitizes a redirect URL to prevent Open Redirect vulnerabilities.
+ * Only allows relative paths starting with a single leading slash ('/').
+ * Strictly rejects protocol-relative URLs ('//'), backslash bypasses ('/\\'),
+ * and absolute scheme URLs ('http:', 'javascript:', etc.).
+ */
+export function getSafeRedirect(
+  targetUrl: string | null | undefined,
+  defaultPath: string = "/dashboard"
+): string {
+  if (!targetUrl || typeof targetUrl !== "string") {
+    return defaultPath;
+  }
+
+  const trimmed = targetUrl.trim();
+  // Must start with a single '/' and NOT with '//' or '/\' or contain '\'
+  if (
+    !trimmed.startsWith("/") ||
+    trimmed.startsWith("//") ||
+    trimmed.startsWith("/\\") ||
+    trimmed.includes("\\") ||
+    /^[a-zA-Z][a-zA-Z0-9+.-]*:/.test(trimmed)
+  ) {
+    return defaultPath;
+  }
+
+  return trimmed;
+}
+
+
