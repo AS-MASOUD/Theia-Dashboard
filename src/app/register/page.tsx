@@ -173,8 +173,8 @@ function RegisterContent() {
       );
       const redirectParam = searchParams.get("redirect");
       const targetUrl = redirectParam
-        ? getSafeRedirect(redirectParam, "/?onboarding=1")
-        : "/?onboarding=1";
+        ? getSafeRedirect(redirectParam, "/dashboard?onboarding=1")
+        : "/dashboard?onboarding=1";
       router.push(targetUrl);
     } catch (err: unknown) {
       const errorObj = err as Error & { code?: string; status?: number };
@@ -285,8 +285,8 @@ function RegisterContent() {
       );
       const redirectParam = searchParams.get("redirect");
       const targetUrl = redirectParam
-        ? getSafeRedirect(redirectParam, "/?onboarding=1")
-        : "/?onboarding=1";
+        ? getSafeRedirect(redirectParam, "/dashboard?onboarding=1")
+        : "/dashboard?onboarding=1";
       router.push(targetUrl);
     } catch (err: unknown) {
       const errorObj = err as Error & { code?: string; status?: number };

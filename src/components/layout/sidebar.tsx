@@ -26,7 +26,7 @@ import { cn } from "@/lib/utils";
 import { useAuth } from "@/components/auth-provider";
 
 const navigationItems = [
-  { name: "نمای کلی", href: "/", icon: LayoutDashboard },
+  { name: "نمای کلی", href: "/dashboard", icon: LayoutDashboard },
   { name: "سبد دارایی (پورتفولیو)", href: "/portfolio", icon: PieChart },
   { name: "مسیر ثروت (Trajectory)", href: "/wealth-trajectory", icon: Layers },
   { name: "دفتر کل تراکنش‌ها", href: "/transactions", icon: ArrowLeftRight },

@@ -22,7 +22,7 @@ function LoginContent() {
   const { toast } = useToast();
   const router = useRouter();
   const searchParams = useSearchParams();
-  const redirectTarget = getSafeRedirect(searchParams.get("redirect"), "/");
+  const redirectTarget = getSafeRedirect(searchParams.get("redirect"), "/dashboard");
 
   // Mode: "password" or "otp"
   const [authMode, setAuthMode] = useState<"password" | "otp">("password");

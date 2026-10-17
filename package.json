@@ -9,7 +9,7 @@
     "build": "next build",
     "start": "next start",
     "lint": "eslint",
-    "test": "node -e \"console.log('Frontend smoke checks passed')\""
+    "test": "node tests/public-routes-and-contracts.test.mjs"
   },
   "dependencies": {
     "@hookform/resolvers": "^5.9.1",
