@@ -10,7 +10,9 @@ import {
   Tooltip,
   ResponsiveContainer,
   Legend,
+  CartesianGrid,
 } from "recharts";
+import { BarChart3, TrendingUp, ShieldCheck, Activity, PieChart, Sparkles } from "lucide-react";
 import { api } from "@/lib/api";
 import { formatDate } from "@/lib/utils";
 import { useCurrency } from "@/components/currency-provider";
@@ -56,64 +58,94 @@ export default function AnalyticsPage() {
 
   return (
     <div className="space-y-6">
+      {/* Page Header */}
       <div>
-        <h2 className="text-base font-bold text-slate-900 dark:text-slate-100">
-          تحلیل‌های آماری و نسبت‌های سلامت مالی
-        </h2>
-        <p className="text-xs text-slate-500 dark:text-slate-400">
-          روند انبساط ترازنامه، کفایت نقدینگی و شاخص‌های ساختار بدهی
+        <div className="flex items-center gap-2.5">
+          <div className="h-9 w-9 rounded-[12px] bg-[#1B1D21] border border-[#282A2F] text-[#F0AE55] flex items-center justify-center">
+            <BarChart3 className="h-4 w-4" />
+          </div>
+          <h2 className="text-base font-semibold text-[#E8E8E8] tracking-tight">
+            تحلیل‌های آماری و نسبت‌های سلامت مالی
+          </h2>
+        </div>
+        <p className="text-xs text-[#9A9DA5] mt-1.5 pr-11">
+          روند انبساط ترازنامه، کفایت نقدینگی و شاخص‌های سلامت ساختار بدهی و دارایی
         </p>
       </div>
 
       {/* Financial Health Ratios */}
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
-        <div className="fin-card p-5 border-s-4 border-s-sky-500">
-          <span className="text-xs font-semibold text-slate-500 uppercase tracking-wider">
-            نسبت بدهی به دارایی
-          </span>
+        {/* Card 1: Debt to Asset */}
+        <div className="bg-[#141518] border border-[#282A2F] rounded-[22px] p-5 transition-colors">
+          <div className="flex items-center justify-between">
+            <span className="text-[11px] font-medium text-[#9A9DA5]">
+              نسبت بدهی به دارایی
+            </span>
+            <div className="h-7 w-7 rounded-[10px] bg-[#1B1D21] border border-[#282A2F] text-[#C77A82] flex items-center justify-center">
+              <Activity className="h-3.5 w-3.5" />
+            </div>
+          </div>
           <div
-            className={`text-2xl font-bold mt-2 font-mono ${
+            className={`text-xl font-semibold mt-2 font-mono ${
               debtToAssetRatio > 50
-                ? "text-rose-600 dark:text-rose-400"
-                : "text-slate-900 dark:text-slate-100"
+                ? "text-[#C77A82]"
+                : "text-[#E8E8E8]"
             }`}
           >
             {debtToAssetRatio.toFixed(1)}%
           </div>
-          <span className="text-xs text-slate-400 mt-1 block">
+          <span className="text-xs text-[#9A9DA5] mt-1 block">
             {debtToAssetRatio < 40 ? "اهرم مالی محتاطانه و ایمن" : "اهرم مالی در حد متوسط"}
           </span>
         </div>
 
-        <div className="fin-card p-5 border-s-4 border-s-indigo-500">
-          <span className="text-xs font-semibold text-slate-500 uppercase tracking-wider">
-            شاخص بافر نقدینگی
-          </span>
-          <div className="text-2xl font-bold text-sky-600 dark:text-sky-400 mt-2 font-mono">
+        {/* Card 2: Liquid Buffer */}
+        <div className="bg-[#141518] border border-[#282A2F] rounded-[22px] p-5 transition-colors">
+          <div className="flex items-center justify-between">
+            <span className="text-[11px] font-medium text-[#9A9DA5]">
+              شاخص بافر نقدینگی
+            </span>
+            <div className="h-7 w-7 rounded-[10px] bg-[#1B1D21] border border-[#282A2F] text-[#88A9BC] flex items-center justify-center">
+              <ShieldCheck className="h-3.5 w-3.5" />
+            </div>
+          </div>
+          <div className="text-xl font-semibold text-[#88A9BC] mt-2 font-mono">
             {liquidRatio.toFixed(1)}%
           </div>
-          <span className="text-xs text-slate-400 mt-1 block">
+          <span className="text-xs text-[#9A9DA5] mt-1 block">
             سهم نقدینگی در دسترس از کل دارایی‌ها
           </span>
         </div>
 
-        <div className="fin-card p-5 border-s-4 border-s-emerald-500">
-          <span className="text-xs font-semibold text-slate-500 uppercase tracking-wider">
-            عمق سرمایه‌گذاری مولد
-          </span>
-          <div className="text-2xl font-bold text-emerald-600 dark:text-emerald-400 mt-2 font-mono">
+        {/* Card 3: Productive Investments */}
+        <div className="bg-[#141518] border border-[#282A2F] rounded-[22px] p-5 transition-colors">
+          <div className="flex items-center justify-between">
+            <span className="text-[11px] font-medium text-[#9A9DA5]">
+              عمق سرمایه‌گذاری مولد
+            </span>
+            <div className="h-7 w-7 rounded-[10px] bg-[#1B1D21] border border-[#282A2F] text-[#76A98C] flex items-center justify-center">
+              <TrendingUp className="h-3.5 w-3.5" />
+            </div>
+          </div>
+          <div className="text-xl font-semibold text-[#76A98C] mt-2 font-mono">
             {(100 - liquidRatio).toFixed(1)}%
           </div>
-          <span className="text-xs text-slate-400 mt-1 block">
+          <span className="text-xs text-[#9A9DA5] mt-1 block">
             دارایی‌های زاینده با بهره مرکب
           </span>
         </div>
 
-        <div className="fin-card p-5 border-s-4 border-s-amber-500">
-          <span className="text-xs font-semibold text-slate-500 uppercase tracking-wider">
-            سهم اقساط از درآمد (DTI)
-          </span>
-          <div className="text-2xl font-bold text-slate-900 dark:text-slate-100 mt-2 font-mono">
+        {/* Card 4: DTI */}
+        <div className="bg-[#141518] border border-[#282A2F] rounded-[22px] p-5 transition-colors">
+          <div className="flex items-center justify-between">
+            <span className="text-[11px] font-medium text-[#9A9DA5]">
+              سهم اقساط از درآمد (DTI)
+            </span>
+            <div className="h-7 w-7 rounded-[10px] bg-[#1B1D21] border border-[#282A2F] text-[#F0AE55] flex items-center justify-center">
+              <PieChart className="h-3.5 w-3.5" />
+            </div>
+          </div>
+          <div className="text-xl font-semibold text-[#E8E8E8] mt-2 font-mono">
             {overview && parseFloat(overview.monthly_income) > 0
               ? `${(
                   (parseFloat(overview.monthly_debt_service) /
@@ -122,56 +154,71 @@ export default function AnalyticsPage() {
                 ).toFixed(1)}%`
               : "0%"}
           </div>
-          <span className="text-xs text-slate-400 mt-1 block">
+          <span className="text-xs text-[#9A9DA5] mt-1 block">
             تعهد بازپرداخت بدهی نسبت به حقوق
           </span>
         </div>
       </div>
 
       {/* Dual Comparative Historical Chart */}
-      <div className="fin-card p-5">
-        <h3 className="text-sm font-bold text-slate-900 dark:text-slate-100 mb-1">
-          انبساط ترازنامه مالی (روند ۹۰ روز گذشته)
-        </h3>
-        <p className="text-xs text-slate-500 dark:text-slate-400 mb-4">
-          مقایسه تاریخی کل دارایی‌ها در برابر بدهی‌ها و ارزش خالص دارایی
-        </p>
+      <div className="bg-[#141518] border border-[#282A2F] rounded-[22px] p-6 space-y-4">
+        <div>
+          <h3 className="text-sm font-semibold text-[#E8E8E8] mb-1 flex items-center gap-2">
+            <Sparkles className="h-4 w-4 text-[#F0AE55]" />
+            <span>انبساط ترازنامه مالی (روند ۹۰ روز گذشته)</span>
+          </h3>
+          <p className="text-xs text-[#9A9DA5]">
+            مقایسه تاریخی کل دارایی‌ها در برابر بدهی‌ها و ارزش خالص دارایی
+          </p>
+        </div>
 
-        <div className="h-[360px] w-full">
+        <div className="h-[380px] w-full pt-2">
           <ResponsiveContainer width="100%" height="100%">
             <LineChart
               data={formattedSnapshots}
               margin={{ top: 10, right: 10, left: 10, bottom: 0 }}
             >
+              <CartesianGrid
+                strokeDasharray="3 3"
+                stroke="#282A2F"
+                opacity={0.5}
+                vertical={false}
+              />
               <XAxis
                 dataKey="date"
-                stroke="#64748b"
+                stroke="#696D77"
                 fontSize={11}
                 tickLine={false}
               />
               <YAxis
-                stroke="#64748b"
+                stroke="#696D77"
                 fontSize={11}
                 tickLine={false}
                 axisLine={false}
+                tickFormatter={(val) =>
+                  `${val >= 1000000 ? (val / 1000000).toFixed(0) + " م.ت" : val.toFixed(0)}`
+                }
               />
               <Tooltip
                 formatter={(val: unknown) => [formatMoney(Number(val)), ""]}
                 contentStyle={{
-                  backgroundColor: "#0f172a",
-                  borderColor: "#334155",
-                  borderRadius: "0.75rem",
+                  backgroundColor: "#141518",
+                  borderColor: "#282A2F",
+                  borderRadius: "14px",
                   fontSize: "12px",
-                  color: "#fff",
+                  color: "#E8E8E8",
                   direction: "rtl",
+                  boxShadow: "0 10px 25px -5px rgba(0, 0, 0, 0.4)",
                 }}
               />
-              <Legend />
+              <Legend
+                wrapperStyle={{ paddingTop: "12px", fontSize: "12px" }}
+              />
               <Line
                 type="monotone"
                 dataKey="assets"
                 name="کل دارایی‌ها"
-                stroke="#10b981"
+                stroke="#76A98C"
                 strokeWidth={2}
                 dot={false}
               />
@@ -179,7 +226,7 @@ export default function AnalyticsPage() {
                 type="monotone"
                 dataKey="netWorth"
                 name="ارزش خالص دارایی"
-                stroke="#0284c7"
+                stroke="#F0AE55"
                 strokeWidth={2.5}
                 dot={false}
               />
@@ -187,7 +234,7 @@ export default function AnalyticsPage() {
                 type="monotone"
                 dataKey="liabilities"
                 name="کل بدهی‌ها"
-                stroke="#f43f5e"
+                stroke="#C77A82"
                 strokeWidth={2}
                 dot={false}
               />

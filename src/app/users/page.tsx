@@ -273,11 +273,15 @@ export default function UsersPage() {
       {/* Page Title & Actions */}
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
         <div>
-          <h1 className="text-2xl font-bold tracking-tight text-slate-900 dark:text-slate-100 flex items-center gap-2.5">
-            <ShieldCheck className="h-6 w-6 text-purple-500" />
-            <span>مدیریت کاربران و نقش‌های سیستمی</span>
-          </h1>
-          <p className="text-xs text-slate-500 dark:text-slate-400 mt-1">
+          <div className="flex items-center gap-2.5">
+            <div className="h-9 w-9 rounded-xl bg-amber-500/10 border border-amber-500/20 text-amber-400 flex items-center justify-center shadow-lg shadow-amber-500/5">
+              <ShieldCheck className="h-5 w-5" />
+            </div>
+            <h1 className="text-xl sm:text-2xl font-black tracking-tight text-slate-100">
+              مدیریت کاربران و نقش‌های سیستمی
+            </h1>
+          </div>
+          <p className="text-xs text-slate-400 mt-1.5 pr-11">
             تعیین و ارتقاء نقش‌های کاربری (SysManager، Admin، User، Viewer) و کنترل دسترسی‌ها
           </p>
         </div>
@@ -288,7 +292,7 @@ export default function UsersPage() {
               resetCreateForm();
               setIsCreateModalOpen(true);
             }}
-            className="flex items-center gap-2 px-4 py-2 rounded-xl bg-purple-600 hover:bg-purple-500 text-white text-xs font-semibold shadow-md shadow-purple-600/20 transition-all active:scale-95 shrink-0"
+            className="flex items-center gap-2 px-4 py-2.5 rounded-xl bg-gradient-to-r from-amber-500 to-amber-600 hover:from-amber-400 text-slate-950 text-xs font-bold shadow-lg shadow-amber-500/20 transition-all active:scale-95 shrink-0 cursor-pointer"
           >
             <UserPlus className="h-4 w-4" />
             <span>افزودن کاربر جدید</span>
@@ -298,13 +302,13 @@ export default function UsersPage() {
 
       {/* Success / Error Feedback Alerts */}
       {actionSuccess && (
-        <div className="p-3.5 rounded-xl bg-emerald-500/10 border border-emerald-500/20 text-emerald-600 dark:text-emerald-400 text-xs flex items-center gap-2">
+        <div className="p-3.5 rounded-xl bg-emerald-500/10 border border-emerald-500/20 text-emerald-400 text-xs flex items-center gap-2">
           <CheckCircle2 className="h-4 w-4 shrink-0" />
           <span>{actionSuccess}</span>
         </div>
       )}
       {actionError && (
-        <div className="p-3.5 rounded-xl bg-rose-500/10 border border-rose-500/20 text-rose-600 dark:text-rose-400 text-xs flex items-center gap-2">
+        <div className="p-3.5 rounded-xl bg-rose-500/10 border border-rose-500/20 text-rose-400 text-xs flex items-center gap-2">
           <AlertTriangle className="h-4 w-4 shrink-0" />
           <span>{actionError}</span>
         </div>
@@ -312,68 +316,68 @@ export default function UsersPage() {
 
       {/* Summary KPI Cards */}
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
-        <div className="p-4 rounded-xl border border-slate-200 dark:border-slate-800 bg-white/60 dark:bg-slate-900/60 backdrop-blur-md">
+        <div className="p-5 rounded-[22px] border border-[#282A2F] bg-[#141518]">
           <div className="flex items-center justify-between">
-            <span className="text-xs font-medium text-slate-500 dark:text-slate-400">
+            <span className="text-[11px] font-medium text-[#9A9DA5]">
               کل حساب‌های کاربری
             </span>
-            <Users className="h-4 w-4 text-slate-400" />
+            <Users className="h-4 w-4 text-[#696D77]" />
           </div>
-          <p className="text-2xl font-bold mt-2 text-slate-900 dark:text-slate-100">{totalCount}</p>
-          <span className="text-[11px] text-slate-400">ثبت‌شده در دیتابیس</span>
+          <p className="text-xl font-semibold mt-2 text-[#E8E8E8] font-mono">{totalCount}</p>
+          <span className="text-xs text-[#9A9DA5]">ثبت‌شده در دیتابیس</span>
         </div>
 
-        <div className="p-4 rounded-xl border border-purple-500/20 bg-purple-500/5 backdrop-blur-md">
+        <div className="p-5 rounded-[22px] border border-[#282A2F] bg-[#141518]">
           <div className="flex items-center justify-between">
-            <span className="text-xs font-medium text-purple-600 dark:text-purple-400">
+            <span className="text-[11px] font-medium text-[#9A9DA5]">
               مدیران ارشد (SysManager)
             </span>
-            <Sparkles className="h-4 w-4 text-purple-500" />
+            <Sparkles className="h-4 w-4 text-[#F0AE55]" />
           </div>
-          <p className="text-2xl font-bold mt-2 text-purple-700 dark:text-purple-300">
+          <p className="text-xl font-semibold mt-2 text-[#F0AE55] font-mono">
             {sysManagerCount}
           </p>
-          <span className="text-[11px] text-purple-500/70">دسترسی تام و تغییر نقش‌ها</span>
+          <span className="text-xs text-[#9A9DA5]">دسترسی تام و تغییر نقش‌ها</span>
         </div>
 
-        <div className="p-4 rounded-xl border border-sky-500/20 bg-sky-500/5 backdrop-blur-md">
+        <div className="p-5 rounded-[22px] border border-[#282A2F] bg-[#141518]">
           <div className="flex items-center justify-between">
-            <span className="text-xs font-medium text-sky-600 dark:text-sky-400">
+            <span className="text-[11px] font-medium text-[#9A9DA5]">
               مدیران مالی (Admin)
             </span>
-            <Building2 className="h-4 w-4 text-sky-500" />
+            <Building2 className="h-4 w-4 text-[#88A9BC]" />
           </div>
-          <p className="text-2xl font-bold mt-2 text-sky-700 dark:text-sky-300">{adminCount}</p>
-          <span className="text-[11px] text-sky-500/70">مدیریت اسناد، دارایی و بودجه</span>
+          <p className="text-xl font-semibold mt-2 text-[#88A9BC] font-mono">{adminCount}</p>
+          <span className="text-xs text-[#9A9DA5]">مدیریت اسناد، دارایی و بودجه</span>
         </div>
 
-        <div className="p-4 rounded-xl border border-emerald-500/20 bg-emerald-500/5 backdrop-blur-md">
+        <div className="p-5 rounded-[22px] border border-[#282A2F] bg-[#141518]">
           <div className="flex items-center justify-between">
-            <span className="text-xs font-medium text-emerald-600 dark:text-emerald-400">
+            <span className="text-[11px] font-medium text-[#9A9DA5]">
               کاربران و ناظران
             </span>
-            <UserCheck className="h-4 w-4 text-emerald-500" />
+            <UserCheck className="h-4 w-4 text-[#76A98C]" />
           </div>
-          <p className="text-2xl font-bold mt-2 text-emerald-700 dark:text-emerald-300">
+          <p className="text-xl font-semibold mt-2 text-[#76A98C] font-mono">
             {regularCount}
           </p>
-          <span className="text-[11px] text-emerald-500/70">کاربران عادی و ناظران فقط‌خواندنی</span>
+          <span className="text-xs text-[#9A9DA5]">کاربران عادی و ناظران فقط‌خواندنی</span>
         </div>
       </div>
 
       {/* Role Definitions Guide Cards */}
-      <div className="p-5 rounded-2xl border border-slate-200 dark:border-slate-800 bg-white/40 dark:bg-slate-900/40 backdrop-blur-md space-y-3">
-        <h3 className="text-xs font-bold uppercase tracking-wider text-slate-500 dark:text-slate-400">
+      <div className="p-5 rounded-[22px] border border-[#282A2F] bg-[#141518] space-y-3">
+        <h3 className="text-xs font-semibold text-[#9A9DA5]">
           ماتریس سطوح دسترسی و اختیارات نقش‌ها
         </h3>
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-3">
           {rolesData?.map((r) => (
             <div
               key={r.role}
-              className="p-3.5 rounded-xl border border-slate-200 dark:border-slate-800 bg-white/70 dark:bg-slate-950/70 space-y-2"
+              className="p-3.5 rounded-[14px] border border-[#282A2F] bg-[#1B1D21] space-y-2"
             >
               <div className="flex items-center justify-between">
-                <span className="text-xs font-bold text-slate-800 dark:text-slate-200">
+                <span className="text-xs font-bold text-slate-200">
                   {r.name_fa}
                 </span>
                 <span
@@ -381,20 +385,20 @@ export default function UsersPage() {
                   style={{ backgroundColor: r.badge_color }}
                 />
               </div>
-              <p className="text-[11px] text-slate-500 dark:text-slate-400 line-clamp-3">
+              <p className="text-[11px] text-slate-400 line-clamp-3 leading-relaxed">
                 {r.description_fa}
               </p>
-              <div className="flex flex-wrap gap-1 pt-1 border-t border-slate-100 dark:border-slate-900">
+              <div className="flex flex-wrap gap-1 pt-1 border-t border-white/5">
                 {r.permissions.slice(0, 3).map((perm) => (
                   <span
                     key={perm}
-                    className="px-1.5 py-0.5 rounded text-[9px] font-mono bg-slate-100 dark:bg-slate-900 text-slate-600 dark:text-slate-400"
+                    className="px-1.5 py-0.5 rounded text-[9px] font-mono bg-white/5 text-slate-300"
                   >
                     {perm}
                   </span>
                 ))}
                 {r.permissions.length > 3 && (
-                  <span className="text-[9px] text-slate-400 self-center">
+                  <span className="text-[9px] text-slate-500 self-center">
                     +{r.permissions.length - 3} مورد دیگر
                   </span>
                 )}
@@ -405,15 +409,15 @@ export default function UsersPage() {
       </div>
 
       {/* Search & Filters */}
-      <div className="p-4 rounded-xl border border-slate-200 dark:border-slate-800 bg-white/60 dark:bg-slate-900/60 backdrop-blur-md flex flex-col md:flex-row gap-3 items-stretch md:items-center justify-between">
+      <div className="p-4 rounded-[22px] border border-[#282A2F] bg-[#141518] flex flex-col md:flex-row gap-3 items-stretch md:items-center justify-between">
         <div className="flex-1 relative">
-          <Search className="absolute right-3 top-2.5 h-4 w-4 text-slate-400" />
+          <Search className="absolute right-3.5 top-3 h-4 w-4 text-[#696D77]" />
           <input
             type="text"
             value={searchTerm}
             onChange={(e) => setSearchTerm(e.target.value)}
             placeholder="جستجو بر اساس نام یا ایمیل کاربر..."
-            className="w-full pr-9 pl-3 py-2 text-xs rounded-lg border border-slate-200 dark:border-slate-700 bg-white/80 dark:bg-slate-950/80 text-slate-900 dark:text-slate-100 focus:outline-none focus:ring-2 focus:ring-purple-500/40"
+            className="w-full pr-10 pl-3.5 py-2 text-xs rounded-[12px] border border-[#282A2F] bg-[#1B1D21] text-[#E8E8E8] placeholder:text-[#696D77] focus:outline-none focus:border-[#F0AE55] focus:ring-1 focus:ring-[#F0AE55]/30 transition-colors"
           />
         </div>
 
@@ -422,30 +426,30 @@ export default function UsersPage() {
           <select
             value={selectedRole}
             onChange={(e) => setSelectedRole(e.target.value)}
-            className="px-3 py-2 text-xs rounded-lg border border-slate-200 dark:border-slate-700 bg-white/80 dark:bg-slate-950/80 text-slate-800 dark:text-slate-200 focus:outline-none"
+            className="px-3.5 py-2 text-xs rounded-[12px] border border-[#282A2F] bg-[#1B1D21] text-[#E8E8E8] focus:outline-none focus:border-[#F0AE55]"
           >
-            <option value="">همه نقش‌ها</option>
-            <option value="sysmanager">مدیر ارشد (SysManager)</option>
-            <option value="admin">مدیر مالی (Admin)</option>
-            <option value="user">کاربر عادی (User)</option>
-            <option value="viewer">ناظر (Viewer)</option>
+            <option value="" className="bg-[#141518]">همه نقش‌ها</option>
+            <option value="sysmanager" className="bg-[#141518]">مدیر ارشد (SysManager)</option>
+            <option value="admin" className="bg-[#141518]">مدیر مالی (Admin)</option>
+            <option value="user" className="bg-[#141518]">کاربر عادی (User)</option>
+            <option value="viewer" className="bg-[#141518]">ناظر (Viewer)</option>
           </select>
 
           {/* Status Filter */}
           <select
             value={selectedStatus}
             onChange={(e) => setSelectedStatus(e.target.value)}
-            className="px-3 py-2 text-xs rounded-lg border border-slate-200 dark:border-slate-700 bg-white/80 dark:bg-slate-950/80 text-slate-800 dark:text-slate-200 focus:outline-none"
+            className="px-3.5 py-2 text-xs rounded-[12px] border border-[#282A2F] bg-[#1B1D21] text-[#E8E8E8] focus:outline-none focus:border-[#F0AE55]"
           >
-            <option value="">همه وضعیت‌ها</option>
-            <option value="active">فقط حساب‌های فعال</option>
-            <option value="inactive">فقط حساب‌های معلق</option>
+            <option value="" className="bg-[#141518]">همه وضعیت‌ها</option>
+            <option value="active" className="bg-[#141518]">فقط حساب‌های فعال</option>
+            <option value="inactive" className="bg-[#141518]">فقط حساب‌های معلق</option>
           </select>
 
           <button
             onClick={() => refetch()}
             title="به‌روزرسانی فهرست"
-            className="p-2 rounded-lg border border-slate-200 dark:border-slate-700 hover:bg-slate-100 dark:hover:bg-slate-800 text-slate-600 dark:text-slate-400"
+            className="p-2 rounded-[12px] border border-[#282A2F] hover:bg-[#1B1D21] text-[#9A9DA5] hover:text-[#E8E8E8] transition-colors cursor-pointer"
           >
             <RefreshCw className="h-4 w-4" />
           </button>
@@ -453,10 +457,10 @@ export default function UsersPage() {
       </div>
 
       {/* Users Table */}
-      <div className="rounded-2xl border border-slate-200 dark:border-slate-800 bg-white/70 dark:bg-slate-900/70 backdrop-blur-xl overflow-hidden shadow-xs">
+      <div className="rounded-[22px] border border-[#282A2F] bg-[#141518] overflow-hidden">
         <div className="overflow-x-auto">
           <table className="w-full text-right text-xs">
-            <thead className="bg-slate-100/70 dark:bg-slate-950/70 border-b border-slate-200 dark:border-slate-800 text-slate-500 dark:text-slate-400 font-semibold">
+            <thead className="bg-[#1B1D21] border-b border-[#282A2F] text-[#9A9DA5] font-medium">
               <tr>
                 <th className="p-3.5 pr-6">مشخصات کاربر</th>
                 <th className="p-3.5">نقش سیستمی</th>
@@ -466,16 +470,16 @@ export default function UsersPage() {
                 <th className="p-3.5 pl-6 text-center">عملیات مدیریتی</th>
               </tr>
             </thead>
-            <tbody className="divide-y divide-slate-100 dark:divide-slate-800/60">
+            <tbody className="divide-y divide-[#282A2F]/50">
               {isLoading ? (
                 <tr>
-                  <td colSpan={6} className="p-8 text-center text-slate-400">
+                  <td colSpan={6} className="p-8 text-center text-[#9A9DA5]">
                     در حال بارگذاری کاربران...
                   </td>
                 </tr>
               ) : usersList.length === 0 ? (
                 <tr>
-                  <td colSpan={6} className="p-8 text-center text-slate-400">
+                  <td colSpan={6} className="p-8 text-center text-[#9A9DA5]">
                     کاربری با این مشخصات یافت نشد.
                   </td>
                 </tr>
@@ -485,26 +489,26 @@ export default function UsersPage() {
                   return (
                     <tr
                       key={u.id}
-                      className="hover:bg-slate-50/70 dark:hover:bg-slate-800/40 transition-colors"
+                      className="hover:bg-[#1B1D21]/30 transition-colors"
                     >
                       {/* Name & Email */}
                       <td className="p-3.5 pr-6">
                         <div className="flex items-center gap-3">
-                          <div className="h-9 w-9 rounded-full bg-gradient-to-tr from-purple-600/30 to-sky-600/30 border border-slate-200 dark:border-slate-700 flex items-center justify-center font-bold text-sm text-slate-800 dark:text-slate-200">
+                          <div className="h-9 w-9 rounded-[12px] bg-[#1B1D21] border border-[#282A2F] flex items-center justify-center font-semibold text-xs text-[#F0AE55]">
                             {u.full_name?.charAt(0) || "U"}
                           </div>
                           <div>
                             <div className="flex items-center gap-2">
-                              <span className="font-semibold text-slate-900 dark:text-slate-100">
+                              <span className="font-medium text-[#E8E8E8]">
                                 {u.full_name}
                               </span>
                               {isSelf && (
-                                <span className="px-1.5 py-0.5 rounded text-[10px] font-bold bg-sky-500/10 text-sky-600 dark:text-sky-400 border border-sky-500/20">
+                                <span className="px-2 py-0.5 rounded-full text-[10px] font-medium bg-[#F0AE55]/10 text-[#F0AE55] border border-[#F0AE55]/20">
                                   شما
                                 </span>
                               )}
                             </div>
-                            <span className="text-[11px] text-slate-400 font-mono" dir="ltr">
+                            <span className="text-[11px] text-[#9A9DA5] font-mono" dir="ltr">
                               {u.email}
                             </span>
                           </div>
@@ -517,25 +521,25 @@ export default function UsersPage() {
                       {/* Status */}
                       <td className="p-3.5">
                         {u.is_active ? (
-                          <span className="inline-flex items-center gap-1.5 text-emerald-600 dark:text-emerald-400 font-medium">
-                            <span className="h-2 w-2 rounded-full bg-emerald-500" />
+                          <span className="inline-flex items-center gap-1.5 text-[#76A98C] font-medium">
+                            <span className="h-1.5 w-1.5 rounded-full bg-[#76A98C]" />
                             <span>فعال</span>
                           </span>
                         ) : (
-                          <span className="inline-flex items-center gap-1.5 text-rose-500 font-medium">
-                            <span className="h-2 w-2 rounded-full bg-rose-500" />
+                          <span className="inline-flex items-center gap-1.5 text-[#C77A82] font-medium">
+                            <span className="h-1.5 w-1.5 rounded-full bg-[#C77A82]" />
                             <span>معلق</span>
                           </span>
                         )}
                       </td>
 
                       {/* Created At */}
-                      <td className="p-3.5 text-slate-500 dark:text-slate-400 font-mono text-[11px]">
+                      <td className="p-3.5 text-slate-400 font-mono text-[11px]">
                         {new Date(u.created_at).toLocaleDateString("fa-IR")}
                       </td>
 
                       {/* Last Login */}
-                      <td className="p-3.5 text-slate-500 dark:text-slate-400 font-mono text-[11px]">
+                      <td className="p-3.5 text-slate-400 font-mono text-[11px]">
                         {u.last_login_at
                           ? new Date(u.last_login_at).toLocaleDateString("fa-IR")
                           : "ثبت‌نشده"}
@@ -549,7 +553,7 @@ export default function UsersPage() {
                               <button
                                 onClick={() => handleOpenRoleModal(u)}
                                 title="تغییر نقش کاربری"
-                                className="px-2.5 py-1 rounded-md text-[11px] font-medium border border-purple-500/20 hover:bg-purple-500/10 text-purple-600 dark:text-purple-400 transition-colors"
+                                className="px-2.5 py-1 rounded-lg text-[11px] font-semibold border border-purple-500/20 hover:bg-purple-500/10 text-purple-400 transition-colors cursor-pointer"
                               >
                                 تغییر نقش
                               </button>
@@ -569,10 +573,10 @@ export default function UsersPage() {
                                     ? "تعلیق دسترسی"
                                     : "فعال‌سازی مجدد"
                                 }
-                                className={`px-2 py-1 rounded-md text-[11px] font-medium border transition-colors disabled:opacity-30 disabled:cursor-not-allowed ${
+                                className={`px-2.5 py-1 rounded-lg text-[11px] font-semibold border transition-colors cursor-pointer disabled:opacity-30 disabled:cursor-not-allowed ${
                                   u.is_active
-                                    ? "border-amber-500/20 hover:bg-amber-500/10 text-amber-600 dark:text-amber-400"
-                                    : "border-emerald-500/20 hover:bg-emerald-500/10 text-emerald-600 dark:text-emerald-400"
+                                    ? "border-amber-500/20 hover:bg-amber-500/10 text-amber-400"
+                                    : "border-emerald-500/20 hover:bg-emerald-500/10 text-emerald-400"
                                 }`}
                               >
                                 {u.is_active ? "تعلیق" : "فعال‌سازی"}
@@ -582,13 +586,13 @@ export default function UsersPage() {
                                 onClick={() => handleDeleteUser(u)}
                                 disabled={isSelf}
                                 title={isSelf ? "امکان حذف حساب خود را ندارید" : "حذف دائم کاربر"}
-                                className="p-1.5 rounded-md text-slate-400 hover:text-rose-600 hover:bg-rose-500/10 transition-colors disabled:opacity-30 disabled:cursor-not-allowed"
+                                className="p-1.5 rounded-lg text-slate-500 hover:text-rose-400 hover:bg-rose-500/10 transition-colors cursor-pointer disabled:opacity-30 disabled:cursor-not-allowed"
                               >
                                 <Trash2 className="h-3.5 w-3.5" />
                               </button>
                             </>
                           ) : (
-                            <span className="text-[10px] text-slate-400 italic">فقط مشاهده</span>
+                            <span className="text-[10px] text-slate-500 italic">فقط مشاهده</span>
                           )}
                         </div>
                       </td>
@@ -603,24 +607,24 @@ export default function UsersPage() {
 
       {/* CREATE USER MODAL */}
       {isCreateModalOpen && (
-        <div className="fixed inset-0 z-50 bg-black/50 backdrop-blur-sm flex items-center justify-center p-4">
-          <div className="w-full max-w-md bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-2xl p-6 shadow-2xl space-y-4">
-            <div className="flex items-center justify-between border-b border-slate-100 dark:border-slate-800 pb-3">
-              <h3 className="font-bold text-sm text-slate-900 dark:text-slate-100 flex items-center gap-2">
-                <UserPlus className="h-4 w-4 text-purple-500" />
+        <div className="fixed inset-0 z-50 bg-black/80 backdrop-blur-md flex items-center justify-center p-4 animate-in fade-in">
+          <div className="w-full max-w-md bg-[#10131a] border border-white/10 rounded-2xl p-6 shadow-2xl space-y-4 text-slate-100">
+            <div className="flex items-center justify-between border-b border-white/10 pb-3">
+              <h3 className="font-bold text-sm text-slate-100 flex items-center gap-2">
+                <UserPlus className="h-4 w-4 text-amber-400" />
                 <span>ایجاد کاربر جدید در سامانه</span>
               </h3>
               <button
                 onClick={() => setIsCreateModalOpen(false)}
-                className="text-slate-400 hover:text-slate-600 dark:hover:text-slate-200 text-lg leading-none"
+                className="text-slate-400 hover:text-slate-200 text-lg leading-none cursor-pointer"
               >
                 ✕
               </button>
             </div>
 
-            <form onSubmit={handleCreateSubmit} className="space-y-3.5 text-xs">
-              <div className="space-y-1">
-                <label className="font-semibold text-slate-700 dark:text-slate-300">
+            <form onSubmit={handleCreateSubmit} className="space-y-4 text-xs">
+              <div className="space-y-1.5">
+                <label className="font-semibold text-slate-300">
                   نام و نام خانوادگی
                 </label>
                 <input
@@ -630,12 +634,12 @@ export default function UsersPage() {
                   value={newName}
                   onChange={(e) => setNewName(e.target.value)}
                   placeholder="محمد حسینی"
-                  className="w-full p-2.5 rounded-lg border border-slate-200 dark:border-slate-700 bg-white/50 dark:bg-slate-950/50 text-slate-900 dark:text-slate-100 focus:outline-none focus:ring-2 focus:ring-purple-500/40"
+                  className="w-full p-2.5 rounded-xl border border-white/10 bg-[#07080b] text-slate-100 placeholder:text-slate-600 focus:outline-none focus:border-amber-500 transition-colors"
                 />
               </div>
 
-              <div className="space-y-1">
-                <label className="font-semibold text-slate-700 dark:text-slate-300">
+              <div className="space-y-1.5">
+                <label className="font-semibold text-slate-300">
                   پست الکترونیکی (ایمیل)
                 </label>
                 <input
@@ -645,12 +649,12 @@ export default function UsersPage() {
                   onChange={(e) => setNewEmail(e.target.value)}
                   placeholder="m.hosseini@company.com"
                   dir="ltr"
-                  className="w-full p-2.5 rounded-lg border border-slate-200 dark:border-slate-700 bg-white/50 dark:bg-slate-950/50 text-slate-900 dark:text-slate-100 focus:outline-none focus:ring-2 focus:ring-purple-500/40 text-left"
+                  className="w-full p-2.5 rounded-xl border border-white/10 bg-[#07080b] text-slate-100 placeholder:text-slate-600 focus:outline-none focus:border-amber-500 transition-colors text-left font-mono"
                 />
               </div>
 
-              <div className="space-y-1">
-                <label className="font-semibold text-slate-700 dark:text-slate-300">
+              <div className="space-y-1.5">
+                <label className="font-semibold text-slate-300">
                   رمز عبور اولیه
                 </label>
                 <input
@@ -660,38 +664,38 @@ export default function UsersPage() {
                   onChange={(e) => setNewPassword(e.target.value)}
                   placeholder="حداقل ۶ کاراکتر"
                   dir="ltr"
-                  className="w-full p-2.5 rounded-lg border border-slate-200 dark:border-slate-700 bg-white/50 dark:bg-slate-950/50 text-slate-900 dark:text-slate-100 focus:outline-none focus:ring-2 focus:ring-purple-500/40 text-left"
+                  className="w-full p-2.5 rounded-xl border border-white/10 bg-[#07080b] text-slate-100 placeholder:text-slate-600 focus:outline-none focus:border-amber-500 transition-colors text-left font-mono"
                 />
               </div>
 
-              <div className="space-y-1">
-                <label className="font-semibold text-slate-700 dark:text-slate-300">
+              <div className="space-y-1.5">
+                <label className="font-semibold text-slate-300">
                   نقش سیستمی انتخابی
                 </label>
                 <select
                   value={newRole}
                   onChange={(e) => setNewRole(e.target.value as SystemRole)}
-                  className="w-full p-2.5 rounded-lg border border-slate-200 dark:border-slate-700 bg-white/50 dark:bg-slate-950/50 text-slate-900 dark:text-slate-100 focus:outline-none focus:ring-2 focus:ring-purple-500/40"
+                  className="w-full p-2.5 rounded-xl border border-white/10 bg-[#07080b] text-slate-100 focus:outline-none focus:border-amber-500 transition-colors"
                 >
-                  <option value="sysmanager">مدیر ارشد سیستم (SysManager)</option>
-                  <option value="admin">مدیر مالی (Admin)</option>
-                  <option value="user">کاربر استاندارد (User)</option>
-                  <option value="viewer">ناظر و بیننده (Viewer)</option>
+                  <option value="sysmanager" className="bg-[#10131a]">مدیر ارشد سیستم (SysManager)</option>
+                  <option value="admin" className="bg-[#10131a]">مدیر مالی (Admin)</option>
+                  <option value="user" className="bg-[#10131a]">کاربر استاندارد (User)</option>
+                  <option value="viewer" className="bg-[#10131a]">ناظر و بیننده (Viewer)</option>
                 </select>
               </div>
 
-              <div className="pt-3 flex items-center justify-end gap-2 border-t border-slate-100 dark:border-slate-800">
+              <div className="pt-3 flex items-center justify-end gap-2 border-t border-white/10">
                 <button
                   type="button"
                   onClick={() => setIsCreateModalOpen(false)}
-                  className="px-3 py-1.5 rounded-lg text-slate-600 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-800"
+                  className="px-4 py-2 rounded-xl text-slate-400 hover:text-slate-200 hover:bg-white/5 cursor-pointer transition-colors"
                 >
                   انصراف
                 </button>
                 <button
                   type="submit"
                   disabled={createMutation.isPending}
-                  className="px-4 py-1.5 rounded-lg bg-purple-600 hover:bg-purple-500 text-white font-medium shadow-sm transition-all"
+                  className="px-5 py-2 rounded-xl bg-gradient-to-r from-amber-500 to-amber-600 hover:from-amber-400 text-slate-950 font-bold shadow-lg shadow-amber-500/20 transition-all cursor-pointer"
                 >
                   {createMutation.isPending ? "در حال ایجاد..." : "ایجاد کاربر"}
                 </button>
@@ -703,24 +707,24 @@ export default function UsersPage() {
 
       {/* EDIT ROLE MODAL */}
       {isRoleModalOpen && selectedUserForRole && (
-        <div className="fixed inset-0 z-50 bg-black/50 backdrop-blur-sm flex items-center justify-center p-4">
-          <div className="w-full max-w-md bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-2xl p-6 shadow-2xl space-y-4">
-            <div className="flex items-center justify-between border-b border-slate-100 dark:border-slate-800 pb-3">
-              <h3 className="font-bold text-sm text-slate-900 dark:text-slate-100 flex items-center gap-2">
-                <Sparkles className="h-4 w-4 text-purple-500" />
+        <div className="fixed inset-0 z-50 bg-black/80 backdrop-blur-md flex items-center justify-center p-4 animate-in fade-in">
+          <div className="w-full max-w-md bg-[#10131a] border border-white/10 rounded-2xl p-6 shadow-2xl space-y-4 text-slate-100">
+            <div className="flex items-center justify-between border-b border-white/10 pb-3">
+              <h3 className="font-bold text-sm text-slate-100 flex items-center gap-2">
+                <Sparkles className="h-4 w-4 text-amber-400" />
                 <span>تغییر نقش سیستمی کاربر</span>
               </h3>
               <button
                 onClick={() => setIsRoleModalOpen(false)}
-                className="text-slate-400 hover:text-slate-600 dark:hover:text-slate-200 text-lg leading-none"
+                className="text-slate-400 hover:text-slate-200 text-lg leading-none cursor-pointer"
               >
                 ✕
               </button>
             </div>
 
-            <div className="p-3 rounded-xl bg-slate-50 dark:bg-slate-950/60 border border-slate-200 dark:border-slate-800 space-y-1 text-xs">
+            <div className="p-3.5 rounded-xl bg-[#07080b] border border-white/5 space-y-1 text-xs">
               <div className="flex items-center justify-between">
-                <span className="font-semibold text-slate-800 dark:text-slate-200">
+                <span className="font-semibold text-slate-200">
                   {selectedUserForRole.full_name}
                 </span>
                 {getRoleBadge(selectedUserForRole.role)}
@@ -731,42 +735,42 @@ export default function UsersPage() {
             </div>
 
             <div className="space-y-2 text-xs">
-              <label className="font-semibold text-slate-700 dark:text-slate-300">
+              <label className="font-semibold text-slate-300">
                 نقش جدید موردنظر را انتخاب فرمایید:
               </label>
-              <div className="space-y-1.5">
+              <div className="space-y-2">
                 {[
                   {
                     role: "sysmanager" as SystemRole,
                     title: "مدیر ارشد سیستم (SysManager)",
                     desc: "دسترسی تام و نامحدود، مدیریت کاربران و نقش‌ها، پیکربندی",
-                    color: "border-purple-500/40 text-purple-600 dark:text-purple-400",
+                    color: "border-purple-500/40 text-purple-300",
                   },
                   {
                     role: "admin" as SystemRole,
                     title: "مدیر مالی (Admin)",
                     desc: "دسترسی مدیریت کامل حساب‌ها، دارایی‌ها، تراکنش‌ها و گزارش‌ها",
-                    color: "border-sky-500/40 text-sky-600 dark:text-sky-400",
+                    color: "border-cyan-500/40 text-cyan-300",
                   },
                   {
                     role: "user" as SystemRole,
                     title: "کاربر استاندارد (User)",
                     desc: "ثبت و مدیریت داده‌های مالی و حساب‌های شخصی خود",
-                    color: "border-emerald-500/40 text-emerald-600 dark:text-emerald-400",
+                    color: "border-emerald-500/40 text-emerald-300",
                   },
                   {
                     role: "viewer" as SystemRole,
                     title: "ناظر و بازبین (Viewer)",
                     desc: "دسترسی فقط‌خواندنی به پورتفولیو و نمودارهای آماری",
-                    color: "border-slate-500/40 text-slate-600 dark:text-slate-400",
+                    color: "border-white/20 text-slate-400",
                   },
                 ].map((item) => (
                   <label
                     key={item.role}
-                    className={`flex items-start gap-2.5 p-2.5 rounded-xl border cursor-pointer transition-all ${
+                    className={`flex items-start gap-3 p-3 rounded-xl border cursor-pointer transition-all ${
                       targetNewRole === item.role
-                        ? `${item.color} bg-slate-50 dark:bg-slate-800/60 shadow-xs`
-                        : "border-slate-200 dark:border-slate-800 hover:border-slate-300 dark:hover:border-slate-700"
+                        ? `${item.color} bg-white/5 shadow-md`
+                        : "border-white/10 hover:border-white/20 bg-[#07080b]"
                     }`}
                   >
                     <input
@@ -775,11 +779,11 @@ export default function UsersPage() {
                       value={item.role}
                       checked={targetNewRole === item.role}
                       onChange={() => setTargetNewRole(item.role)}
-                      className="mt-0.5 text-purple-600 focus:ring-purple-500"
+                      className="mt-0.5 text-amber-500 focus:ring-amber-500 accent-amber-500"
                     />
                     <div className="flex-1">
-                      <span className="font-semibold block">{item.title}</span>
-                      <span className="text-[11px] text-slate-500 dark:text-slate-400">
+                      <span className="font-bold block">{item.title}</span>
+                      <span className="text-[11px] text-slate-400 mt-0.5 block leading-relaxed">
                         {item.desc}
                       </span>
                     </div>
@@ -788,11 +792,11 @@ export default function UsersPage() {
               </div>
             </div>
 
-            <div className="pt-3 flex items-center justify-end gap-2 border-t border-slate-100 dark:border-slate-800 text-xs">
+            <div className="pt-3 flex items-center justify-end gap-2 border-t border-white/10 text-xs">
               <button
                 type="button"
                 onClick={() => setIsRoleModalOpen(false)}
-                className="px-3 py-1.5 rounded-lg text-slate-600 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-800"
+                className="px-4 py-2 rounded-xl text-slate-400 hover:text-slate-200 hover:bg-white/5 cursor-pointer transition-colors"
               >
                 انصراف
               </button>
@@ -800,7 +804,7 @@ export default function UsersPage() {
                 type="button"
                 onClick={handleSaveRole}
                 disabled={updateRoleMutation.isPending}
-                className="px-4 py-1.5 rounded-lg bg-purple-600 hover:bg-purple-500 text-white font-medium shadow-sm transition-all"
+                className="px-5 py-2 rounded-xl bg-gradient-to-r from-amber-500 to-amber-600 hover:from-amber-400 text-slate-950 font-bold shadow-lg shadow-amber-500/20 transition-all cursor-pointer"
               >
                 {updateRoleMutation.isPending ? "در حال ثبت..." : "ذخیره تغییرات نقش"}
               </button>

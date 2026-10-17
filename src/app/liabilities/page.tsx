@@ -302,7 +302,7 @@ export default function LiabilitiesPage() {
 
       {/* Select Type with descriptive visual cards */}
       <div>
-        <label className="block font-semibold text-slate-800 dark:text-slate-200 mb-1.5">
+        <label className="block font-semibold text-slate-200 mb-1.5">
           نوع تعهد یا استقراض
         </label>
         <div className="grid grid-cols-2 sm:grid-cols-4 gap-2">
@@ -316,26 +316,26 @@ export default function LiabilitiesPage() {
                 onClick={() => handleTypeChange(t.id)}
                 className={`p-2.5 rounded-xl border text-start transition-all flex flex-col justify-between ${
                   isSelected
-                    ? "border-sky-500 bg-sky-50/60 dark:bg-sky-950/40 ring-2 ring-sky-500/20"
-                    : "border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 hover:border-slate-300 dark:hover:border-slate-600"
+                    ? "border-amber-500 bg-amber-500/15 ring-2 ring-amber-500/20 shadow-md shadow-amber-500/10"
+                    : "border-white/10 bg-[#0d1015] hover:border-white/20 hover:bg-white/[0.02]"
                 }`}
               >
                 <div className="flex items-center justify-between mb-1.5">
                   <Icon
                     className={`h-4 w-4 ${
                       isSelected
-                        ? "text-sky-600 dark:text-sky-400"
-                        : "text-slate-500 dark:text-slate-400"
+                        ? "text-amber-400"
+                        : "text-slate-400"
                     }`}
                   />
                   {t.isFriend && (
-                    <span className="text-[10px] font-bold px-1.5 py-0.5 rounded bg-emerald-500/10 text-emerald-600 dark:text-emerald-400">
+                    <span className="text-[10px] font-bold px-1.5 py-0.5 rounded bg-emerald-500/10 text-emerald-400 border border-emerald-500/20">
                       سود ۰٪
                     </span>
                   )}
                 </div>
                 <div>
-                  <div className="font-bold text-slate-900 dark:text-slate-100 text-xs">
+                  <div className={`font-bold text-xs ${isSelected ? "text-amber-400" : "text-slate-200"}`}>
                     {t.label}
                   </div>
                   <div className="text-[10px] text-slate-400 line-clamp-1 mt-0.5">
@@ -350,7 +350,7 @@ export default function LiabilitiesPage() {
 
       {/* Title */}
       <div>
-        <label className="block font-medium text-slate-700 dark:text-slate-300 mb-1">
+        <label className="block font-medium text-slate-300 mb-1">
           عنوان یا شرح وام / بدهی
         </label>
         <input
@@ -366,14 +366,14 @@ export default function LiabilitiesPage() {
           }
           value={name}
           onChange={(e) => setName(e.target.value)}
-          className="w-full px-3 py-2 rounded-lg border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-800 text-slate-900 dark:text-slate-100 focus:outline-none focus:ring-2 focus:ring-sky-500 font-medium"
+          className="w-full px-3 py-2 rounded-xl border border-white/10 bg-[#0a0c12] text-slate-100 placeholder:text-slate-500 focus:outline-none focus:ring-2 focus:ring-amber-500/40 focus:border-amber-500/60 font-medium"
         />
       </div>
 
       {/* Counterparty / Bank / Platform / Friend */}
       <div>
         <div className="flex items-center justify-between mb-1">
-          <label className="font-medium text-slate-700 dark:text-slate-300">
+          <label className="font-medium text-slate-300">
             {selectedTypeConfig?.isFriend
               ? liabilityType === "friend_borrowed"
                 ? "نام دوست / قرض‌دهنده (طرف حساب)"
@@ -383,7 +383,7 @@ export default function LiabilitiesPage() {
           <button
             type="button"
             onClick={() => setIsCustomLender(!isCustomLender)}
-            className="text-[11px] text-sky-600 dark:text-sky-400 hover:underline"
+            className="text-[11px] text-amber-400 hover:underline"
           >
             {isCustomLender
               ? "انتخاب از لیست پلتفرم‌ها"
@@ -401,7 +401,7 @@ export default function LiabilitiesPage() {
             }
             value={customLender}
             onChange={(e) => setCustomLender(e.target.value)}
-            className="w-full px-3 py-2 rounded-lg border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-800 text-slate-900 dark:text-slate-100 focus:outline-none focus:ring-2 focus:ring-sky-500 font-medium"
+            className="w-full px-3 py-2 rounded-xl border border-white/10 bg-[#0a0c12] text-slate-100 placeholder:text-slate-500 focus:outline-none focus:ring-2 focus:ring-amber-500/40 focus:border-amber-500/60 font-medium"
           />
         ) : (
           <select
@@ -409,7 +409,7 @@ export default function LiabilitiesPage() {
               selectedPlatform || (platforms.length > 0 ? platforms[0] : "")
             }
             onChange={(e) => setSelectedPlatform(e.target.value)}
-            className="w-full px-3 py-2 rounded-lg border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-800 text-slate-900 dark:text-slate-100 focus:outline-none focus:ring-2 focus:ring-sky-500 font-medium"
+            className="w-full px-3 py-2 rounded-xl border border-white/10 bg-[#0a0c12] text-slate-100 focus:outline-none focus:ring-2 focus:ring-amber-500/40 focus:border-amber-500/60 font-medium"
           >
             {platforms.map((p) => (
               <option key={p} value={p}>
@@ -422,7 +422,7 @@ export default function LiabilitiesPage() {
 
       {/* Amount (Original Principal) */}
       <div>
-        <label className="block font-medium text-slate-700 dark:text-slate-300 mb-1">
+        <label className="block font-medium text-slate-300 mb-1">
           مبلغ اصل وام یا بدهی / قرض (تومان)
         </label>
         <input
@@ -431,10 +431,10 @@ export default function LiabilitiesPage() {
           placeholder="مثلاً 50,000,000"
           value={originalPrincipal}
           onChange={(e) => setOriginalPrincipal(e.target.value)}
-          className="w-full px-3 py-2 rounded-lg border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-800 text-slate-900 dark:text-slate-100 focus:outline-none focus:ring-2 focus:ring-sky-500 font-bold font-mono text-sm"
+          className="w-full px-3 py-2 rounded-xl border border-white/10 bg-[#0a0c12] text-slate-100 placeholder:text-slate-500 focus:outline-none focus:ring-2 focus:ring-amber-500/40 focus:border-amber-500/60 font-bold font-mono text-sm"
         />
         {originalPrincipal && !isNaN(parseFloat(originalPrincipal)) && (
-          <span className="text-[11px] text-slate-400 mt-1 block font-mono">
+          <span className="text-[11px] text-amber-400 mt-1 block font-mono">
             معادل: {parseFloat(originalPrincipal).toLocaleString()} تومان
           </span>
         )}
@@ -445,12 +445,12 @@ export default function LiabilitiesPage() {
         {/* Rate */}
         <div>
           <div className="flex items-center justify-between mb-1">
-            <label className="font-medium text-slate-700 dark:text-slate-300 flex items-center gap-1">
+            <label className="font-medium text-slate-300 flex items-center gap-1">
               <Percent className="h-3.5 w-3.5 text-slate-400" />
               <span>نرخ سود سالانه (% APR)</span>
             </label>
             {selectedTypeConfig?.isFriend && (
-              <span className="text-[10px] text-emerald-600 dark:text-emerald-400 font-bold">
+              <span className="text-[10px] text-emerald-400 font-bold">
                 قرض دوستانه (بدون سود)
               </span>
             )}
@@ -461,7 +461,7 @@ export default function LiabilitiesPage() {
             placeholder="0"
             value={interestRate}
             onChange={(e) => setInterestRate(e.target.value)}
-            className="w-full px-3 py-2 rounded-lg border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-800 text-slate-900 dark:text-slate-100 focus:outline-none focus:ring-2 focus:ring-sky-500 font-bold font-mono"
+            className="w-full px-3 py-2 rounded-xl border border-white/10 bg-[#0a0c12] text-slate-100 placeholder:text-slate-500 focus:outline-none focus:ring-2 focus:ring-amber-500/40 focus:border-amber-500/60 font-bold font-mono"
           />
           <div className="flex items-center gap-1 mt-1.5 flex-wrap">
             {[
@@ -474,7 +474,7 @@ export default function LiabilitiesPage() {
                 key={chip.val}
                 type="button"
                 onClick={() => setInterestRate(chip.val)}
-                className="px-2 py-0.5 rounded text-[10px] bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300 hover:bg-slate-200 dark:hover:bg-slate-700"
+                className="px-2 py-0.5 rounded-lg text-[10px] bg-white/5 border border-white/5 text-slate-300 hover:bg-white/10 hover:text-amber-400 transition-colors"
               >
                 {chip.label}
               </button>
@@ -484,7 +484,7 @@ export default function LiabilitiesPage() {
 
         {/* Time / Term Months */}
         <div>
-          <label className="block font-medium text-slate-700 dark:text-slate-300 mb-1 flex items-center gap-1">
+          <label className="block font-medium text-slate-300 mb-1 flex items-center gap-1">
             <Clock className="h-3.5 w-3.5 text-slate-400" />
             <span>مدت بازپرداخت (تعداد ماه‌ها / اقساط)</span>
           </label>
@@ -495,7 +495,7 @@ export default function LiabilitiesPage() {
             placeholder="مثلاً 24"
             value={termMonths}
             onChange={(e) => setTermMonths(e.target.value)}
-            className="w-full px-3 py-2 rounded-lg border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-800 text-slate-900 dark:text-slate-100 focus:outline-none focus:ring-2 focus:ring-sky-500 font-bold font-mono"
+            className="w-full px-3 py-2 rounded-xl border border-white/10 bg-[#0a0c12] text-slate-100 placeholder:text-slate-500 focus:outline-none focus:ring-2 focus:ring-amber-500/40 focus:border-amber-500/60 font-bold font-mono"
           />
           <div className="flex items-center gap-1 mt-1.5 flex-wrap">
             {[
@@ -510,7 +510,7 @@ export default function LiabilitiesPage() {
                 key={chip.val}
                 type="button"
                 onClick={() => setTermMonths(chip.val)}
-                className="px-2 py-0.5 rounded text-[10px] bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300 hover:bg-slate-200 dark:hover:bg-slate-700"
+                className="px-2 py-0.5 rounded-lg text-[10px] bg-white/5 border border-white/5 text-slate-300 hover:bg-white/10 hover:text-amber-400 transition-colors"
               >
                 {chip.label}
               </button>
@@ -520,12 +520,12 @@ export default function LiabilitiesPage() {
       </div>
 
       {/* Monthly Payment (Auto-calculated with manual override option) */}
-      <div className="p-3 bg-slate-50 dark:bg-slate-800/60 rounded-xl border border-slate-200 dark:border-slate-700/80">
+      <div className="p-3 bg-white/[0.03] rounded-xl border border-white/10">
         <div className="flex items-center justify-between mb-1">
-          <label className="font-semibold text-slate-800 dark:text-slate-200">
+          <label className="font-semibold text-slate-200">
             مبلغ قسط ماهانه (تومان)
           </label>
-          <span className="text-[11px] text-sky-600 dark:text-sky-400 font-mono">
+          <span className="text-[11px] text-amber-400 font-mono">
             {autoMonthlyPayment
               ? `محاسبه خودکار: ${parseFloat(autoMonthlyPayment).toLocaleString()} تومان`
               : "—"}
@@ -537,7 +537,7 @@ export default function LiabilitiesPage() {
           placeholder={autoMonthlyPayment || "0"}
           value={monthlyPayment}
           onChange={(e) => setMonthlyPayment(e.target.value)}
-          className="w-full px-3 py-2 rounded-lg border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-900 text-slate-900 dark:text-slate-100 focus:outline-none focus:ring-2 focus:ring-sky-500 font-bold font-mono text-sm"
+          className="w-full px-3 py-2 rounded-xl border border-white/10 bg-[#0a0c12] text-slate-100 placeholder:text-slate-500 focus:outline-none focus:ring-2 focus:ring-amber-500/40 focus:border-amber-500/60 font-bold font-mono text-sm"
         />
         <span className="text-[10px] text-slate-400 mt-1 block">
           اگر خالی بگذارید، مقدار محاسبه‌شده خودکار (
@@ -549,7 +549,7 @@ export default function LiabilitiesPage() {
       {/* Start Date & Notes */}
       <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
         <div>
-          <label className="block font-medium text-slate-700 dark:text-slate-300 mb-1 flex items-center gap-1">
+          <label className="block font-medium text-slate-300 mb-1 flex items-center gap-1">
             <Calendar className="h-3.5 w-3.5 text-slate-400" />
             <span>تاریخ شروع / دریافت وام یا قرض</span>
           </label>
@@ -557,12 +557,12 @@ export default function LiabilitiesPage() {
             type="date"
             value={startDate}
             onChange={(e) => setStartDate(e.target.value)}
-            className="w-full px-3 py-2 rounded-lg border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-800 text-slate-900 dark:text-slate-100 focus:outline-none focus:ring-2 focus:ring-sky-500 font-mono"
+            className="w-full px-3 py-2 rounded-xl border border-white/10 bg-[#0a0c12] text-slate-100 focus:outline-none focus:ring-2 focus:ring-amber-500/40 focus:border-amber-500/60 font-mono"
           />
         </div>
 
         <div>
-          <label className="block font-medium text-slate-700 dark:text-slate-300 mb-1">
+          <label className="block font-medium text-slate-300 mb-1">
             توضیحات و یادداشت (اختیاری)
           </label>
           <input
@@ -570,7 +570,7 @@ export default function LiabilitiesPage() {
             placeholder="مثلاً شماره چک، ضامن، تاریخ سررسید توافقی..."
             value={notes}
             onChange={(e) => setNotes(e.target.value)}
-            className="w-full px-3 py-2 rounded-lg border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-800 text-slate-900 dark:text-slate-100 focus:outline-none focus:ring-2 focus:ring-sky-500"
+            className="w-full px-3 py-2 rounded-xl border border-white/10 bg-[#0a0c12] text-slate-100 placeholder:text-slate-500 focus:outline-none focus:ring-2 focus:ring-amber-500/40 focus:border-amber-500/60"
           />
         </div>
       </div>
@@ -581,7 +581,7 @@ export default function LiabilitiesPage() {
           <button
             type="button"
             onClick={() => setIsModalOpen(false)}
-            className="px-4 py-2 rounded-lg border border-slate-300 dark:border-slate-700 font-semibold hover:bg-slate-100 dark:hover:bg-slate-800 text-slate-700 dark:text-slate-300"
+            className="px-4 py-2 rounded-xl border border-white/10 font-semibold hover:bg-white/5 text-slate-300 transition-colors"
           >
             انصراف
           </button>
@@ -589,7 +589,7 @@ export default function LiabilitiesPage() {
         <button
           type="submit"
           disabled={createMutation.isPending}
-          className="px-5 py-2.5 rounded-lg bg-sky-600 hover:bg-sky-500 text-white font-bold flex items-center gap-1.5 shadow-sm transition-all disabled:opacity-50"
+          className="px-5 py-2.5 rounded-xl bg-gradient-to-r from-amber-500 to-amber-600 hover:from-amber-400 hover:to-amber-500 text-slate-950 font-bold flex items-center gap-1.5 shadow-md shadow-amber-500/20 transition-all disabled:opacity-50 cursor-pointer"
         >
           {createMutation.isPending ? (
             <>
@@ -598,7 +598,7 @@ export default function LiabilitiesPage() {
             </>
           ) : (
             <>
-              <CheckCircle2 className="h-4 w-4" />
+              <CheckCircle2 className="h-4 w-4 stroke-[2.5]" />
               <span>ثبت نهایی وام / بدهی</span>
             </>
           )}
@@ -612,10 +612,10 @@ export default function LiabilitiesPage() {
       {/* Header & Tabs */}
       <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
         <div>
-          <h2 className="text-base font-bold text-slate-900 dark:text-slate-100">
+          <h2 className="text-lg font-bold text-slate-100">
             مدیریت بدهی‌ها، وام‌ها و قرض‌ها
           </h2>
-          <p className="text-xs text-slate-500 dark:text-slate-400 mt-0.5">
+          <p className="text-xs text-slate-400 mt-0.5">
             تسهیلات بانکی، خریدهای اقساطی پلتفرمی و قرض گرفتن/دادن به دوستان
           </p>
         </div>
@@ -624,30 +624,30 @@ export default function LiabilitiesPage() {
           {/* Quick Action Button */}
           <button
             onClick={() => setIsModalOpen(true)}
-            className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-sky-600 hover:bg-sky-500 text-white text-xs font-semibold shadow-sm transition-all"
+            className="flex items-center gap-1.5 px-3.5 py-2 rounded-xl bg-gradient-to-r from-amber-500 to-amber-600 hover:from-amber-400 hover:to-amber-500 text-slate-950 text-xs font-bold shadow-md shadow-amber-500/20 transition-all cursor-pointer"
           >
-            <Plus className="h-3.5 w-3.5" />
+            <Plus className="h-3.5 w-3.5 stroke-[2.5]" />
             <span>ثبت بدهی / وام جدید</span>
           </button>
 
           {/* Navigation Tabs */}
-          <div className="flex items-center gap-1 bg-slate-100 dark:bg-slate-800 p-1 rounded-lg text-xs font-semibold">
+          <div className="flex items-center gap-1 bg-white/[0.04] border border-white/5 p-1 rounded-xl text-xs font-semibold">
             <button
               onClick={() => setActiveTab("loans")}
-              className={`px-3 py-1.5 rounded-md transition-all ${
+              className={`px-3 py-1.5 rounded-lg transition-all cursor-pointer ${
                 activeTab === "loans"
-                  ? "bg-white dark:bg-slate-900 text-slate-900 dark:text-slate-100 shadow-xs"
-                  : "text-slate-500 hover:text-slate-900 dark:hover:text-slate-200"
+                  ? "bg-amber-500/15 text-amber-400 border border-amber-500/30 shadow-xs"
+                  : "text-slate-400 hover:text-slate-200"
               }`}
             >
               تعهدات و وام‌های فعال
             </button>
             <button
               onClick={() => setActiveTab("calculator")}
-              className={`px-3 py-1.5 rounded-md transition-all flex items-center gap-1.5 ${
+              className={`px-3 py-1.5 rounded-lg transition-all flex items-center gap-1.5 cursor-pointer ${
                 activeTab === "calculator"
-                  ? "bg-white dark:bg-slate-900 text-slate-900 dark:text-slate-100 shadow-xs"
-                  : "text-slate-500 hover:text-slate-900 dark:hover:text-slate-200"
+                  ? "bg-amber-500/15 text-amber-400 border border-amber-500/30 shadow-xs"
+                  : "text-slate-400 hover:text-slate-200"
               }`}
             >
               <Calculator className="h-3.5 w-3.5" />
@@ -662,50 +662,62 @@ export default function LiabilitiesPage() {
         <>
           {/* Top Metrics Cards */}
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
-            <div className="fin-card p-5 border-s-4 border-s-rose-500">
-              <span className="text-xs font-semibold text-slate-500 uppercase tracking-wider">
-                کل بدهی‌های من (وام و قرض)
-              </span>
-              <div className="text-2xl font-bold text-rose-600 dark:text-rose-400 mt-2 font-mono">
+            <div className="obsidian-card p-5 relative overflow-hidden">
+              <div className="flex items-center justify-between mb-2">
+                <span className="text-[11px] font-medium text-[#9A9DA5]">
+                  کل بدهی‌های من (وام و قرض)
+                </span>
+                <span className="h-1.5 w-1.5 rounded-full bg-[#C77A82]" />
+              </div>
+              <div className="text-xl font-semibold text-[#C77A82] font-mono tracking-tight">
                 {formatMoney(totalDebts)}
               </div>
-              <span className="text-xs text-slate-400 mt-1 block">
+              <span className="text-xs text-[#9A9DA5] mt-1.5 block">
                 تعهدات مالی، وام‌های بانکی و قرض‌های گرفته‌شده
               </span>
             </div>
 
-            <div className="fin-card p-5 border-s-4 border-s-emerald-500">
-              <span className="text-xs font-semibold text-slate-500 uppercase tracking-wider">
-                کل مطالبات من (قرض به دوستان)
-              </span>
-              <div className="text-2xl font-bold text-emerald-600 dark:text-emerald-400 mt-2 font-mono">
+            <div className="obsidian-card p-5 relative overflow-hidden">
+              <div className="flex items-center justify-between mb-2">
+                <span className="text-[11px] font-medium text-[#9A9DA5]">
+                  کل مطالبات من (قرض به دوستان)
+                </span>
+                <span className="h-1.5 w-1.5 rounded-full bg-[#76A98C]" />
+              </div>
+              <div className="text-xl font-semibold text-[#76A98C] font-mono tracking-tight">
                 {formatMoney(totalClaims)}
               </div>
-              <span className="text-xs text-slate-400 mt-1 block">
+              <span className="text-xs text-[#9A9DA5] mt-1.5 block">
                 مبالغی که به دیگران قرض داده‌اید و باید پس بگیرید
               </span>
             </div>
 
-            <div className="fin-card p-5 border-s-4 border-s-sky-500">
-              <span className="text-xs font-semibold text-slate-500 uppercase tracking-wider">
-                تعهد پرداخت اقساط ماهانه
-              </span>
-              <div className="text-2xl font-bold text-slate-900 dark:text-slate-100 mt-2 font-mono">
+            <div className="obsidian-card p-5 relative overflow-hidden">
+              <div className="flex items-center justify-between mb-2">
+                <span className="text-[11px] font-medium text-[#9A9DA5]">
+                  تعهد پرداخت اقساط ماهانه
+                </span>
+                <span className="h-1.5 w-1.5 rounded-full bg-[#F0AE55]" />
+              </div>
+              <div className="text-xl font-semibold text-[#F0AE55] font-mono tracking-tight">
                 {formatMoney(totalMonthlyCommitment)}
               </div>
-              <span className="text-xs text-slate-400 mt-1 block">
+              <span className="text-xs text-[#9A9DA5] mt-1.5 block">
                 مجموع اقساط ثابت اصل و سود هر ماه
               </span>
             </div>
 
-            <div className="fin-card p-5 border-s-4 border-s-amber-500">
-              <span className="text-xs font-semibold text-slate-500 uppercase tracking-wider">
-                میانگین وزنی نرخ سود
-              </span>
-              <div className="text-2xl font-bold text-slate-900 dark:text-slate-100 mt-2 font-mono">
+            <div className="obsidian-card p-5 relative overflow-hidden">
+              <div className="flex items-center justify-between mb-2">
+                <span className="text-[11px] font-medium text-[#9A9DA5]">
+                  میانگین وزنی نرخ سود
+                </span>
+                <span className="h-1.5 w-1.5 rounded-full bg-[#88A9BC]" />
+              </div>
+              <div className="text-xl font-semibold text-[#E8E8E8] font-mono tracking-tight">
                 {avgRate.toFixed(2)}%
               </div>
-              <span className="text-xs text-slate-400 mt-1 block">
+              <span className="text-xs text-[#9A9DA5] mt-1.5 block">
                 هزینه مؤثر استقراض سالانه (APR)
               </span>
             </div>
@@ -723,10 +735,10 @@ export default function LiabilitiesPage() {
               <button
                 key={f.id}
                 onClick={() => setFilterType(f.id)}
-                className={`px-3 py-1.5 rounded-lg font-medium transition-all ${
+                className={`px-3 py-1.5 rounded-xl font-medium transition-all cursor-pointer ${
                   filterType === f.id
-                    ? "bg-slate-900 dark:bg-slate-100 text-white dark:text-slate-900 shadow-xs"
-                    : "bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300 hover:bg-slate-200 dark:hover:bg-slate-700"
+                    ? "bg-amber-500/15 text-amber-400 border border-amber-500/30 shadow-xs"
+                    : "bg-white/5 border border-white/5 text-slate-400 hover:text-slate-200"
                 }`}
               >
                 {f.label}
@@ -736,7 +748,7 @@ export default function LiabilitiesPage() {
 
           {/* Liabilities Cards Grid */}
           {isLoading ? (
-            <div className="fin-card p-12 text-center text-slate-400 text-xs">
+            <div className="obsidian-card p-12 text-center text-slate-400 text-xs">
               در حال دریافت لیست تعهدات مالی...
             </div>
           ) : filteredLiabilities.length > 0 ? (
@@ -779,22 +791,16 @@ export default function LiabilitiesPage() {
                         ),
                       )
                     : 0;
-                const remainMonths =
-                  totalMonths > 0
-                    ? Math.max(0, totalMonths - paidMonths)
-                    : monthlyPay > 0
-                      ? Math.ceil(currBalance / monthlyPay)
-                      : 0;
 
                 return (
                   <div
                     key={l.id}
                     onClick={() => setSelectedLiability(l)}
-                    className={`fin-card p-5 flex flex-col justify-between space-y-4 hover:border-sky-500/50 hover:shadow-md cursor-pointer transition-all relative group ${
+                    className={`obsidian-card p-5 flex flex-col justify-between space-y-4 hover:border-amber-500/40 hover:shadow-lg cursor-pointer transition-all relative group ${
                       isFriendLent
-                        ? "border-emerald-500/40 bg-emerald-50/10 dark:bg-emerald-950/10"
+                        ? "border-emerald-500/30 bg-emerald-950/10"
                         : isFriendBorrowed
-                          ? "border-amber-500/40 bg-amber-50/10 dark:bg-amber-950/10"
+                          ? "border-amber-500/30 bg-amber-950/10"
                           : ""
                     }`}
                   >
@@ -802,12 +808,12 @@ export default function LiabilitiesPage() {
                       {/* Top Badges */}
                       <div className="flex items-center justify-between">
                         <span
-                          className={`text-[10px] font-bold px-2 py-0.5 rounded-md flex items-center gap-1 ${
+                          className={`text-[10px] font-bold px-2 py-0.5 rounded-lg flex items-center gap-1 border ${
                             isFriendLent
-                              ? "bg-emerald-100 dark:bg-emerald-950/60 text-emerald-700 dark:text-emerald-300"
+                              ? "bg-emerald-500/10 text-emerald-400 border-emerald-500/20"
                               : isFriendBorrowed
-                                ? "bg-amber-100 dark:bg-amber-950/60 text-amber-700 dark:text-amber-300"
-                                : "bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300"
+                                ? "bg-amber-500/10 text-amber-400 border-amber-500/20"
+                                : "bg-white/5 text-slate-300 border-white/10"
                           }`}
                         >
                           {isFriendLent && <ArrowUpRight className="h-3 w-3" />}
@@ -819,12 +825,12 @@ export default function LiabilitiesPage() {
                         </span>
 
                         <span
-                          className={`text-xs font-bold px-2.5 py-0.5 rounded-full font-mono ${
+                          className={`text-xs font-bold px-2.5 py-0.5 rounded-full font-mono border ${
                             rate === 0
-                              ? "bg-emerald-100 dark:bg-emerald-950/60 text-emerald-600 dark:text-emerald-400"
+                              ? "bg-emerald-500/10 text-emerald-400 border-emerald-500/20"
                               : rate > 15
-                                ? "bg-rose-100 dark:bg-rose-950/60 text-rose-600 dark:text-rose-400"
-                                : "bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300"
+                                ? "bg-rose-500/10 text-rose-400 border-rose-500/20"
+                                : "bg-white/5 text-slate-300 border-white/10"
                           }`}
                         >
                           {rate === 0
@@ -841,18 +847,18 @@ export default function LiabilitiesPage() {
                           size="md"
                         />
                         <div className="min-w-0 flex-1">
-                          <h3 className="font-bold text-sm text-slate-900 dark:text-slate-100 truncate group-hover:text-sky-600 dark:group-hover:text-sky-400 transition-colors">
+                          <h3 className="font-bold text-sm text-slate-100 truncate group-hover:text-amber-400 transition-colors">
                             {l.name}
                           </h3>
                           {l.lender ? (
                             <span className="text-[11px] text-slate-400 truncate block mt-0.5">
                               طرف حساب:{" "}
-                              <b className="text-slate-600 dark:text-slate-300 font-semibold">
+                              <b className="text-slate-300 font-semibold">
                                 {l.lender}
                               </b>
                             </span>
                           ) : (
-                            <span className="text-[10px] text-sky-500 font-medium block mt-0.5">
+                            <span className="text-[10px] text-amber-400/80 font-medium block mt-0.5">
                               + برای جزییات کلیک کنید...
                             </span>
                           )}
@@ -870,8 +876,8 @@ export default function LiabilitiesPage() {
                           <span
                             className={`text-lg font-bold ${
                               isFriendLent
-                                ? "text-emerald-600 dark:text-emerald-400"
-                                : "text-slate-900 dark:text-slate-100"
+                                ? "text-emerald-400"
+                                : "text-slate-100"
                             }`}
                           >
                             {formatMoney(l.current_balance)}
@@ -882,10 +888,12 @@ export default function LiabilitiesPage() {
                         </span>
                       </div>
 
-                      <div className="w-full h-2 bg-slate-100 dark:bg-slate-800 rounded-full overflow-hidden">
+                      <div className="w-full h-1.5 bg-[#1B1D21] border border-[#282A2F] rounded-full overflow-hidden">
                         <div
                           className={`h-full rounded-full transition-all duration-300 ${
-                            isFriendLent ? "bg-emerald-500" : "bg-sky-500"
+                            isFriendLent
+                              ? "bg-[#76A98C]"
+                              : "bg-[#F0AE55]"
                           }`}
                           style={{ width: `${Math.min(100, repaidPct)}%` }}
                         />
@@ -905,20 +913,20 @@ export default function LiabilitiesPage() {
                     </div>
 
                     {/* Footer with Monthly Payment and Delete Action */}
-                    <div className="pt-3 border-t border-slate-100 dark:border-slate-800 flex items-center justify-between text-xs">
+                    <div className="pt-3 border-t border-white/5 flex items-center justify-between text-xs">
                       <div>
                         <span className="text-slate-400 block text-[10px]">
                           {isFriendLent
                             ? "دریافت ماهانه توافقی:"
                             : "تعهد قسط ماهانه:"}
                         </span>
-                        <span className="font-bold text-slate-900 dark:text-slate-100 font-mono">
+                        <span className="font-bold text-slate-100 font-mono">
                           {formatMoney(l.monthly_payment)} / ماه
                         </span>
                       </div>
 
                       <div className="flex items-center gap-1.5">
-                        <span className="text-[11px] text-sky-600 dark:text-sky-400 font-medium group-hover:underline">
+                        <span className="text-[11px] text-amber-400 font-medium group-hover:underline">
                           مشاهده جزییات ←
                         </span>
                         <button
@@ -933,7 +941,7 @@ export default function LiabilitiesPage() {
                             }
                           }}
                           disabled={deleteMutation.isPending}
-                          className="p-1.5 rounded-lg text-slate-400 hover:text-rose-500 hover:bg-rose-50 dark:hover:bg-rose-950/40 transition-colors"
+                          className="p-1.5 rounded-lg text-slate-400 hover:text-rose-400 hover:bg-rose-500/10 transition-colors"
                           title="تسویه و حذف این تعهد"
                         >
                           <Trash2 className="h-4 w-4" />
@@ -945,13 +953,13 @@ export default function LiabilitiesPage() {
               })}
             </div>
           ) : (
-            <div className="fin-card p-12 text-center text-slate-400 text-xs space-y-3">
+            <div className="obsidian-card p-12 text-center text-slate-400 text-xs space-y-3">
               <p>هیچ تعهد مالی، وام یا قرضی در این دسته‌بندی ثبت نشده است.</p>
               <button
                 onClick={() => setActiveTab("new_liability")}
-                className="px-4 py-2 rounded-lg bg-sky-600 hover:bg-sky-500 text-white font-semibold text-xs inline-flex items-center gap-1.5"
+                className="px-4 py-2 rounded-xl bg-gradient-to-r from-amber-500 to-amber-600 hover:from-amber-400 hover:to-amber-500 text-slate-950 font-bold text-xs inline-flex items-center gap-1.5 shadow-md shadow-amber-500/20"
               >
-                <Plus className="h-3.5 w-3.5" />
+                <Plus className="h-3.5 w-3.5 stroke-[2.5]" />
                 <span>ثبت اولین وام، بدهی یا قرض</span>
               </button>
             </div>
@@ -961,12 +969,12 @@ export default function LiabilitiesPage() {
 
       {/* Tab 2: New Liability Direct Form */}
       {activeTab === "new_liability" && (
-        <div className="fin-card p-6 max-w-2xl mx-auto">
-          <div className="border-b border-slate-200 dark:border-slate-800 pb-3 mb-4">
-            <h3 className="text-sm font-bold text-slate-900 dark:text-slate-100">
+        <div className="obsidian-card p-6 max-w-2xl mx-auto">
+          <div className="border-b border-white/10 pb-3 mb-4">
+            <h3 className="text-sm font-bold text-slate-100">
               ثبت وام، بدهی یا قرض جدید
             </h3>
-            <p className="text-xs text-slate-500 dark:text-slate-400 mt-0.5">
+            <p className="text-xs text-slate-400 mt-0.5">
               مشخصات تسهیلات، قرض‌های دوستانه یا خریدهای اقساطی خود را ثبت و
               اقساط آن را رصد کنید.
             </p>
@@ -978,26 +986,26 @@ export default function LiabilitiesPage() {
       {/* Tab 3: Amortization Calculator Engine */}
       {activeTab === "calculator" && (
         <div className="space-y-6">
-          <div className="fin-card p-6">
-            <h3 className="text-sm font-bold text-slate-900 dark:text-slate-100 mb-4">
+          <div className="obsidian-card p-6">
+            <h3 className="text-sm font-bold text-slate-100 mb-4">
               شبیه‌ساز و پارامترهای استهلاک وام و محاسبه اقساط
             </h3>
 
             <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 text-xs">
               <div>
-                <label className="block font-medium text-slate-700 dark:text-slate-300 mb-1">
+                <label className="block font-medium text-slate-300 mb-1">
                   مبلغ اصل وام (تومان)
                 </label>
                 <input
                   type="number"
                   value={calcPrincipal}
                   onChange={(e) => setCalcPrincipal(e.target.value)}
-                  className="w-full px-3 py-2 rounded-lg border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-800 text-slate-900 dark:text-slate-100 font-bold font-mono"
+                  className="w-full px-3 py-2 rounded-xl border border-white/10 bg-[#0a0c12] text-slate-100 font-bold font-mono focus:outline-none focus:ring-2 focus:ring-amber-500/40 focus:border-amber-500/60"
                 />
               </div>
 
               <div>
-                <label className="block font-medium text-slate-700 dark:text-slate-300 mb-1">
+                <label className="block font-medium text-slate-300 mb-1">
                   نرخ سود سالانه (% APR)
                 </label>
                 <input
@@ -1005,29 +1013,29 @@ export default function LiabilitiesPage() {
                   step="0.01"
                   value={calcRate}
                   onChange={(e) => setCalcRate(e.target.value)}
-                  className="w-full px-3 py-2 rounded-lg border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-800 text-slate-900 dark:text-slate-100 font-bold font-mono"
+                  className="w-full px-3 py-2 rounded-xl border border-white/10 bg-[#0a0c12] text-slate-100 font-bold font-mono focus:outline-none focus:ring-2 focus:ring-amber-500/40 focus:border-amber-500/60"
                 />
               </div>
 
               <div>
-                <label className="block font-medium text-slate-700 dark:text-slate-300 mb-1">
+                <label className="block font-medium text-slate-300 mb-1">
                   مدت بازپرداخت (تعداد ماه)
                 </label>
                 <input
                   type="number"
                   value={calcTerm}
                   onChange={(e) => setCalcTerm(e.target.value)}
-                  className="w-full px-3 py-2 rounded-lg border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-800 text-slate-900 dark:text-slate-100 font-bold font-mono"
+                  className="w-full px-3 py-2 rounded-xl border border-white/10 bg-[#0a0c12] text-slate-100 font-bold font-mono focus:outline-none focus:ring-2 focus:ring-amber-500/40 focus:border-amber-500/60"
                 />
               </div>
             </div>
           </div>
 
           {/* Schedule Table Preview */}
-          <div className="fin-card overflow-hidden">
-            <div className="px-6 py-4 border-b border-slate-200 dark:border-slate-800 flex items-center justify-between">
+          <div className="obsidian-card overflow-hidden">
+            <div className="px-6 py-4 border-b border-white/10 flex items-center justify-between">
               <div>
-                <h4 className="text-sm font-bold text-slate-900 dark:text-slate-100">
+                <h4 className="text-sm font-bold text-slate-100">
                   جدول تفکیک اقساط (۲۴ ماه نخست)
                 </h4>
                 <p className="text-xs text-slate-400 mt-0.5">
@@ -1041,7 +1049,7 @@ export default function LiabilitiesPage() {
 
             <div className="overflow-x-auto max-h-[400px]">
               <table className="w-full text-start text-xs">
-                <thead className="bg-slate-50 dark:bg-slate-900/60 text-slate-500 uppercase tracking-wider sticky top-0 border-b border-slate-200 dark:border-slate-800">
+                <thead className="bg-white/[0.02] text-slate-400 uppercase tracking-wider sticky top-0 border-b border-white/10">
                   <tr>
                     <th className="py-2.5 px-6 font-semibold text-start">
                       ماه
@@ -1060,25 +1068,25 @@ export default function LiabilitiesPage() {
                     </th>
                   </tr>
                 </thead>
-                <tbody className="divide-y divide-slate-100 dark:divide-slate-800/60">
+                <tbody className="divide-y divide-white/5">
                   {schedule?.slice(0, 36).map((row) => (
                     <tr
                       key={row.month}
-                      className="hover:bg-slate-50/40 dark:hover:bg-slate-800/30"
+                      className="hover:bg-white/[0.02] transition-colors"
                     >
-                      <td className="py-2.5 px-6 font-medium text-slate-800 dark:text-slate-200 font-mono">
+                      <td className="py-2.5 px-6 font-medium text-slate-300 font-mono">
                         ماه {row.month}
                       </td>
-                      <td className="py-2.5 px-4 text-end font-medium font-mono">
+                      <td className="py-2.5 px-4 text-end font-medium font-mono text-slate-200">
                         {formatMoney(row.payment)}
                       </td>
-                      <td className="py-2.5 px-4 text-end text-emerald-600 dark:text-emerald-400 font-medium font-mono">
+                      <td className="py-2.5 px-4 text-end text-emerald-400 font-medium font-mono">
                         {formatMoney(row.principal)}
                       </td>
-                      <td className="py-2.5 px-4 text-end text-rose-500 font-medium font-mono">
+                      <td className="py-2.5 px-4 text-end text-rose-400 font-medium font-mono">
                         {formatMoney(row.interest)}
                       </td>
-                      <td className="py-2.5 px-6 text-end font-bold text-slate-900 dark:text-slate-100 font-mono">
+                      <td className="py-2.5 px-6 text-end font-bold text-slate-100 font-mono">
                         {formatMoney(row.remaining_balance)}
                       </td>
                     </tr>
@@ -1092,20 +1100,20 @@ export default function LiabilitiesPage() {
 
       {/* Quick Add Liability Modal (Accessible from any tab via the top button) */}
       {isModalOpen && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 backdrop-blur-sm p-4 animate-in fade-in duration-150">
-          <div className="fin-card w-full max-w-xl bg-white dark:bg-slate-900 shadow-2xl p-6 relative max-h-[90vh] overflow-y-auto">
-            <div className="flex items-center justify-between border-b border-slate-200 dark:border-slate-800 pb-3 mb-4">
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/70 backdrop-blur-md p-4 animate-in fade-in duration-150">
+          <div className="obsidian-card-elevated w-full max-w-xl bg-[#12151e] border border-white/10 shadow-2xl p-6 relative max-h-[90vh] overflow-y-auto">
+            <div className="flex items-center justify-between border-b border-white/10 pb-3 mb-4">
               <div>
-                <h3 className="text-base font-bold text-slate-900 dark:text-slate-100">
+                <h3 className="text-base font-bold text-slate-100">
                   ثبت بدهی، وام یا قرض جدید
                 </h3>
-                <p className="text-xs text-slate-500 dark:text-slate-400 mt-0.5">
+                <p className="text-xs text-slate-400 mt-0.5">
                   ثبت تسهیلات بانکی، خرید اقساطی پلتفرمی یا قرض دوستانه
                 </p>
               </div>
               <button
                 onClick={() => setIsModalOpen(false)}
-                className="p-1 rounded-lg text-slate-400 hover:text-slate-700 dark:hover:text-slate-200 hover:bg-slate-100 dark:hover:bg-slate-800"
+                className="p-1 rounded-lg text-slate-400 hover:text-slate-200 hover:bg-white/5 cursor-pointer"
               >
                 <X className="h-4 w-4" />
               </button>

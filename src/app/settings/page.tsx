@@ -10,6 +10,8 @@ import {
   Upload,
   Camera,
   Server,
+  Settings,
+  Sparkles,
 } from "lucide-react";
 import { api } from "@/lib/api";
 
@@ -33,29 +35,35 @@ export default function SettingsPage() {
 
   return (
     <div className="space-y-6 max-w-4xl">
+      {/* Page Header */}
       <div>
-        <h2 className="text-base font-bold text-slate-900 dark:text-slate-100">
-          تنظیمات پلتفرم و وضعیت زیرساخت
-        </h2>
-        <p className="text-xs text-slate-500 dark:text-slate-400">
+        <div className="flex items-center gap-2.5">
+          <div className="h-9 w-9 rounded-[12px] bg-[#1B1D21] border border-[#282A2F] text-[#F0AE55] flex items-center justify-center">
+            <Settings className="h-4 w-4" />
+          </div>
+          <h2 className="text-base font-semibold text-[#E8E8E8] tracking-tight">
+            تنظیمات پلتفرم و وضعیت زیرساخت
+          </h2>
+        </div>
+        <p className="text-xs text-[#9A9DA5] mt-1.5 pr-11">
           پیکربندی محیط، بررسی سلامت دیتابیس محلی و ثبت دستی اسنپ‌شات‌های تاریخی
         </p>
       </div>
 
       {/* System Health Status */}
-      <div className="fin-card p-6 space-y-4">
-        <div className="flex items-center justify-between border-b border-slate-200 dark:border-slate-800 pb-3">
-          <div className="flex items-center gap-2">
-            <Server className="h-5 w-5 text-sky-500" />
-            <h3 className="text-sm font-bold text-slate-900 dark:text-slate-100">
+      <div className="bg-[#141518] border border-[#282A2F] rounded-[22px] p-6 space-y-4">
+        <div className="flex items-center justify-between border-b border-[#282A2F] pb-3">
+          <div className="flex items-center gap-2.5">
+            <Server className="h-4 w-4 text-[#F0AE55]" />
+            <h3 className="text-sm font-semibold text-[#E8E8E8]">
               سلامت زیرساخت و ارتباطات سیستم
             </h3>
           </div>
           <span
-            className={`px-2.5 py-0.5 rounded-full text-xs font-bold ${
+            className={`px-2.5 py-0.5 rounded-full text-[11px] font-medium border ${
               health?.status === "ready"
-                ? "bg-emerald-100 dark:bg-emerald-950/60 text-emerald-600 dark:text-emerald-400"
-                : "bg-amber-100 dark:bg-amber-950/60 text-amber-600 dark:text-amber-400"
+                ? "bg-[#76A98C]/10 text-[#76A98C] border-[#76A98C]/30"
+                : "bg-[#F0AE55]/10 text-[#F0AE55] border-[#F0AE55]/30"
             }`}
           >
             {health?.status === "ready" ? "فعال و عملیاتی" : "در حال اتصال..."}
@@ -63,22 +71,22 @@ export default function SettingsPage() {
         </div>
 
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 text-xs">
-          <div className="p-3 rounded-lg bg-slate-50 dark:bg-slate-900/50 border border-slate-200 dark:border-slate-800">
-            <span className="font-semibold text-slate-700 dark:text-slate-300 block mb-1">
+          <div className="p-4 rounded-[14px] bg-[#1B1D21] border border-[#282A2F] space-y-2">
+            <span className="font-medium text-[#E8E8E8] block">
               پایگاه داده PostgreSQL (محلی - PersonalFC_Db)
             </span>
-            <div className="flex items-center gap-2 text-slate-500">
-              <span className="h-2 w-2 rounded-full bg-emerald-500" />
+            <div className="flex items-center gap-2 text-[#9A9DA5]">
+              <span className="h-1.5 w-1.5 rounded-full bg-[#76A98C]" />
               <span>وضعیت: {health?.components?.database === "connected" ? "متصل و آنلاین" : (health?.components?.database || "متصل")}</span>
             </div>
           </div>
 
-          <div className="p-3 rounded-lg bg-slate-50 dark:bg-slate-900/50 border border-slate-200 dark:border-slate-800">
-            <span className="font-semibold text-slate-700 dark:text-slate-300 block mb-1">
+          <div className="p-4 rounded-[14px] bg-[#1B1D21] border border-[#282A2F] space-y-2">
+            <span className="font-medium text-[#E8E8E8] block">
               حافظه کش Redis (محلی)
             </span>
-            <div className="flex items-center gap-2 text-slate-500">
-              <span className="h-2 w-2 rounded-full bg-emerald-500" />
+            <div className="flex items-center gap-2 text-[#9A9DA5]">
+              <span className="h-1.5 w-1.5 rounded-full bg-[#76A98C]" />
               <span>وضعیت: {health?.components?.redis === "connected" ? "متصل و آنلاین" : (health?.components?.redis || "متصل")}</span>
             </div>
           </div>
@@ -86,34 +94,34 @@ export default function SettingsPage() {
       </div>
 
       {/* Snapshot Management */}
-      <div className="fin-card p-6 space-y-4">
-        <div className="flex items-center gap-2 border-b border-slate-200 dark:border-slate-800 pb-3">
-          <Camera className="h-5 w-5 text-indigo-500" />
-          <h3 className="text-sm font-bold text-slate-900 dark:text-slate-100">
+      <div className="bg-[#141518] border border-[#282A2F] rounded-[22px] p-6 space-y-4">
+        <div className="flex items-center gap-2.5 border-b border-[#282A2F] pb-3">
+          <Camera className="h-4 w-4 text-[#F0AE55]" />
+          <h3 className="text-sm font-semibold text-[#E8E8E8]">
             موتور ثبت اسنپ‌شات تاریخی دارایی‌ها
           </h3>
         </div>
 
-        <p className="text-xs text-slate-500 dark:text-slate-400 leading-relaxed">
+        <p className="text-xs text-[#9A9DA5] leading-relaxed">
           اسنپ‌شات‌ها وضعیت دقیق ارزش خالص، موجودی دارایی‌ها و تعهدات بدهی شما را در پایگاه داده ذخیره می‌کنند تا نمودارهای رشد تاریخی با دقت کامل ترسیم شوند.
         </p>
 
-        <div className="flex items-center gap-3">
+        <div className="flex flex-wrap items-center gap-3 pt-1">
           <button
             onClick={() => snapshotMutation.mutate()}
             disabled={snapshotMutation.isPending}
-            className="flex items-center gap-1.5 px-4 py-2 rounded-lg bg-sky-600 hover:bg-sky-500 text-white text-xs font-semibold shadow-sm transition-all disabled:opacity-50"
+            className="flex items-center gap-2 px-4 py-2 rounded-[12px] bg-[#F0AE55] hover:bg-[#F0AE55]/90 text-[#0D0E10] text-xs font-medium transition-colors disabled:opacity-50 cursor-pointer"
           >
             {snapshotMutation.isPending ? (
-              <RefreshCw className="h-3.5 w-3.5 animate-spin" />
+              <RefreshCw className="h-4 w-4 animate-spin" />
             ) : (
-              <Camera className="h-3.5 w-3.5" />
+              <Camera className="h-4 w-4" />
             )}
             <span>ثبت اسنپ‌شات وضعیت امروز</span>
           </button>
 
           {snapshotSuccess && (
-            <span className="flex items-center gap-1 text-xs font-semibold text-emerald-600 dark:text-emerald-400">
+            <span className="flex items-center gap-1.5 text-xs font-medium text-[#76A98C] animate-in fade-in">
               <CheckCircle2 className="h-4 w-4" />
               <span>اسنپ‌شات وضعیت مالی با موفقیت ثبت شد!</span>
             </span>
@@ -122,10 +130,10 @@ export default function SettingsPage() {
       </div>
 
       {/* Data Import / Export */}
-      <div className="fin-card p-6 space-y-4">
-        <div className="flex items-center gap-2 border-b border-slate-200 dark:border-slate-800 pb-3">
-          <Database className="h-5 w-5 text-emerald-500" />
-          <h3 className="text-sm font-bold text-slate-900 dark:text-slate-100">
+      <div className="bg-[#141518] border border-[#282A2F] rounded-[22px] p-6 space-y-4">
+        <div className="flex items-center gap-2.5 border-b border-[#282A2F] pb-3">
+          <Database className="h-4 w-4 text-[#76A98C]" />
+          <h3 className="text-sm font-semibold text-[#E8E8E8]">
             پشتیبان‌گیری و جابه‌جایی اطلاعات
           </h3>
         </div>
@@ -133,20 +141,20 @@ export default function SettingsPage() {
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 text-xs">
           <button
             onClick={() => alert("درخواست خروجی JSON از پایگاه داده ارسال شد.")}
-            className="p-3.5 rounded-lg border border-slate-200 dark:border-slate-800 hover:border-slate-300 dark:hover:border-slate-700 flex items-center justify-between text-slate-700 dark:text-slate-300 font-medium"
+            className="p-4 rounded-[14px] border border-[#282A2F] bg-[#1B1D21] hover:bg-[#222327] hover:border-[#32343A] flex items-center justify-between text-[#E8E8E8] font-medium transition-colors cursor-pointer"
           >
-            <span className="flex items-center gap-2">
-              <Download className="h-4 w-4 text-sky-500" />
+            <span className="flex items-center gap-2.5">
+              <Download className="h-4 w-4 text-[#88A9BC]" />
               <span>تهیه خروجی کامل پورتفوی (JSON)</span>
             </span>
           </button>
 
           <button
             onClick={() => alert("فرم ورود دسته‌ای تراکنش‌ها فعال شد.")}
-            className="p-3.5 rounded-lg border border-slate-200 dark:border-slate-800 hover:border-slate-300 dark:hover:border-slate-700 flex items-center justify-between text-slate-700 dark:text-slate-300 font-medium"
+            className="p-4 rounded-[14px] border border-[#282A2F] bg-[#1B1D21] hover:bg-[#222327] hover:border-[#32343A] flex items-center justify-between text-[#E8E8E8] font-medium transition-colors cursor-pointer"
           >
-            <span className="flex items-center gap-2">
-              <Upload className="h-4 w-4 text-indigo-500" />
+            <span className="flex items-center gap-2.5">
+              <Upload className="h-4 w-4 text-[#B9823D]" />
               <span>بارگذاری و ورود تراکنش‌ها (CSV)</span>
             </span>
           </button>

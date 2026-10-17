@@ -116,55 +116,55 @@ export function CustomAllocationModal({
   };
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-950/60 backdrop-blur-sm animate-fade-in">
-      <div className="relative w-full max-w-lg bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-3xl shadow-2xl overflow-hidden p-6 space-y-5">
+    <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/80 backdrop-blur-md animate-fade-in">
+      <div className="relative w-full max-w-lg bg-[#10131a] border border-white/10 rounded-3xl shadow-2xl overflow-hidden p-6 space-y-5">
         {/* Header */}
-        <div className="flex items-center justify-between border-b border-slate-100 dark:border-slate-800 pb-4">
+        <div className="flex items-center justify-between border-b border-white/10 pb-4">
           <div className="flex items-center gap-3">
-            <div className="h-10 w-10 rounded-2xl bg-purple-500/10 text-purple-600 dark:text-purple-400 flex items-center justify-center border border-purple-500/20">
+            <div className="h-10 w-10 rounded-2xl bg-amber-500/10 text-amber-400 flex items-center justify-center border border-amber-500/20">
               <Scale className="h-5 w-5" />
             </div>
             <div>
-              <h3 className="text-base font-bold text-slate-900 dark:text-slate-100">
+              <h3 className="text-base font-bold text-slate-100">
                 تعیین درصد تخصیص هدف پورتفوی
               </h3>
-              <p className="text-xs text-slate-500 dark:text-slate-400 mt-0.5">
+              <p className="text-xs text-slate-400 mt-0.5">
                 تنظیم سقف‌های مجاز سرمایه‌گذاری برای ردیابی هشدارهای عدم انطباق
               </p>
             </div>
           </div>
           <button
             onClick={onClose}
-            className="p-1.5 rounded-xl text-slate-400 hover:text-slate-700 dark:hover:text-slate-200 hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors"
+            className="p-1.5 rounded-xl text-slate-400 hover:text-slate-200 hover:bg-white/5 transition-colors cursor-pointer"
           >
             <X className="h-5 w-5" />
           </button>
         </div>
 
         {/* Quick Presets */}
-        <div className="flex items-center justify-between bg-slate-50 dark:bg-slate-800/50 p-3 rounded-2xl">
-          <span className="text-xs font-semibold text-slate-600 dark:text-slate-300">
+        <div className="flex items-center justify-between bg-[#0c0e14] border border-white/10 p-3 rounded-2xl">
+          <span className="text-xs font-semibold text-slate-300">
             الگوهای آماده:
           </span>
           <div className="flex items-center gap-1.5 text-[11px]">
             <button
               type="button"
               onClick={() => handlePreset("conservative")}
-              className="px-2.5 py-1 rounded-lg bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 font-medium hover:bg-emerald-500/20 transition-all cursor-pointer"
+              className="px-2.5 py-1 rounded-lg bg-emerald-500/10 text-emerald-400 font-semibold border border-emerald-500/20 hover:bg-emerald-500/20 transition-all cursor-pointer"
             >
               محافظه‌کارانه
             </button>
             <button
               type="button"
               onClick={() => handlePreset("moderate")}
-              className="px-2.5 py-1 rounded-lg bg-blue-500/10 text-blue-600 dark:text-blue-400 font-medium hover:bg-blue-500/20 transition-all cursor-pointer"
+              className="px-2.5 py-1 rounded-lg bg-cyan-500/10 text-cyan-400 font-semibold border border-cyan-500/20 hover:bg-cyan-500/20 transition-all cursor-pointer"
             >
               متعادل
             </button>
             <button
               type="button"
               onClick={() => handlePreset("aggressive")}
-              className="px-2.5 py-1 rounded-lg bg-purple-500/10 text-purple-600 dark:text-purple-400 font-medium hover:bg-purple-500/20 transition-all cursor-pointer"
+              className="px-2.5 py-1 rounded-lg bg-amber-500/10 text-amber-400 font-semibold border border-amber-500/20 hover:bg-amber-500/20 transition-all cursor-pointer"
             >
               رشد ریسک‌پذیر
             </button>
@@ -173,11 +173,11 @@ export function CustomAllocationModal({
 
         {/* Inputs */}
         <form onSubmit={handleSave} className="space-y-4">
-          <div className="space-y-3">
+          <div className="space-y-2.5">
             {/* Equities */}
-            <div className="flex items-center justify-between gap-4 p-3 rounded-xl border border-slate-200/80 dark:border-slate-800 bg-slate-50/30 dark:bg-slate-900/40">
+            <div className="flex items-center justify-between gap-4 p-3 rounded-xl border border-white/10 bg-[#0c0e14]">
               <div>
-                <label className="text-xs font-bold text-slate-800 dark:text-slate-200 block">
+                <label className="text-xs font-bold text-slate-200 block">
                   سهام و ETFها (Equities)
                 </label>
                 <span className="text-[11px] text-slate-400">بورس و صندوق‌های سهامی</span>
@@ -190,16 +190,16 @@ export function CustomAllocationModal({
                   step="1"
                   value={equities}
                   onChange={(e) => setEquities(e.target.value)}
-                  className="w-20 px-2 py-1 text-center rounded-lg border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-800 text-sm font-bold font-mono text-slate-900 dark:text-slate-100 focus:ring-2 focus:ring-purple-500"
+                  className="w-20 px-2 py-1 text-center rounded-lg border border-white/10 bg-[#07080b] text-sm font-bold font-mono text-slate-100 focus:ring-2 focus:ring-amber-500/40"
                 />
                 <span className="text-xs font-bold text-slate-500">٪</span>
               </div>
             </div>
 
             {/* Gold & Commodities */}
-            <div className="flex items-center justify-between gap-4 p-3 rounded-xl border border-slate-200/80 dark:border-slate-800 bg-slate-50/30 dark:bg-slate-900/40">
+            <div className="flex items-center justify-between gap-4 p-3 rounded-xl border border-white/10 bg-[#0c0e14]">
               <div>
-                <label className="text-xs font-bold text-slate-800 dark:text-slate-200 block">
+                <label className="text-xs font-bold text-slate-200 block">
                   طلا و کالاها (Gold & Commodities)
                 </label>
                 <span className="text-[11px] text-slate-400">صندوق طلا، گواهی سپرده و سکه</span>
@@ -212,16 +212,16 @@ export function CustomAllocationModal({
                   step="1"
                   value={gold}
                   onChange={(e) => setGold(e.target.value)}
-                  className="w-20 px-2 py-1 text-center rounded-lg border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-800 text-sm font-bold font-mono text-slate-900 dark:text-slate-100 focus:ring-2 focus:ring-purple-500"
+                  className="w-20 px-2 py-1 text-center rounded-lg border border-white/10 bg-[#07080b] text-sm font-bold font-mono text-slate-100 focus:ring-2 focus:ring-amber-500/40"
                 />
                 <span className="text-xs font-bold text-slate-500">٪</span>
               </div>
             </div>
 
             {/* Fixed Income */}
-            <div className="flex items-center justify-between gap-4 p-3 rounded-xl border border-slate-200/80 dark:border-slate-800 bg-slate-50/30 dark:bg-slate-900/40">
+            <div className="flex items-center justify-between gap-4 p-3 rounded-xl border border-white/10 bg-[#0c0e14]">
               <div>
-                <label className="text-xs font-bold text-slate-800 dark:text-slate-200 block">
+                <label className="text-xs font-bold text-slate-200 block">
                   اوراق درآمد ثابت (Fixed Income)
                 </label>
                 <span className="text-[11px] text-slate-400">صندوق‌های درآمد ثابت و مرابحه</span>
@@ -234,16 +234,16 @@ export function CustomAllocationModal({
                   step="1"
                   value={fixedIncome}
                   onChange={(e) => setFixedIncome(e.target.value)}
-                  className="w-20 px-2 py-1 text-center rounded-lg border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-800 text-sm font-bold font-mono text-slate-900 dark:text-slate-100 focus:ring-2 focus:ring-purple-500"
+                  className="w-20 px-2 py-1 text-center rounded-lg border border-white/10 bg-[#07080b] text-sm font-bold font-mono text-slate-100 focus:ring-2 focus:ring-amber-500/40"
                 />
                 <span className="text-xs font-bold text-slate-500">٪</span>
               </div>
             </div>
 
             {/* Crypto */}
-            <div className="flex items-center justify-between gap-4 p-3 rounded-xl border border-slate-200/80 dark:border-slate-800 bg-slate-50/30 dark:bg-slate-900/40">
+            <div className="flex items-center justify-between gap-4 p-3 rounded-xl border border-white/10 bg-[#0c0e14]">
               <div>
-                <label className="text-xs font-bold text-slate-800 dark:text-slate-200 block">
+                <label className="text-xs font-bold text-slate-200 block">
                   ارزهای دیجیتال (Crypto)
                 </label>
                 <span className="text-[11px] text-slate-400">بیت‌کوین، اتریوم و رمزارزها</span>
@@ -256,16 +256,16 @@ export function CustomAllocationModal({
                   step="1"
                   value={crypto}
                   onChange={(e) => setCrypto(e.target.value)}
-                  className="w-20 px-2 py-1 text-center rounded-lg border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-800 text-sm font-bold font-mono text-slate-900 dark:text-slate-100 focus:ring-2 focus:ring-purple-500"
+                  className="w-20 px-2 py-1 text-center rounded-lg border border-white/10 bg-[#07080b] text-sm font-bold font-mono text-slate-100 focus:ring-2 focus:ring-amber-500/40"
                 />
                 <span className="text-xs font-bold text-slate-500">٪</span>
               </div>
             </div>
 
             {/* Cash */}
-            <div className="flex items-center justify-between gap-4 p-3 rounded-xl border border-slate-200/80 dark:border-slate-800 bg-slate-50/30 dark:bg-slate-900/40">
+            <div className="flex items-center justify-between gap-4 p-3 rounded-xl border border-white/10 bg-[#0c0e14]">
               <div>
-                <label className="text-xs font-bold text-slate-800 dark:text-slate-200 block">
+                <label className="text-xs font-bold text-slate-200 block">
                   نقدینگی و ارز (Cash & Fiat)
                 </label>
                 <span className="text-[11px] text-slate-400">حساب‌های پس‌انداز و اسکناس</span>
@@ -278,7 +278,7 @@ export function CustomAllocationModal({
                   step="1"
                   value={cash}
                   onChange={(e) => setCash(e.target.value)}
-                  className="w-20 px-2 py-1 text-center rounded-lg border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-800 text-sm font-bold font-mono text-slate-900 dark:text-slate-100 focus:ring-2 focus:ring-purple-500"
+                  className="w-20 px-2 py-1 text-center rounded-lg border border-white/10 bg-[#07080b] text-sm font-bold font-mono text-slate-100 focus:ring-2 focus:ring-amber-500/40"
                 />
                 <span className="text-xs font-bold text-slate-500">٪</span>
               </div>
@@ -286,15 +286,15 @@ export function CustomAllocationModal({
           </div>
 
           {/* Sum Validation Indicator */}
-          <div className="flex items-center justify-between p-3 rounded-xl bg-slate-100/70 dark:bg-slate-800/80 text-xs">
-            <span className="font-semibold text-slate-600 dark:text-slate-300">
+          <div className="flex items-center justify-between p-3 rounded-xl bg-[#0c0e14] border border-white/10 text-xs">
+            <span className="font-semibold text-slate-300">
               مجموع درصدهای تخصیص:
             </span>
             <span
               className={`font-bold font-mono text-sm flex items-center gap-1 ${
                 isValidSum
-                  ? "text-emerald-600 dark:text-emerald-400"
-                  : "text-rose-600 dark:text-rose-400"
+                  ? "text-emerald-400"
+                  : "text-rose-400"
               }`}
             >
               {isValidSum ? <CheckCircle2 className="h-4 w-4" /> : <AlertTriangle className="h-4 w-4" />}
@@ -303,7 +303,7 @@ export function CustomAllocationModal({
           </div>
 
           {errorMsg && (
-            <div className="p-3 rounded-xl bg-rose-500/10 border border-rose-500/20 text-rose-600 dark:text-rose-400 text-xs flex items-center gap-2">
+            <div className="p-3 rounded-xl bg-rose-500/10 border border-rose-500/20 text-rose-400 text-xs flex items-center gap-2">
               <AlertTriangle className="h-4 w-4 shrink-0" />
               <span>{errorMsg}</span>
             </div>
@@ -314,7 +314,7 @@ export function CustomAllocationModal({
             <button
               type="button"
               onClick={onClose}
-              className="px-4 py-2 rounded-xl text-xs font-semibold text-slate-600 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-800 transition-all cursor-pointer"
+              className="px-4 py-2 rounded-xl text-xs font-semibold text-slate-300 hover:bg-white/5 border border-white/10 transition-all cursor-pointer"
             >
               انصراف
             </button>
@@ -322,7 +322,7 @@ export function CustomAllocationModal({
             <button
               type="submit"
               disabled={isSaving || !isValidSum}
-              className="flex items-center gap-1.5 px-5 py-2 rounded-xl bg-purple-600 hover:bg-purple-500 text-white text-xs font-bold shadow-md shadow-purple-600/20 disabled:opacity-50 transition-all cursor-pointer"
+              className="flex items-center gap-1.5 px-5 py-2 rounded-xl bg-amber-500 hover:bg-amber-400 text-slate-950 text-xs font-bold shadow-lg shadow-amber-500/20 disabled:opacity-50 transition-all cursor-pointer active:scale-95"
             >
               {isSaving ? <RefreshCw className="h-4 w-4 animate-spin" /> : <Save className="h-4 w-4" />}
               <span>ذخیره تخصیص هدف</span>

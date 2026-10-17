@@ -20,7 +20,7 @@ export function Breadcrumbs({ items }: BreadcrumbsProps) {
         <li className="inline-flex items-center">
           <Link
             href="/"
-            className="inline-flex items-center gap-1.5 text-slate-500 hover:text-indigo-600 dark:text-slate-400 dark:hover:text-indigo-400 transition-colors font-medium"
+            className="inline-flex items-center gap-1.5 text-slate-400 hover:text-amber-400 transition-colors font-medium"
           >
             <Home className="w-4 h-4" />
             خانه
@@ -32,15 +32,15 @@ export function Breadcrumbs({ items }: BreadcrumbsProps) {
           return (
             <li key={item.href}>
               <div className="flex items-center">
-                <ChevronLeft className="w-4 h-4 text-slate-400 mx-1" />
+                <ChevronLeft className="w-4 h-4 text-slate-500 mx-1" />
                 {isLast ? (
-                  <span className="text-slate-800 dark:text-slate-200 font-semibold" aria-current="page">
+                  <span className="text-slate-100 font-bold" aria-current="page">
                     {item.label}
                   </span>
                 ) : (
                   <Link
                     href={item.href}
-                    className="text-slate-500 hover:text-indigo-600 dark:text-slate-400 dark:hover:text-indigo-400 transition-colors font-medium"
+                    className="text-slate-400 hover:text-amber-400 transition-colors font-medium"
                   >
                     {item.label}
                   </Link>

@@ -213,29 +213,29 @@ export function FinancialOnboardingModal({
   };
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-950/60 backdrop-blur-sm overflow-y-auto animate-fade-in">
-      <div className="relative w-full max-w-2xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-3xl shadow-2xl overflow-hidden my-8 max-h-[90vh] flex flex-col">
+    <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/80 backdrop-blur-md overflow-y-auto animate-fade-in">
+      <div className="relative w-full max-w-2xl bg-[#10131a] border border-white/10 rounded-3xl shadow-2xl overflow-hidden my-8 max-h-[90vh] flex flex-col">
         {/* Modal Header */}
-        <div className="flex items-center justify-between p-6 border-b border-slate-100 dark:border-slate-800 bg-slate-50/50 dark:bg-slate-900/50">
+        <div className="flex items-center justify-between p-6 border-b border-white/10 bg-[#0c0e14]">
           <div className="flex items-center gap-3">
-            <div className="h-10 w-10 rounded-2xl bg-gradient-to-tr from-sky-500 to-indigo-600 text-white flex items-center justify-center shadow-md shadow-sky-500/20">
+            <div className="h-10 w-10 rounded-2xl bg-amber-500/10 border border-amber-500/20 text-amber-400 flex items-center justify-center shadow-md shadow-amber-500/10">
               <Briefcase className="h-5 w-5" />
             </div>
             <div>
-              <h2 className="text-lg font-bold text-slate-900 dark:text-slate-100 flex items-center gap-2">
+              <h2 className="text-lg font-bold text-slate-100 flex items-center gap-2">
                 <span>تکمیل پروفایل مالی و موقعیت شغلی</span>
-                <span className="text-[11px] font-normal px-2 py-0.5 rounded-full bg-sky-500/10 text-sky-600 dark:text-sky-400 border border-sky-500/20">
+                <span className="text-[11px] font-normal px-2.5 py-0.5 rounded-full bg-amber-500/10 text-amber-400 border border-amber-500/20">
                   گام ۱ از ۲
                 </span>
               </h2>
-              <p className="text-xs text-slate-500 dark:text-slate-400 mt-0.5">
+              <p className="text-xs text-slate-400 mt-0.5">
                 محاسبه میانگین درآمد شغلی، مقایسه با بازار و پیشنهادهای رشد ثروت
               </p>
             </div>
           </div>
           <button
             onClick={onClose}
-            className="text-slate-400 hover:text-slate-600 dark:hover:text-slate-200 p-2 rounded-xl hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors"
+            className="text-slate-400 hover:text-slate-200 p-2 rounded-xl hover:bg-white/5 transition-colors cursor-pointer"
             title="بستن / رد کردن"
           >
             <X className="h-5 w-5" />
@@ -249,8 +249,8 @@ export function FinancialOnboardingModal({
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
               {/* Job Selection */}
               <div className="space-y-1.5">
-                <label className="text-xs font-semibold text-slate-700 dark:text-slate-300 flex items-center gap-1.5">
-                  <Briefcase className="h-3.5 w-3.5 text-sky-500" />
+                <label className="text-xs font-semibold text-slate-300 flex items-center gap-1.5">
+                  <Briefcase className="h-3.5 w-3.5 text-amber-400" />
                   <span>عنوان شغل یا تخصص</span>
                   <span className="text-rose-500">*</span>
                 </label>
@@ -265,15 +265,15 @@ export function FinancialOnboardingModal({
                       setCustomJob("");
                     }
                   }}
-                  className="w-full px-3 py-2.5 text-xs rounded-xl border border-slate-200 dark:border-slate-700 bg-white/70 dark:bg-slate-950/70 text-slate-900 dark:text-slate-100 focus:outline-none focus:ring-2 focus:ring-sky-500/40"
+                  className="w-full px-3 py-2.5 text-xs rounded-xl border border-white/10 bg-[#07080b] text-slate-100 focus:outline-none focus:ring-2 focus:ring-amber-500/40 focus:border-amber-500/40"
                 >
                   <option value="">-- انتخاب شغل یا رده شغلی --</option>
                   {COMMON_JOBS.map((j) => (
-                    <option key={j} value={j}>
+                    <option key={j} value={j} className="bg-[#10131a] text-slate-100">
                       {j}
                     </option>
                   ))}
-                  <option value="سایر">سایر مشاغل (تایپ دستی)...</option>
+                  <option value="سایر" className="bg-[#10131a] text-slate-100">سایر مشاغل (تایپ دستی)...</option>
                 </select>
 
                 {(job === "سایر" || (!COMMON_JOBS.includes(job) && job !== "")) && (
@@ -282,7 +282,7 @@ export function FinancialOnboardingModal({
                     placeholder="عنوان دقیق شغل خود را وارد نمایید..."
                     value={customJob || (COMMON_JOBS.includes(job) ? "" : job)}
                     onChange={(e) => setCustomJob(e.target.value)}
-                    className="w-full mt-2 px-3 py-2 text-xs rounded-xl border border-slate-200 dark:border-slate-700 bg-white/70 dark:bg-slate-950/70 text-slate-900 dark:text-slate-100 focus:outline-none focus:ring-2 focus:ring-sky-500/40"
+                    className="w-full mt-2 px-3 py-2 text-xs rounded-xl border border-white/10 bg-[#07080b] text-slate-100 focus:outline-none focus:ring-2 focus:ring-amber-500/40 focus:border-amber-500/40"
                   />
                 )}
               </div>
@@ -290,8 +290,8 @@ export function FinancialOnboardingModal({
               {/* Monthly Income */}
               <div className="space-y-1.5">
                 <div className="flex items-center justify-between">
-                  <label className="text-xs font-semibold text-slate-700 dark:text-slate-300 flex items-center gap-1.5">
-                    <Wallet className="h-3.5 w-3.5 text-emerald-500" />
+                  <label className="text-xs font-semibold text-slate-300 flex items-center gap-1.5">
+                    <Wallet className="h-3.5 w-3.5 text-emerald-400" />
                     <span>درآمد خالص ماهانه (تومان)</span>
                     <span className="text-rose-500">*</span>
                   </label>
@@ -299,7 +299,7 @@ export function FinancialOnboardingModal({
                     type="button"
                     onClick={handleCheckBenchmark}
                     disabled={isQueryingBenchmark || !effectiveJob}
-                    className="text-[11px] text-sky-600 hover:text-sky-500 dark:text-sky-400 font-medium cursor-pointer disabled:opacity-40"
+                    className="text-[11px] text-amber-400 hover:text-amber-300 font-medium cursor-pointer disabled:opacity-40"
                   >
                     {isQueryingBenchmark ? "در حال محاسبه..." : "بررسی میانگین بازار"}
                   </button>
@@ -314,10 +314,10 @@ export function FinancialOnboardingModal({
                       const norm = normalizeDigitsToEnglish(e.target.value);
                       setMonthlyIncome(norm.replace(/\D/g, ""));
                     }}
-                    className="w-full pl-12 pr-3 py-2.5 text-xs rounded-xl border border-slate-200 dark:border-slate-700 bg-white/70 dark:bg-slate-950/70 text-slate-900 dark:text-slate-100 focus:outline-none focus:ring-2 focus:ring-sky-500/40 font-mono tracking-wide"
+                    className="w-full pl-12 pr-3 py-2.5 text-xs rounded-xl border border-white/10 bg-[#07080b] text-slate-100 focus:outline-none focus:ring-2 focus:ring-amber-500/40 focus:border-amber-500/40 font-mono tracking-wide"
                     dir="ltr"
                   />
-                  <span className="absolute left-3 top-2.5 text-[11px] text-slate-400 pointer-events-none">
+                  <span className="absolute left-3 top-2.5 text-[11px] text-slate-500 pointer-events-none">
                     تومان
                   </span>
                 </div>
@@ -325,16 +325,16 @@ export function FinancialOnboardingModal({
             </div>
 
             {/* Assets & Liabilities Grid */}
-            <div className="p-4 rounded-2xl border border-slate-100 dark:border-slate-800/80 bg-slate-50/60 dark:bg-slate-900/40 space-y-4">
-              <h3 className="text-xs font-bold text-slate-800 dark:text-slate-200 flex items-center gap-1.5">
-                <Building className="h-4 w-4 text-indigo-500" />
+            <div className="p-4 rounded-2xl border border-white/10 bg-[#0c0e14] space-y-4">
+              <h3 className="text-xs font-bold text-slate-200 flex items-center gap-1.5">
+                <Building className="h-4 w-4 text-amber-400" />
                 <span>وضعیت ترازنامه و دارایی‌های فعلی</span>
               </h3>
 
               <div className="grid grid-cols-1 sm:grid-cols-3 gap-3.5">
                 {/* Liquid Assets */}
                 <div className="space-y-1">
-                  <label className="text-[11px] font-medium text-slate-600 dark:text-slate-400 flex items-center gap-1">
+                  <label className="text-[11px] font-medium text-slate-400 flex items-center gap-1">
                     <span>نقدینگی و پس‌انداز</span>
                   </label>
                   <div className="relative">
@@ -346,10 +346,10 @@ export function FinancialOnboardingModal({
                         const norm = normalizeDigitsToEnglish(e.target.value);
                         setLiquidAssets(norm.replace(/\D/g, ""));
                       }}
-                      className="w-full pl-10 pr-2.5 py-2 text-xs rounded-xl border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-950 text-slate-900 dark:text-slate-100 font-mono"
+                      className="w-full pl-10 pr-2.5 py-2 text-xs rounded-xl border border-white/10 bg-[#07080b] text-slate-100 font-mono focus:outline-none focus:ring-2 focus:ring-amber-500/40"
                       dir="ltr"
                     />
-                    <span className="absolute left-2 top-2 text-[10px] text-slate-400 pointer-events-none">
+                    <span className="absolute left-2 top-2 text-[10px] text-slate-500 pointer-events-none">
                       تومان
                     </span>
                   </div>
@@ -357,7 +357,7 @@ export function FinancialOnboardingModal({
 
                 {/* Investment Assets */}
                 <div className="space-y-1">
-                  <label className="text-[11px] font-medium text-slate-600 dark:text-slate-400 flex items-center gap-1">
+                  <label className="text-[11px] font-medium text-slate-400 flex items-center gap-1">
                     <span>سرمایه‌گذاری‌ها (طلا، سهام، رمزارز)</span>
                   </label>
                   <div className="relative">
@@ -369,10 +369,10 @@ export function FinancialOnboardingModal({
                         const norm = normalizeDigitsToEnglish(e.target.value);
                         setInvestmentAssets(norm.replace(/\D/g, ""));
                       }}
-                      className="w-full pl-10 pr-2.5 py-2 text-xs rounded-xl border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-950 text-slate-900 dark:text-slate-100 font-mono"
+                      className="w-full pl-10 pr-2.5 py-2 text-xs rounded-xl border border-white/10 bg-[#07080b] text-slate-100 font-mono focus:outline-none focus:ring-2 focus:ring-amber-500/40"
                       dir="ltr"
                     />
-                    <span className="absolute left-2 top-2 text-[10px] text-slate-400 pointer-events-none">
+                    <span className="absolute left-2 top-2 text-[10px] text-slate-500 pointer-events-none">
                       تومان
                     </span>
                   </div>
@@ -380,7 +380,7 @@ export function FinancialOnboardingModal({
 
                 {/* Total Liabilities */}
                 <div className="space-y-1">
-                  <label className="text-[11px] font-medium text-slate-600 dark:text-slate-400 flex items-center gap-1">
+                  <label className="text-[11px] font-medium text-slate-400 flex items-center gap-1">
                     <span>بدهی‌ها و تعهدات اقساط</span>
                   </label>
                   <div className="relative">
@@ -392,10 +392,10 @@ export function FinancialOnboardingModal({
                         const norm = normalizeDigitsToEnglish(e.target.value);
                         setTotalLiabilities(norm.replace(/\D/g, ""));
                       }}
-                      className="w-full pl-10 pr-2.5 py-2 text-xs rounded-xl border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-950 text-slate-900 dark:text-slate-100 font-mono"
+                      className="w-full pl-10 pr-2.5 py-2 text-xs rounded-xl border border-white/10 bg-[#07080b] text-slate-100 font-mono focus:outline-none focus:ring-2 focus:ring-amber-500/40"
                       dir="ltr"
                     />
-                    <span className="absolute left-2 top-2 text-[10px] text-slate-400 pointer-events-none">
+                    <span className="absolute left-2 top-2 text-[10px] text-slate-500 pointer-events-none">
                       تومان
                     </span>
                   </div>
@@ -405,10 +405,10 @@ export function FinancialOnboardingModal({
 
             {/* Financial Goals Chips */}
             <div className="space-y-2.5">
-              <label className="text-xs font-semibold text-slate-700 dark:text-slate-300 flex items-center gap-1.5">
-                <Target className="h-3.5 w-3.5 text-purple-500" />
+              <label className="text-xs font-semibold text-slate-300 flex items-center gap-1.5">
+                <Target className="h-3.5 w-3.5 text-amber-400" />
                 <span>اهداف مالی و برنامه‌های آتی</span>
-                <span className="text-[11px] text-slate-400 font-normal">
+                <span className="text-[11px] text-slate-500 font-normal">
                   (انتخاب یک یا چند مورد)
                 </span>
               </label>
@@ -420,10 +420,10 @@ export function FinancialOnboardingModal({
                   return (
                     <div
                       key={goal}
-                      className={`inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs font-medium transition-all ${
+                      className={`inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs font-semibold transition-all ${
                         isSelected
-                          ? "bg-purple-600 text-white shadow-sm shadow-purple-600/25"
-                          : "bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300 hover:bg-slate-200 dark:hover:bg-slate-700"
+                          ? "bg-amber-500 text-slate-950 shadow-md shadow-amber-500/20"
+                          : "bg-white/5 border border-white/10 text-slate-300 hover:bg-white/10"
                       }`}
                     >
                       <button
@@ -431,14 +431,14 @@ export function FinancialOnboardingModal({
                         onClick={() => handleToggleGoal(goal)}
                         className="flex items-center gap-1.5 cursor-pointer"
                       >
-                        {isSelected && <CheckCircle2 className="h-3.5 w-3.5 shrink-0" />}
+                        {isSelected && <CheckCircle2 className="h-3.5 w-3.5 shrink-0 text-slate-950" />}
                         <span>{goal}</span>
                         {isCustom && (
                           <span
                             className={`text-[10px] px-1.5 py-0.5 rounded-md font-normal ${
                               isSelected
-                                ? "bg-purple-700/80 text-purple-100"
-                                : "bg-slate-200 dark:bg-slate-700 text-slate-600 dark:text-slate-300"
+                                ? "bg-amber-600 text-slate-950 font-bold"
+                                : "bg-white/10 text-slate-300"
                             }`}
                           >
                             اختصاصی
@@ -453,10 +453,10 @@ export function FinancialOnboardingModal({
                             e.stopPropagation();
                             handleRemoveCustomGoal(goal);
                           }}
-                          className={`p-0.5 rounded-full hover:bg-black/10 dark:hover:bg-white/10 transition-colors cursor-pointer mr-0.5 ${
+                          className={`p-0.5 rounded-full hover:bg-black/20 transition-colors cursor-pointer mr-0.5 ${
                             isSelected
-                              ? "text-purple-100 hover:text-white"
-                              : "text-slate-400 hover:text-slate-600 dark:hover:text-slate-200"
+                              ? "text-slate-950 hover:text-black"
+                              : "text-slate-400 hover:text-slate-200"
                           }`}
                           title="حذف این هدف اختصاصی"
                         >
@@ -481,12 +481,12 @@ export function FinancialOnboardingModal({
                       handleAddCustomGoal();
                     }
                   }}
-                  className="flex-1 px-3 py-1.5 text-xs rounded-xl border border-slate-200 dark:border-slate-700 bg-white/70 dark:bg-slate-950/70 text-slate-900 dark:text-slate-100 focus:outline-none focus:ring-2 focus:ring-purple-500/40"
+                  className="flex-1 px-3 py-2 text-xs rounded-xl border border-white/10 bg-[#07080b] text-slate-100 focus:outline-none focus:ring-2 focus:ring-amber-500/40"
                 />
                 <button
                   type="button"
                   onClick={handleAddCustomGoal}
-                  className="px-3 py-1.5 text-xs font-semibold rounded-xl bg-purple-100 dark:bg-purple-900/40 text-purple-700 dark:text-purple-300 hover:bg-purple-200 transition-colors cursor-pointer"
+                  className="px-3.5 py-2 text-xs font-semibold rounded-xl bg-white/5 hover:bg-white/10 text-amber-400 border border-white/10 transition-colors cursor-pointer"
                 >
                   افزودن
                 </button>
@@ -495,49 +495,49 @@ export function FinancialOnboardingModal({
 
             {/* Benchmark Feedback Display (if queried or calculated) */}
             {benchmarkResult && (
-              <div className="p-4 rounded-2xl border border-sky-200 dark:border-sky-900/50 bg-sky-50/50 dark:bg-sky-950/30 space-y-3 animate-fade-in">
-                <div className="flex items-center justify-between border-b border-sky-100 dark:border-sky-900/40 pb-2">
-                  <span className="text-xs font-bold text-sky-800 dark:text-sky-300 flex items-center gap-1.5">
-                    <Sparkles className="h-4 w-4 text-sky-600" />
+              <div className="p-4 rounded-2xl border border-amber-500/20 bg-amber-500/5 space-y-3 animate-fade-in">
+                <div className="flex items-center justify-between border-b border-amber-500/10 pb-2">
+                  <span className="text-xs font-bold text-amber-400 flex items-center gap-1.5">
+                    <Sparkles className="h-4 w-4 text-amber-400" />
                     <span>تحلیل مقایسه‌ای درآمد شغلی: {benchmarkResult.job_category}</span>
                   </span>
-                  <span className="text-xs font-semibold px-2 py-0.5 rounded-full bg-sky-600/10 text-sky-700 dark:text-sky-300">
+                  <span className="text-xs font-semibold px-2 py-0.5 rounded-full bg-amber-500/10 text-amber-400 border border-amber-500/20">
                     {benchmarkResult.status_fa}
                   </span>
                 </div>
 
                 <div className="grid grid-cols-2 sm:grid-cols-4 gap-2 text-center">
-                  <div className="p-2 rounded-xl bg-white/80 dark:bg-slate-900/80 border border-slate-100 dark:border-slate-800">
-                    <div className="text-[10px] text-slate-500">حقوق شما</div>
-                    <div className="text-xs font-bold text-slate-900 dark:text-slate-100 mt-0.5 font-mono" dir="ltr">
+                  <div className="p-2.5 rounded-xl bg-[#0c0e14] border border-white/10">
+                    <div className="text-[10px] text-slate-400">حقوق شما</div>
+                    <div className="text-xs font-bold text-slate-100 mt-0.5 font-mono" dir="ltr">
                       {Number(benchmarkResult.user_salary_toman).toLocaleString("en-US")}{" "}
-                      <span className="text-[9px] font-sans text-slate-400 font-normal">تومان</span>
+                      <span className="text-[9px] font-sans text-slate-500 font-normal">تومان</span>
                     </div>
                   </div>
 
-                  <div className="p-2 rounded-xl bg-white/80 dark:bg-slate-900/80 border border-slate-100 dark:border-slate-800">
-                    <div className="text-[10px] text-slate-500">میانگین بازار</div>
-                    <div className="text-xs font-bold text-sky-600 dark:text-sky-400 mt-0.5 font-mono" dir="ltr">
+                  <div className="p-2.5 rounded-xl bg-[#0c0e14] border border-white/10">
+                    <div className="text-[10px] text-slate-400">میانگین بازار</div>
+                    <div className="text-xs font-bold text-amber-400 mt-0.5 font-mono" dir="ltr">
                       {Number(benchmarkResult.average_salary_toman).toLocaleString("en-US")}{" "}
-                      <span className="text-[9px] font-sans text-slate-400 font-normal">تومان</span>
+                      <span className="text-[9px] font-sans text-slate-500 font-normal">تومان</span>
                     </div>
                   </div>
 
-                  <div className="p-2 rounded-xl bg-white/80 dark:bg-slate-900/80 border border-slate-100 dark:border-slate-800">
-                    <div className="text-[10px] text-slate-500">بازه متعارف بازار</div>
-                    <div className="text-xs font-bold text-slate-700 dark:text-slate-300 mt-0.5 font-mono" dir="ltr">
+                  <div className="p-2.5 rounded-xl bg-[#0c0e14] border border-white/10">
+                    <div className="text-[10px] text-slate-400">بازه متعارف بازار</div>
+                    <div className="text-xs font-bold text-slate-300 mt-0.5 font-mono" dir="ltr">
                       {Number(benchmarkResult.min_salary_toman).toLocaleString("en-US")} -{" "}
                       {Number(benchmarkResult.max_salary_toman).toLocaleString("en-US")}
                     </div>
                   </div>
 
-                  <div className="p-2 rounded-xl bg-white/80 dark:bg-slate-900/80 border border-slate-100 dark:border-slate-800">
-                    <div className="text-[10px] text-slate-500">نسبت به میانگین</div>
+                  <div className="p-2.5 rounded-xl bg-[#0c0e14] border border-white/10">
+                    <div className="text-[10px] text-slate-400">نسبت به میانگین</div>
                     <div
                       className={`text-xs font-bold mt-0.5 flex items-center justify-center gap-0.5 font-mono ${
                         benchmarkResult.comparison_ratio_percent >= 100
-                          ? "text-emerald-600 dark:text-emerald-400"
-                          : "text-amber-600 dark:text-amber-400"
+                          ? "text-emerald-400"
+                          : "text-amber-400"
                       }`}
                       dir="ltr"
                     >
@@ -551,8 +551,8 @@ export function FinancialOnboardingModal({
                   </div>
                 </div>
 
-                <div className="text-xs text-slate-700 dark:text-slate-300 bg-white/60 dark:bg-slate-900/60 p-2.5 rounded-xl border border-sky-100/50 dark:border-sky-900/30 leading-relaxed">
-                  💡 <span className="font-semibold">پیشنهاد هوشمند:</span>{" "}
+                <div className="text-xs text-slate-300 bg-[#0c0e14] p-2.5 rounded-xl border border-white/10 leading-relaxed">
+                  💡 <span className="font-semibold text-amber-400">پیشنهاد هوشمند:</span>{" "}
                   {benchmarkResult.suggestion_fa}
                 </div>
               </div>
@@ -561,11 +561,11 @@ export function FinancialOnboardingModal({
         </div>
 
         {/* Modal Footer */}
-        <div className="p-4 sm:p-6 border-t border-slate-100 dark:border-slate-800 bg-slate-50/50 dark:bg-slate-900/50 flex flex-col-reverse sm:flex-row items-center justify-between gap-3">
+        <div className="p-4 sm:p-6 border-t border-white/10 bg-[#0c0e14] flex flex-col-reverse sm:flex-row items-center justify-between gap-3">
           <button
             type="button"
             onClick={onClose}
-            className="w-full sm:w-auto px-4 py-2.5 rounded-xl border border-slate-200 dark:border-slate-700 text-xs font-semibold text-slate-600 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors cursor-pointer text-center"
+            className="w-full sm:w-auto px-4 py-2.5 rounded-xl border border-white/10 text-xs font-semibold text-slate-300 hover:bg-white/5 transition-colors cursor-pointer text-center"
           >
             رد کردن (بعداً در پروفایل تکمیل می‌کنم)
           </button>
@@ -574,10 +574,10 @@ export function FinancialOnboardingModal({
             type="submit"
             form="financial-onboarding-form"
             disabled={isSubmitting}
-            className="w-full sm:w-auto px-6 py-2.5 rounded-xl bg-gradient-to-r from-sky-600 to-indigo-600 hover:from-sky-500 hover:to-indigo-500 text-white text-xs font-bold shadow-lg shadow-sky-600/25 active:scale-95 transition-all disabled:opacity-50 flex items-center justify-center gap-2 cursor-pointer"
+            className="w-full sm:w-auto px-6 py-2.5 rounded-xl bg-amber-500 hover:bg-amber-400 text-slate-950 text-xs font-bold shadow-lg shadow-amber-500/20 active:scale-95 transition-all disabled:opacity-50 flex items-center justify-center gap-2 cursor-pointer"
           >
             {isSubmitting ? (
-              <div className="h-4 w-4 border-2 border-white border-t-transparent rounded-full animate-spin" />
+              <div className="h-4 w-4 border-2 border-slate-950 border-t-transparent rounded-full animate-spin" />
             ) : (
               <>
                 <span>ثبت و ادامه به سنجش ریسک‌پذیری</span>

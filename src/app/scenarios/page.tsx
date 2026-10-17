@@ -2,7 +2,7 @@
 
 import React, { useState } from "react";
 import { useMutation } from "@tanstack/react-query";
-import { SlidersHorizontal, Play } from "lucide-react";
+import { SlidersHorizontal, Play, Sparkles, TrendingUp, Wallet, CreditCard } from "lucide-react";
 import {
   AreaChart,
   Area,
@@ -10,6 +10,7 @@ import {
   YAxis,
   Tooltip,
   ResponsiveContainer,
+  CartesianGrid,
 } from "recharts";
 import { api } from "@/lib/api";
 import { ScenarioSimulationResponse } from "@/types/financial";
@@ -73,12 +74,18 @@ export default function ScenariosPage() {
 
   return (
     <div className="space-y-6">
-      <div className="flex items-center justify-between">
+      {/* Page Header */}
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
         <div>
-          <h2 className="text-base font-bold text-slate-900 dark:text-slate-100">
-            موتور شبیه‌سازی سناریوهای مالی (What-If)
-          </h2>
-          <p className="text-xs text-slate-500 dark:text-slate-400">
+          <div className="flex items-center gap-2.5">
+            <div className="h-9 w-9 rounded-[12px] bg-[#1B1D21] border border-[#282A2F] text-[#F0AE55] flex items-center justify-center">
+              <SlidersHorizontal className="h-4 w-4" />
+            </div>
+            <h2 className="text-base font-semibold text-[#E8E8E8] tracking-tight">
+              موتور شبیه‌سازی سناریوهای مالی (What-If)
+            </h2>
+          </div>
+          <p className="text-xs text-[#9A9DA5] mt-1.5 pr-11">
             شبیه‌سازی تغییرات زندگی، تسهیلات جدید، ارتقای درآمد و بازدهی دارایی‌ها با محاسبات قطعی ریاضی
           </p>
         </div>
@@ -86,26 +93,26 @@ export default function ScenariosPage() {
         <button
           onClick={() => simulateMutation.mutate()}
           disabled={simulateMutation.isPending}
-          className="flex items-center gap-1.5 px-4 py-2 rounded-lg bg-sky-600 hover:bg-sky-500 text-white text-xs font-semibold shadow-sm transition-all active:scale-95 disabled:opacity-50"
+          className="inline-flex items-center justify-center gap-2 px-4 py-2 rounded-[12px] bg-[#F0AE55] hover:bg-[#F0AE55]/90 text-[#0D0E10] text-xs font-medium transition-colors active:scale-95 disabled:opacity-50 cursor-pointer"
         >
-          <Play className="h-3.5 w-3.5 fill-current" />
+          <Play className="h-4 w-4 fill-current" />
           <span>{simulateMutation.isPending ? "در حال محاسبه..." : "اجرای شبیه‌سازی"}</span>
         </button>
       </div>
 
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
         {/* Scenario Parameter Controls */}
-        <div className="fin-card p-5 space-y-4">
-          <h3 className="text-sm font-bold text-slate-900 dark:text-slate-100 flex items-center gap-2">
-            <SlidersHorizontal className="h-4 w-4 text-sky-500" />
+        <div className="bg-[#141518] border border-[#282A2F] rounded-[22px] p-6 space-y-5">
+          <h3 className="text-sm font-semibold text-[#E8E8E8] flex items-center gap-2">
+            <Sparkles className="h-4 w-4 text-[#F0AE55]" />
             <span>پارامترهای ورودی سناریو</span>
           </h3>
 
-          <div className="space-y-3.5 text-xs">
+          <div className="space-y-4 text-xs">
             <div>
-              <div className="flex justify-between font-medium text-slate-700 dark:text-slate-300 mb-1">
+              <div className="flex justify-between font-medium text-[#9A9DA5] mb-1.5">
                 <span>افق زمانی شبیه‌سازی</span>
-                <span className="font-bold text-sky-500 font-mono">
+                <span className="font-semibold text-[#F0AE55] font-mono">
                   {horizonMonths} ماه ({Math.round(horizonMonths / 12)} سال)
                 </span>
               </div>
@@ -116,12 +123,12 @@ export default function ScenariosPage() {
                 step="6"
                 value={horizonMonths}
                 onChange={(e) => setHorizonMonths(parseInt(e.target.value))}
-                className="w-full accent-sky-500 cursor-pointer"
+                className="w-full accent-[#F0AE55] cursor-pointer h-2 bg-[#1B1D21] border border-[#282A2F] rounded-lg"
               />
             </div>
 
             <div>
-              <label className="block font-medium text-slate-700 dark:text-slate-300 mb-1">
+              <label className="block font-medium text-[#9A9DA5] mb-1.5">
                 تغییر در درآمد ماهانه (تومان)
               </label>
               <input
@@ -129,12 +136,12 @@ export default function ScenariosPage() {
                 placeholder="+10000000 یا -5000000"
                 value={incomeDelta}
                 onChange={(e) => setIncomeDelta(e.target.value)}
-                className="w-full px-3 py-1.5 rounded-lg border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-800 text-slate-900 dark:text-slate-100 font-semibold font-mono"
+                className="w-full px-3 py-2 rounded-[12px] border border-[#282A2F] bg-[#1B1D21] text-[#E8E8E8] placeholder:text-[#696D77] font-medium font-mono focus:outline-none focus:border-[#F0AE55] focus:ring-1 focus:ring-[#F0AE55]/30 transition-colors"
               />
             </div>
 
             <div>
-              <label className="block font-medium text-slate-700 dark:text-slate-300 mb-1">
+              <label className="block font-medium text-[#9A9DA5] mb-1.5">
                 تغییر در هزینه ماهانه (تومان)
               </label>
               <input
@@ -142,12 +149,12 @@ export default function ScenariosPage() {
                 placeholder="-3000000 یا +4000000"
                 value={expenseDelta}
                 onChange={(e) => setExpenseDelta(e.target.value)}
-                className="w-full px-3 py-1.5 rounded-lg border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-800 text-slate-900 dark:text-slate-100 font-semibold font-mono"
+                className="w-full px-3 py-2 rounded-[12px] border border-[#282A2F] bg-[#1B1D21] text-[#E8E8E8] placeholder:text-[#696D77] font-medium font-mono focus:outline-none focus:border-[#F0AE55] focus:ring-1 focus:ring-[#F0AE55]/30 transition-colors"
               />
             </div>
 
             <div>
-              <label className="block font-medium text-slate-700 dark:text-slate-300 mb-1">
+              <label className="block font-medium text-[#9A9DA5] mb-1.5">
                 بازدهی سالانه فرضی پورتفوی (%)
               </label>
               <input
@@ -156,18 +163,18 @@ export default function ScenariosPage() {
                 placeholder="25.0"
                 value={growthRate}
                 onChange={(e) => setGrowthRate(e.target.value)}
-                className="w-full px-3 py-1.5 rounded-lg border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-800 text-slate-900 dark:text-slate-100 font-semibold font-mono"
+                className="w-full px-3 py-2 rounded-[12px] border border-[#282A2F] bg-[#1B1D21] text-[#E8E8E8] placeholder:text-[#696D77] font-medium font-mono focus:outline-none focus:border-[#F0AE55] focus:ring-1 focus:ring-[#F0AE55]/30 transition-colors"
               />
             </div>
 
-            <div className="pt-2 border-t border-slate-100 dark:border-slate-800">
-              <span className="block font-semibold text-slate-800 dark:text-slate-200 mb-2">
+            <div className="pt-3 border-t border-[#282A2F]">
+              <span className="block font-medium text-[#E8E8E8] mb-2.5">
                 شبیه‌سازی وام و بدهی جدید
               </span>
 
               <div className="grid grid-cols-3 gap-2">
                 <div>
-                  <label className="block font-medium text-slate-500 text-[11px] mb-1">
+                  <label className="block font-medium text-[#9A9DA5] text-[11px] mb-1">
                     اصل وام (تومان)
                   </label>
                   <input
@@ -175,11 +182,11 @@ export default function ScenariosPage() {
                     placeholder="0"
                     value={newLoanAmount}
                     onChange={(e) => setNewLoanAmount(e.target.value)}
-                    className="w-full px-2.5 py-1.5 rounded-lg border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-800 text-slate-900 dark:text-slate-100 font-mono"
+                    className="w-full px-2.5 py-1.5 rounded-[8px] border border-[#282A2F] bg-[#1B1D21] text-[#E8E8E8] font-mono text-xs focus:outline-none focus:border-[#F0AE55]"
                   />
                 </div>
                 <div>
-                  <label className="block font-medium text-slate-500 text-[11px] mb-1">
+                  <label className="block font-medium text-[#9A9DA5] text-[11px] mb-1">
                     نرخ سود (%)
                   </label>
                   <input
@@ -188,11 +195,11 @@ export default function ScenariosPage() {
                     placeholder="18.0"
                     value={newLoanRate}
                     onChange={(e) => setNewLoanRate(e.target.value)}
-                    className="w-full px-2.5 py-1.5 rounded-lg border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-800 text-slate-900 dark:text-slate-100 font-mono"
+                    className="w-full px-2.5 py-1.5 rounded-[8px] border border-[#282A2F] bg-[#1B1D21] text-[#E8E8E8] font-mono text-xs focus:outline-none focus:border-[#F0AE55]"
                   />
                 </div>
                 <div>
-                  <label className="block font-medium text-slate-500 text-[11px] mb-1">
+                  <label className="block font-medium text-[#9A9DA5] text-[11px] mb-1">
                     مدت (ماه)
                   </label>
                   <input
@@ -200,14 +207,14 @@ export default function ScenariosPage() {
                     placeholder="24"
                     value={newLoanTerm}
                     onChange={(e) => setNewLoanTerm(parseInt(e.target.value) || 12)}
-                    className="w-full px-2.5 py-1.5 rounded-lg border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-800 text-slate-900 dark:text-slate-100 font-mono"
+                    className="w-full px-2.5 py-1.5 rounded-[8px] border border-[#282A2F] bg-[#1B1D21] text-[#E8E8E8] font-mono text-xs focus:outline-none focus:border-[#F0AE55]"
                   />
                 </div>
               </div>
             </div>
 
             <div>
-              <label className="block font-medium text-slate-700 dark:text-slate-300 mb-1">
+              <label className="block font-medium text-[#9A9DA5] mb-1.5">
                 دریافت وجه نقد غیرمنتظره / پاداش (تومان یک‌باره)
               </label>
               <input
@@ -215,7 +222,7 @@ export default function ScenariosPage() {
                 placeholder="مثلاً 50000000"
                 value={windfall}
                 onChange={(e) => setWindfall(e.target.value)}
-                className="w-full px-3 py-1.5 rounded-lg border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-800 text-slate-900 dark:text-slate-100 font-mono"
+                className="w-full px-3 py-2 rounded-[12px] border border-[#282A2F] bg-[#1B1D21] text-[#E8E8E8] placeholder:text-[#696D77] font-mono focus:outline-none focus:border-[#F0AE55] transition-colors"
               />
             </div>
           </div>
@@ -226,38 +233,38 @@ export default function ScenariosPage() {
           {/* Key Simulation Deltas */}
           {result && (
             <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
-              <div className="fin-card p-4 border-s-4 border-s-sky-500">
-                <span className="text-[11px] font-semibold text-slate-500 uppercase">
+              <div className="bg-[#141518] border border-[#282A2F] rounded-[18px] p-4">
+                <span className="text-[11px] font-medium text-[#9A9DA5]">
                   پیش‌بینی ارزش خالص نهایی
                 </span>
-                <div className="text-xl font-bold text-slate-900 dark:text-slate-100 mt-1 font-mono">
+                <div className="text-lg font-semibold text-[#E8E8E8] mt-1 font-mono">
                   {formatMoney(result.final_projected_net_worth)}
                 </div>
-                <span className="text-[11px] text-emerald-600 dark:text-emerald-400 font-semibold block mt-0.5 font-mono">
+                <span className="text-[11px] text-[#76A98C] font-medium block mt-0.5 font-mono">
                   +{formatMoney(result.net_worth_delta)} تغییر خالص
                 </span>
               </div>
 
-              <div className="fin-card p-4 border-s-4 border-s-emerald-500">
-                <span className="text-[11px] font-semibold text-slate-500 uppercase">
+              <div className="bg-[#141518] border border-[#282A2F] rounded-[18px] p-4">
+                <span className="text-[11px] font-medium text-[#9A9DA5]">
                   جریان نقدینگی ماهانه جدید
                 </span>
-                <div className="text-xl font-bold text-slate-900 dark:text-slate-100 mt-1 font-mono">
+                <div className="text-lg font-semibold text-[#E8E8E8] mt-1 font-mono">
                   {formatMoney(result.new_monthly_cashflow)}
                 </div>
-                <span className="text-[11px] text-slate-400 block mt-0.5 font-mono">
+                <span className="text-[11px] text-[#9A9DA5] block mt-0.5 font-mono">
                   در برابر {formatMoney(result.baseline_monthly_cashflow)} پایه فعلی
                 </span>
               </div>
 
-              <div className="fin-card p-4 border-s-4 border-s-rose-500">
-                <span className="text-[11px] font-semibold text-slate-500 uppercase">
+              <div className="bg-[#141518] border border-[#282A2F] rounded-[18px] p-4">
+                <span className="text-[11px] font-medium text-[#9A9DA5]">
                   قسط وام جدید ماهانه
                 </span>
-                <div className="text-xl font-bold text-rose-600 dark:text-rose-400 mt-1 font-mono">
+                <div className="text-lg font-semibold text-[#C77A82] mt-1 font-mono">
                   {formatMoney(result.new_loan_monthly_payment)}
                 </div>
-                <span className="text-[11px] text-slate-400 block mt-0.5">
+                <span className="text-[11px] text-[#9A9DA5] block mt-0.5">
                   تعهد بازپرداخت افزوده به اقساط
                 </span>
               </div>
@@ -265,11 +272,12 @@ export default function ScenariosPage() {
           )}
 
           {/* Trajectory Area Chart */}
-          <div className="fin-card p-5 h-[340px]">
-            <h4 className="text-sm font-bold text-slate-900 dark:text-slate-100 mb-1">
-              مسیر رشد دارایی در افق {horizonMonths} ماهه
+          <div className="bg-[#141518] border border-[#282A2F] rounded-[22px] p-6 h-[360px]">
+            <h4 className="text-sm font-semibold text-[#E8E8E8] mb-1 flex items-center gap-2">
+              <TrendingUp className="h-4 w-4 text-[#F0AE55]" />
+              <span>مسیر رشد دارایی در افق {horizonMonths} ماهه</span>
             </h4>
-            <p className="text-xs text-slate-500 dark:text-slate-400 mb-3">
+            <p className="text-xs text-[#9A9DA5] mb-3">
               محاسبه قطعی بهره مرکب ریاضی بر مبنای پارامترهای انتخابی شما
             </p>
 
@@ -278,13 +286,19 @@ export default function ScenariosPage() {
                 <AreaChart data={chartData} margin={{ top: 10, right: 10, left: 10, bottom: 0 }}>
                   <defs>
                     <linearGradient id="projGrad" x1="0" y1="0" x2="0" y2="1">
-                      <stop offset="5%" stopColor="#6366f1" stopOpacity={0.4} />
-                      <stop offset="95%" stopColor="#6366f1" stopOpacity={0.0} />
+                      <stop offset="5%" stopColor="#F0AE55" stopOpacity={0.15} />
+                      <stop offset="95%" stopColor="#F0AE55" stopOpacity={0.0} />
                     </linearGradient>
                   </defs>
-                  <XAxis dataKey="month" stroke="#64748b" fontSize={11} tickLine={false} />
+                  <CartesianGrid
+                    strokeDasharray="3 3"
+                    stroke="#282A2F"
+                    opacity={0.5}
+                    vertical={false}
+                  />
+                  <XAxis dataKey="month" stroke="#696D77" fontSize={11} tickLine={false} />
                   <YAxis
-                    stroke="#64748b"
+                    stroke="#696D77"
                     fontSize={11}
                     tickLine={false}
                     axisLine={false}
@@ -300,19 +314,20 @@ export default function ScenariosPage() {
                       "ارزش خالص پیش‌بینی‌شده",
                     ]}
                     contentStyle={{
-                      backgroundColor: "#0f172a",
-                      borderColor: "#334155",
-                      borderRadius: "0.75rem",
+                      backgroundColor: "#141518",
+                      borderColor: "#282A2F",
+                      borderRadius: "14px",
                       fontSize: "12px",
-                      color: "#fff",
+                      color: "#E8E8E8",
                       direction: "rtl",
+                      boxShadow: "0 10px 25px -5px rgba(0, 0, 0, 0.4)",
                     }}
                   />
                   <Area
                     type="monotone"
                     dataKey="netWorth"
-                    stroke="#6366f1"
-                    strokeWidth={2.5}
+                    stroke="#F0AE55"
+                    strokeWidth={2}
                     fill="url(#projGrad)"
                   />
                 </AreaChart>

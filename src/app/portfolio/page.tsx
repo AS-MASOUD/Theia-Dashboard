@@ -154,44 +154,63 @@ export default function PortfolioPage() {
     <div className="space-y-6">
       {/* Portfolio Summary Metrics */}
       <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-        <div className="fin-card p-5 border-s-4 border-s-sky-500">
-          <span className="text-xs font-semibold text-slate-500 uppercase tracking-wider">
-            ارزش کل دارایی‌ها
-          </span>
-          <div className="text-2xl font-bold text-slate-900 dark:text-slate-100 mt-2 font-mono">
+        <div className="bg-[#141518] p-5 rounded-[22px] border border-[#282A2F] relative overflow-hidden transition-colors">
+          <div className="flex items-center justify-between relative z-10">
+            <span className="text-xs font-medium text-[#9A9DA5]">
+              ارزش کل پورتفوی
+            </span>
+            <div className="flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-[#1B1D21] border border-[#282A2F]">
+              <span className="w-1.5 h-1.5 rounded-full bg-[#F0AE55]" />
+              <span className="text-[10px] font-medium text-[#9A9DA5]">دارایی‌ها</span>
+            </div>
+          </div>
+          <div className="text-2xl font-semibold text-[#E8E8E8] mt-3 font-number relative z-10" dir="ltr">
             {formatMoney(totalPortfolioValue)}
           </div>
-          <span className="text-xs text-slate-400 mt-1 block">
+          <span className="text-xs text-[#9A9DA5] mt-1 block relative z-10">
             در {positions?.length || 0} موقعیت فعال سرمایه‌گذاری
           </span>
         </div>
 
-        <div className="fin-card p-5 border-s-4 border-s-emerald-500">
-          <span className="text-xs font-semibold text-slate-500 uppercase tracking-wider">
-            کل سود / زیان تحقق‌نیافته
-          </span>
+        <div className="bg-[#141518] p-5 rounded-[22px] border border-[#282A2F] relative overflow-hidden transition-colors">
+          <div className="flex items-center justify-between relative z-10">
+            <span className="text-xs font-medium text-[#9A9DA5]">
+              کل سود / زیان تحقق‌نیافته
+            </span>
+            <div className="flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-[#1B1D21] border border-[#282A2F]">
+              <span className={`w-1.5 h-1.5 rounded-full ${totalUnrealizedGain >= 0 ? "bg-[#76A98C]" : "bg-[#C77A82]"}`} />
+              <span className="text-[10px] font-medium text-[#9A9DA5]">PnL دفتری</span>
+            </div>
+          </div>
           <div
-            className={`text-2xl font-bold mt-2 font-mono ${
+            className={`text-2xl font-semibold mt-3 font-number relative z-10 ${
               totalUnrealizedGain >= 0
-                ? "text-emerald-600 dark:text-emerald-400"
-                : "text-rose-600 dark:text-rose-400"
+                ? "text-[#76A98C]"
+                : "text-[#C77A82]"
             }`}
+            dir="ltr"
           >
             {formatMoney(totalUnrealizedGain)}
           </div>
-          <span className="text-xs text-slate-400 mt-1 block">
+          <span className="text-xs text-[#9A9DA5] mt-1 block relative z-10">
             سود/زیان دفتری خالص نسبت به بهای تمام‌شده
           </span>
         </div>
 
-        <div className="fin-card p-5 border-s-4 border-s-indigo-500">
-          <span className="text-xs font-semibold text-slate-500 uppercase tracking-wider">
-            بیشترین تمرکز دارایی
-          </span>
-          <div className="text-2xl font-bold text-slate-900 dark:text-slate-100 mt-2 font-mono">
+        <div className="bg-[#141518] p-5 rounded-[22px] border border-[#282A2F] relative overflow-hidden transition-colors">
+          <div className="flex items-center justify-between relative z-10">
+            <span className="text-xs font-medium text-[#9A9DA5]">
+              بیشترین تمرکز دارایی
+            </span>
+            <div className="flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-[#1B1D21] border border-[#282A2F]">
+              <span className="w-1.5 h-1.5 rounded-full bg-[#88A9BC]" />
+              <span className="text-[10px] font-medium text-[#9A9DA5]">تمرکز سبد</span>
+            </div>
+          </div>
+          <div className="text-2xl font-semibold text-[#E8E8E8] mt-3 font-number relative z-10" dir="ltr">
             {positions && positions[0] ? positions[0].asset_symbol : "—"}
           </div>
-          <span className="text-xs text-slate-400 mt-1 block">
+          <span className="text-xs text-[#9A9DA5] mt-1 block relative z-10">
             {positions && positions[0]
               ? `${(
                   (parseFloat(positions[0].current_value) / (totalPortfolioValue || 1)) *
@@ -204,19 +223,19 @@ export default function PortfolioPage() {
 
       {/* Portfolio Risk Limitation Exceedance Warning Banner */}
       {compliance.hasExceededCategory && (
-        <div className="rounded-2xl bg-amber-500/5 dark:bg-amber-950/10 border border-amber-500/20 p-4 shadow-xs flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 animate-fade-in">
+        <div className="bg-[#141518] p-5 rounded-[22px] border border-[#282A2F] flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
           <div className="flex items-start gap-3">
-            <div className="p-2 rounded-xl bg-amber-500/10 text-amber-600 dark:text-amber-400 shrink-0 mt-0.5">
-              <AlertTriangle className="h-5 w-5 text-amber-500" />
+            <div className="p-2.5 rounded-[14px] bg-[#1B1D21] border border-[#282A2F] text-[#F0AE55] shrink-0">
+              <AlertTriangle className="h-5 w-5 text-[#F0AE55]" />
             </div>
             <div>
-              <h4 className="text-xs sm:text-sm font-bold text-slate-800 dark:text-slate-200 flex items-center gap-2">
+              <h4 className="text-xs sm:text-sm font-semibold text-[#E8E8E8] flex items-center gap-2">
                 <span>هشدار عدم انطباق پورتفوی با سقف ریسک تعیین‌شده</span>
               </h4>
-              <p className="text-[11px] sm:text-xs text-slate-600 dark:text-slate-400 mt-1 leading-relaxed">
-                برخی از طبقات دارایی پورتفوی شما از سقف درصد مجاز تعریف‌شده توسط شما فراتر رفته‌اند:{" "}
+              <p className="text-[11px] sm:text-xs text-[#9A9DA5] mt-1 leading-relaxed">
+                برخی از طبقات دارایی پورتفوی شما از سقف درصد مجاز فراتر رفته‌اند:{" "}
                 {compliance.exceededItems.map((item) => (
-                  <span key={item.key} className="inline-block font-bold text-amber-700 dark:text-amber-300 ms-1 font-mono">
+                  <span key={item.key} className="inline-block font-medium text-[#F0AE55] ms-1 font-number">
                     «{item.label}» ({item.actualPercent.toFixed(1)}٪ سهم فعلی | سقف: {item.targetPercent}٪ | +{item.excessPercent.toFixed(1)}٪ تخطی)
                   </span>
                 ))}
@@ -225,9 +244,9 @@ export default function PortfolioPage() {
           </div>
           <button
             onClick={() => setShowCustomAllocModal(true)}
-            className="px-3.5 py-2 rounded-xl bg-slate-900 dark:bg-slate-800 hover:bg-slate-800 dark:hover:bg-slate-700 text-white text-xs font-bold shadow-xs whitespace-nowrap cursor-pointer transition-all shrink-0 flex items-center gap-1.5"
+            className="px-4 py-2.5 rounded-[12px] bg-[#F0AE55] hover:bg-[#F5BA6E] text-[#0D0E10] text-xs font-medium whitespace-nowrap cursor-pointer transition-colors shrink-0 flex items-center gap-1.5"
           >
-            <Scale className="h-3.5 w-3.5" />
+            <Scale className="h-4 w-4 stroke-[2]" />
             <span>تنظیم / اصلاح سقف تخصیص</span>
           </button>
         </div>
@@ -235,7 +254,7 @@ export default function PortfolioPage() {
 
       {/* Asset Class Filter Tabs */}
       <div className="flex flex-wrap items-center justify-between gap-3">
-        <div className="flex items-center gap-1.5 bg-slate-100 dark:bg-slate-800 p-1 rounded-lg text-xs font-semibold">
+        <div className="flex items-center gap-1.5 bg-[#1B1D21] p-1.5 rounded-xl border border-[#282A2F] text-xs font-medium">
           {filterTabs.map((cls) => {
             const matchedCat = compliance.items.find(
               (i) =>
@@ -248,14 +267,14 @@ export default function PortfolioPage() {
               <button
                 key={cls}
                 onClick={() => setSelectedClass(cls)}
-                className={`px-3 py-1.5 rounded-md transition-all flex items-center gap-1.5 ${
+                className={`px-3.5 py-1.5 rounded-lg transition-colors flex items-center gap-1.5 text-xs font-medium cursor-pointer ${
                   selectedClass === cls
-                    ? "bg-white dark:bg-slate-900 text-slate-900 dark:text-slate-100 shadow-xs font-semibold"
-                    : "text-slate-500 hover:text-slate-900 dark:hover:text-slate-200"
+                    ? "bg-[rgba(240,174,85,0.12)] border border-[rgba(240,174,85,0.30)] text-[#F0AE55]"
+                    : "text-[#9A9DA5] hover:text-[#E8E8E8]"
                 }`}
               >
                 <span>{CLASS_LABELS[cls] || cls}</span>
-                {isExceeded && <AlertTriangle className="h-3.5 w-3.5 text-amber-500 shrink-0" />}
+                {isExceeded && <AlertTriangle className="h-3.5 w-3.5 text-[#F0AE55] shrink-0" />}
               </button>
             );
           })}
@@ -263,7 +282,7 @@ export default function PortfolioPage() {
 
         <button
           onClick={() => setShowCustomAllocModal(true)}
-          className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg border border-purple-500/30 bg-purple-500/10 text-purple-600 dark:text-purple-400 hover:bg-purple-500/20 text-xs font-bold transition-all cursor-pointer"
+          className="flex items-center gap-1.5 px-3.5 py-2 rounded-xl border border-[#282A2F] bg-[#1B1D21] text-[#F0AE55] hover:border-[#F0AE55]/40 text-xs font-medium transition-colors cursor-pointer"
         >
           <Scale className="h-3.5 w-3.5" />
           <span>تنظیم درصد تخصیص هدف پورتفوی</span>
@@ -271,12 +290,12 @@ export default function PortfolioPage() {
       </div>
 
       {/* Detailed Holdings Table */}
-      <div className="fin-card overflow-hidden">
-        <div className="px-6 py-4 border-b border-slate-200 dark:border-slate-800 flex items-center justify-between">
-          <h3 className="text-sm font-bold text-slate-900 dark:text-slate-100">
+      <div className="bg-[#141518] rounded-[22px] overflow-hidden border border-[#282A2F]">
+        <div className="px-6 py-4 border-b border-[#282A2F] flex items-center justify-between">
+          <h3 className="text-sm font-semibold text-[#E8E8E8]">
             ترکیب و عملکرد دارایی‌های پورتفوی
           </h3>
-          <span className="text-xs text-slate-400">
+          <span className="text-xs text-[#9A9DA5]">
             ارزش‌گذاری بر مبنای نرخ‌های لحظه‌ای بازار
           </span>
         </div>
@@ -284,31 +303,31 @@ export default function PortfolioPage() {
         <div className="overflow-x-auto">
           {filteredPositions.length === 0 ? (
             <div className="flex flex-col items-center justify-center py-20 text-center">
-              <BarChart3 className="h-12 w-12 text-slate-300 dark:text-slate-600 mb-4" />
-              <p className="text-sm font-semibold text-slate-500 dark:text-slate-400">
+              <BarChart3 className="h-12 w-12 text-[#696D77] mb-4" />
+              <p className="text-sm font-medium text-[#9A9DA5]">
                 {selectedClass === "ALL"
                   ? "هنوز هیچ دارایی ثبت نشده است"
                   : `هیچ دارایی در دسته «${CLASS_LABELS[selectedClass]}» وجود ندارد`}
               </p>
-              <p className="text-xs text-slate-400 dark:text-slate-500 mt-1">
+              <p className="text-xs text-[#696D77] mt-1">
                 برای افزودن اولین دارایی، از تب «تراکنش‌ها» اقدام کنید
               </p>
             </div>
           ) : (
             <table className="w-full text-start text-xs">
-              <thead className="bg-slate-50 dark:bg-slate-900/60 text-slate-500 uppercase tracking-wider border-b border-slate-200 dark:border-slate-800">
+              <thead className="bg-[#101114] text-[#9A9DA5] uppercase tracking-wider border-b border-[#282A2F]">
                 <tr>
-                  <th className="py-3 px-6 font-semibold text-start">دارایی / نماد</th>
-                  <th className="py-3 px-4 font-semibold text-start">دسته‌بندی</th>
-                  <th className="py-3 px-4 font-semibold text-end">تعداد / موجودی</th>
-                  <th className="py-3 px-4 font-semibold text-end">قیمت لحظه‌ای</th>
-                  <th className="py-3 px-4 font-semibold text-end">میانگین بهای خرید</th>
-                  <th className="py-3 px-4 font-semibold text-end">ارزش روز</th>
-                  <th className="py-3 px-6 font-semibold text-end">سود / زیان دفتری</th>
-                  <th className="py-3 px-4 font-semibold text-center">عملیات</th>
+                  <th className="py-3 px-6 font-medium text-start">دارایی / نماد</th>
+                  <th className="py-3 px-4 font-medium text-start">دسته‌بندی</th>
+                  <th className="py-3 px-4 font-medium text-end">تعداد / موجودی</th>
+                  <th className="py-3 px-4 font-medium text-end">قیمت لحظه‌ای</th>
+                  <th className="py-3 px-4 font-medium text-end">میانگین بهای خرید</th>
+                  <th className="py-3 px-4 font-medium text-end">ارزش روز</th>
+                  <th className="py-3 px-6 font-medium text-end">سود / زیان دفتری</th>
+                  <th className="py-3 px-4 font-medium text-center">عملیات</th>
                 </tr>
               </thead>
-              <tbody className="divide-y divide-slate-100 dark:divide-slate-800/60">
+              <tbody className="divide-y divide-[#282A2F]/40">
                 {filteredPositions.map((pos) => {
                   const pnl = parseFloat(pos.unrealized_pnl);
                   const pnlPct = parseFloat(pos.unrealized_pnl_percent);
@@ -324,18 +343,18 @@ export default function PortfolioPage() {
                   return (
                     <tr
                       key={pos.id}
-                      className="hover:bg-slate-50/50 dark:hover:bg-slate-800/30 transition-colors"
+                      className="hover:bg-[#1B1D21]/50 transition-colors"
                     >
                       <td className="py-3.5 px-6">
                         <div className="flex items-center gap-3">
-                          <div className="h-8 w-8 rounded-lg bg-indigo-50 dark:bg-indigo-950/40 text-indigo-600 dark:text-indigo-400 font-bold flex items-center justify-center text-xs shrink-0 font-mono">
+                          <div className="h-8 w-8 rounded-[10px] bg-[#1B1D21] border border-[#282A2F] text-[#F0AE55] font-semibold flex items-center justify-center text-xs shrink-0 font-mono">
                             {pos.asset_symbol.slice(0, 3)}
                           </div>
                           <div>
-                            <span className="font-bold text-slate-900 dark:text-slate-100 block font-mono">
+                            <span className="font-semibold text-[#E8E8E8] block font-mono">
                               {pos.asset_symbol}
                             </span>
-                            <span className="text-[11px] text-slate-400">
+                            <span className="text-[11px] text-[#9A9DA5]">
                               {pos.asset_name}
                             </span>
                           </div>
@@ -344,45 +363,45 @@ export default function PortfolioPage() {
 
                       <td className="py-3.5 px-4 text-start">
                         <div className="flex items-center gap-1.5">
-                          <span className="px-2 py-0.5 rounded-full text-[10px] font-semibold bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300">
+                          <span className="px-2 py-0.5 rounded-full text-[10px] font-medium bg-[#1B1D21] border border-[#282A2F] text-[#9A9DA5]">
                             {CLASS_LABELS[pos.asset_class.toUpperCase()] || pos.asset_class}
                           </span>
                           {isPosExceeded && (
                             <span
-                              className="text-[10px] font-semibold text-amber-600 dark:text-amber-400 flex items-center gap-0.5"
+                              className="text-[10px] font-medium text-[#F0AE55] flex items-center gap-0.5"
                               title="تخطی از سقف درصد مجاز ریسک تعیین شده کاربر"
                             >
-                              <AlertTriangle className="h-3.5 w-3.5 text-amber-500 shrink-0" />
+                              <AlertTriangle className="h-3.5 w-3.5 text-[#F0AE55] shrink-0" />
                               <span>تخطی ریسک</span>
                             </span>
                           )}
                         </div>
                       </td>
 
-                      <td className="py-3.5 px-4 text-end font-medium text-slate-800 dark:text-slate-200 font-mono">
+                      <td className="py-3.5 px-4 text-end font-medium text-[#E8E8E8] font-mono">
                         {parseFloat(pos.quantity).toLocaleString("en-US", {
                           maximumFractionDigits: 6,
                         })}
                       </td>
 
-                      <td className="py-3.5 px-4 text-end font-medium text-slate-800 dark:text-slate-200 font-mono">
+                      <td className="py-3.5 px-4 text-end font-medium text-[#E8E8E8] font-mono">
                         {formatMoney(pos.current_price)}
                       </td>
 
-                      <td className="py-3.5 px-4 text-end text-slate-500 font-mono">
+                      <td className="py-3.5 px-4 text-end text-[#9A9DA5] font-mono">
                         {formatMoney(pos.average_cost_basis)}
                       </td>
 
-                      <td className="py-3.5 px-4 text-end font-bold text-slate-900 dark:text-slate-100 font-mono">
+                      <td className="py-3.5 px-4 text-end font-semibold text-[#E8E8E8] font-mono">
                         {formatMoney(pos.current_value)}
                       </td>
 
                       <td className="py-3.5 px-6 text-end">
                         <div
-                          className={`inline-flex items-center gap-1 font-semibold font-mono ${
+                          className={`inline-flex items-center gap-1 font-medium font-mono ${
                             isPositive
-                              ? "text-emerald-600 dark:text-emerald-400"
-                              : "text-rose-600 dark:text-rose-400"
+                              ? "text-[#76A98C]"
+                              : "text-[#C77A82]"
                           }`}
                         >
                           {isPositive ? (
@@ -400,7 +419,7 @@ export default function PortfolioPage() {
                           {/* Edit Position */}
                           <button
                             onClick={() => handleOpenEdit(pos)}
-                            className="p-1.5 rounded-lg text-slate-400 hover:text-sky-600 hover:bg-sky-50 dark:hover:bg-sky-950/30 transition-colors cursor-pointer"
+                            className="p-1.5 rounded-lg text-[#9A9DA5] hover:text-[#F0AE55] hover:bg-[#1B1D21] transition-colors cursor-pointer"
                             title="ویرایش تعداد یا میانگین بهای خرید"
                           >
                             <Edit2 className="h-3.5 w-3.5" />
@@ -418,7 +437,7 @@ export default function PortfolioPage() {
                               }
                             }}
                             disabled={deleteMutation.isPending}
-                            className="p-1.5 rounded-lg text-slate-400 hover:text-rose-500 hover:bg-rose-50 dark:hover:bg-rose-950/30 transition-colors cursor-pointer disabled:opacity-50"
+                            className="p-1.5 rounded-lg text-[#9A9DA5] hover:text-[#C77A82] hover:bg-[#C77A82]/10 transition-colors cursor-pointer disabled:opacity-50"
                             title="حذف موقعیت از پورتفوی"
                           >
                             <Trash2 className="h-3.5 w-3.5" />

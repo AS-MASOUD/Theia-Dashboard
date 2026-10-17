@@ -216,22 +216,20 @@ function LoginContent() {
       <div className="w-full max-w-md space-y-6">
         {/* Top Header */}
         <div className="text-center space-y-2">
-          <div className="inline-flex h-12 w-12 rounded-2xl bg-gradient-to-tr from-indigo-600 to-sky-500 items-center justify-center shadow-lg shadow-indigo-500/25 text-white mb-2">
-            <ShieldCheck className="h-6 w-6" />
+          <div className="inline-flex h-12 w-12 rounded-[16px] bg-[#141518] border border-[#282A2F] text-[#F0AE55] items-center justify-center mb-2">
+            <ShieldCheck className="h-6 w-6 stroke-[2]" />
           </div>
-          <h2 className="text-2xl font-bold tracking-tight text-slate-900 dark:text-slate-100">
+          <h2 className="text-xl font-semibold tracking-tight text-[#E8E8E8]">
             ورود به سامانه مدیریت مالی
           </h2>
-          <p className="text-sm text-slate-500 dark:text-slate-400">
+          <p className="text-xs text-[#9A9DA5]">
             ورود ایمن با شماره موبایل یا ایمیل
           </p>
         </div>
 
-
-
         {/* Success Alert */}
         {successMsg && (
-          <div className="p-3.5 rounded-xl bg-emerald-500/10 border border-emerald-500/20 text-emerald-600 dark:text-emerald-400 text-xs flex items-center gap-2">
+          <div className="p-3.5 rounded-[14px] bg-[#76A98C]/12 border border-[#76A98C]/25 text-[#76A98C] text-xs flex items-center gap-2">
             <CheckCircle2 className="h-4 w-4 shrink-0" />
             <span>{successMsg}</span>
           </div>
@@ -239,23 +237,23 @@ function LoginContent() {
 
         {/* Error Alert */}
         {error && (
-          <div className="p-3.5 rounded-xl bg-rose-500/10 border border-rose-500/20 text-rose-600 dark:text-rose-400 text-xs flex items-center gap-2">
+          <div className="p-3.5 rounded-[14px] bg-[#C77A82]/12 border border-[#C77A82]/25 text-[#C77A82] text-xs flex items-center gap-2">
             <AlertCircle className="h-4 w-4 shrink-0" />
             <span>{error}</span>
           </div>
         )}
 
         {/* Main Card */}
-        <div className="rounded-2xl border border-slate-200 dark:border-slate-800 bg-white/70 dark:bg-slate-900/70 backdrop-blur-xl p-6 shadow-xl shadow-slate-950/5 space-y-5">
+        <div className="bg-[#141518] p-6 rounded-[22px] border border-[#282A2F] shadow-xl space-y-5">
           {/* PASSWORD MODE FORM */}
           {authMode === "password" && (
             <form noValidate onSubmit={handlePasswordSubmit} className="space-y-4">
               <div className="space-y-1.5">
-                <label className="text-xs font-semibold text-slate-700 dark:text-slate-300">
+                <label className="text-xs font-medium text-[#9A9DA5]">
                   شماره موبایل یا ایمیل
                 </label>
                 <div className="relative">
-                  <Smartphone className="absolute right-3 top-3 h-4 w-4 text-slate-400" />
+                  <Smartphone className="absolute right-3 top-3 h-4 w-4 text-[#696D77]" />
                   <input
                     type="text"
                     value={identifier}
@@ -269,24 +267,24 @@ function LoginContent() {
                     }}
                     placeholder="09121111111 یا user@example.com"
                     dir="ltr"
-                    className="w-full pr-10 pl-3 py-2 text-sm rounded-lg border border-slate-200 dark:border-slate-700 bg-white/50 dark:bg-slate-950/50 text-slate-900 dark:text-slate-100 placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-sky-500/40 focus:border-sky-500 transition-all text-left font-mono"
+                    className="w-full pr-10 pl-3 py-2.5 text-sm rounded-[14px] border border-[#282A2F] bg-[#1B1D21] text-[#E8E8E8] placeholder:text-[#696D77] focus:outline-none focus:border-[#F0AE55]/50 transition-colors text-left font-mono"
                   />
                 </div>
               </div>
 
               <div className="space-y-1.5">
-                <label className="text-xs font-semibold text-slate-700 dark:text-slate-300">
+                <label className="text-xs font-medium text-[#9A9DA5]">
                   رمز عبور
                 </label>
                 <div className="relative">
-                  <Lock className="absolute right-3 top-3 h-4 w-4 text-slate-400" />
+                  <Lock className="absolute right-3 top-3 h-4 w-4 text-[#696D77]" />
                   <input
                     type="password"
                     value={password}
                     onChange={(e) => setPassword(e.target.value)}
                     placeholder="••••••••"
                     dir="ltr"
-                    className="w-full pr-10 pl-3 py-2 text-sm rounded-lg border border-slate-200 dark:border-slate-700 bg-white/50 dark:bg-slate-950/50 text-slate-900 dark:text-slate-100 placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-sky-500/40 focus:border-sky-500 transition-all text-left"
+                    className="w-full pr-10 pl-3 py-2.5 text-sm rounded-[14px] border border-[#282A2F] bg-[#1B1D21] text-[#E8E8E8] placeholder:text-[#696D77] focus:outline-none focus:border-[#F0AE55]/50 transition-colors text-left"
                   />
                 </div>
               </div>
@@ -294,14 +292,14 @@ function LoginContent() {
               <button
                 type="submit"
                 disabled={isLoading}
-                className="w-full py-2.5 px-4 rounded-xl bg-gradient-to-r from-sky-600 to-indigo-600 hover:from-sky-500 hover:to-indigo-500 text-white font-medium text-sm shadow-md shadow-sky-600/20 active:scale-[0.98] transition-all disabled:opacity-50 flex items-center justify-center gap-2 cursor-pointer"
+                className="w-full py-3 px-4 rounded-[14px] bg-[#F0AE55] hover:bg-[#F5BA6E] text-[#0D0E10] font-medium text-sm transition-colors disabled:opacity-50 flex items-center justify-center gap-2 cursor-pointer mt-2"
               >
                 {isLoading ? (
-                  <div className="h-4 w-4 border-2 border-white border-t-transparent rounded-full animate-spin" />
+                  <div className="h-4 w-4 border-2 border-[#0D0E10] border-t-transparent rounded-full animate-spin" />
                 ) : (
                   <>
                     <span>ورود به سامانه</span>
-                    <ArrowRight className="h-4 w-4" />
+                    <ArrowRight className="h-4 w-4 stroke-[2]" />
                   </>
                 )}
               </button>
@@ -313,12 +311,12 @@ function LoginContent() {
             <div className="space-y-4">
               {/* Step 1: Identifier Input */}
               <div className="space-y-1.5">
-                <label className="text-xs font-semibold text-slate-700 dark:text-slate-300">
+                <label className="text-xs font-medium text-[#9A9DA5]">
                   شماره موبایل یا ایمیل
                 </label>
                 <div className="flex gap-2">
                   <div className="relative flex-1">
-                    <Smartphone className="absolute right-3 top-3 h-4 w-4 text-slate-400" />
+                    <Smartphone className="absolute right-3 top-3 h-4 w-4 text-[#696D77]" />
                     <input
                       type="text"
                       disabled={otpSent && countdown > 0}
@@ -333,7 +331,7 @@ function LoginContent() {
                       }}
                       placeholder="09121111111 یا user@example.com"
                       dir="ltr"
-                      className="w-full pr-10 pl-3 py-2 text-sm rounded-lg border border-slate-200 dark:border-slate-700 bg-white/50 dark:bg-slate-950/50 text-slate-900 dark:text-slate-100 placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-sky-500/40 focus:border-sky-500 transition-all text-left font-mono disabled:opacity-70"
+                      className="w-full pr-10 pl-3 py-2.5 text-sm rounded-[14px] border border-[#282A2F] bg-[#1B1D21] text-[#E8E8E8] placeholder:text-[#696D77] focus:outline-none focus:border-[#F0AE55]/50 transition-colors text-left font-mono disabled:opacity-70"
                     />
                   </div>
                   {!otpSent && (
@@ -341,7 +339,7 @@ function LoginContent() {
                       type="button"
                       onClick={handleRequestOTP}
                       disabled={isLoading || !identifier.trim()}
-                      className="px-3.5 py-2 rounded-lg bg-sky-600 hover:bg-sky-500 text-white text-xs font-semibold shadow-sm transition-all disabled:opacity-50 shrink-0 cursor-pointer"
+                      className="px-4 py-2 rounded-[12px] bg-[#F0AE55] hover:bg-[#F5BA6E] text-[#0D0E10] text-xs font-medium transition-colors disabled:opacity-50 shrink-0 cursor-pointer"
                     >
                       {isLoading ? "در حال ارسال..." : "ارسال کد"}
                     </button>
@@ -354,7 +352,7 @@ function LoginContent() {
                 <form noValidate onSubmit={handleVerifyOTP} className="space-y-4 pt-2">
                   <div className="space-y-1.5">
                     <div className="flex items-center justify-between">
-                      <label className="text-xs font-semibold text-slate-700 dark:text-slate-300">
+                      <label className="text-xs font-medium text-[#9A9DA5]">
                         کد تایید ۵ رقمی ({otpChannel === "bale" ? "ارسال‌شده در بله" : otpChannel === "sms" ? "پیامک‌شده" : "ایمیل‌شده"})
                       </label>
                       <button
@@ -364,13 +362,13 @@ function LoginContent() {
                           setOtpCode("");
                           setError(null);
                         }}
-                        className="text-[11px] text-sky-600 dark:text-sky-400 hover:underline cursor-pointer"
+                        className="text-[11px] text-[#F0AE55] hover:underline cursor-pointer"
                       >
                         تغییر شماره / ایمیل
                       </button>
                     </div>
                     <div className="relative">
-                      <KeyRound className="absolute right-3 top-3 h-4 w-4 text-slate-400" />
+                      <KeyRound className="absolute right-3 top-3 h-4 w-4 text-[#696D77]" />
                       <input
                         type="text"
                         inputMode="numeric"
@@ -383,15 +381,15 @@ function LoginContent() {
                         placeholder="•••••"
                         dir="ltr"
                         autoFocus
-                        className="w-full pr-10 pl-3 py-2.5 text-base rounded-lg border border-slate-200 dark:border-slate-700 bg-white/50 dark:bg-slate-950/50 text-slate-900 dark:text-slate-100 placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-sky-500/40 focus:border-sky-500 transition-all text-center tracking-[0.4em] font-mono font-bold"
+                        className="w-full pr-10 pl-3 py-3 text-lg rounded-[14px] border border-[#282A2F] bg-[#1B1D21] text-[#F0AE55] placeholder:text-[#696D77] focus:outline-none focus:border-[#F0AE55] transition-colors text-center tracking-[0.4em] font-number font-semibold"
                       />
                     </div>
                   </div>
 
                   {/* Resend button / Countdown */}
-                  <div className="flex items-center justify-between text-xs text-slate-500 dark:text-slate-400">
+                  <div className="flex items-center justify-between text-xs text-[#9A9DA5]">
                     {countdown > 0 ? (
-                      <span className="font-mono text-slate-600 dark:text-slate-400">
+                      <span className="font-number text-[#9A9DA5]">
                         ارسال مجدد کد پس از: {formatCountdown(countdown)}
                       </span>
                     ) : (
@@ -399,7 +397,7 @@ function LoginContent() {
                         type="button"
                         onClick={handleRequestOTP}
                         disabled={isLoading}
-                        className="flex items-center gap-1 text-sky-600 dark:text-sky-400 hover:underline font-semibold cursor-pointer"
+                        className="flex items-center gap-1 text-[#F0AE55] hover:underline font-medium cursor-pointer"
                       >
                         <RotateCcw className="h-3 w-3" />
                         <span>ارسال مجدد کد تایید</span>
@@ -410,14 +408,14 @@ function LoginContent() {
                   <button
                     type="submit"
                     disabled={isLoading || otpCode.length < 5}
-                    className="w-full py-2.5 px-4 rounded-xl bg-gradient-to-r from-sky-600 to-indigo-600 hover:from-sky-500 hover:to-indigo-500 text-white font-medium text-sm shadow-md shadow-sky-600/20 active:scale-[0.98] transition-all disabled:opacity-50 flex items-center justify-center gap-2 cursor-pointer"
+                    className="w-full py-3 px-4 rounded-[14px] bg-[#F0AE55] hover:bg-[#F5BA6E] text-[#0D0E10] font-medium text-sm transition-colors disabled:opacity-50 flex items-center justify-center gap-2 cursor-pointer mt-2"
                   >
                     {isLoading ? (
-                      <div className="h-4 w-4 border-2 border-white border-t-transparent rounded-full animate-spin" />
+                      <div className="h-4 w-4 border-2 border-[#0D0E10] border-t-transparent rounded-full animate-spin" />
                     ) : (
                       <>
                         <span>تایید و ورود به سامانه</span>
-                        <ArrowRight className="h-4 w-4" />
+                        <ArrowRight className="h-4 w-4 stroke-[2]" />
                       </>
                     )}
                   </button>
@@ -428,11 +426,11 @@ function LoginContent() {
         </div>
 
         {/* Register footer link */}
-        <div className="text-center text-xs text-slate-500 dark:text-slate-400">
+        <div className="text-center text-xs text-[#9A9DA5]">
           <span>حساب کاربری ندارید؟ </span>
           <Link
             href="/register"
-            className="text-sky-600 dark:text-sky-400 font-semibold hover:underline"
+            className="text-[#F0AE55] font-medium hover:underline"
           >
             ثبت‌نام کاربر جدید
           </Link>

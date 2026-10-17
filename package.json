@@ -4,6 +4,8 @@
   "private": true,
   "scripts": {
     "dev": "next dev",
+    "dev:desktop": "next dev",
+    "dev:mobile": "npm --prefix ../Mobile run dev",
     "build": "next build",
     "start": "next start",
     "lint": "eslint",

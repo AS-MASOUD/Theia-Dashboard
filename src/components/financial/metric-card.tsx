@@ -38,48 +38,80 @@ export function MetricCard({
   const isPositiveChange = hasChange && numChange > 0;
   const isNegativeChange = hasChange && numChange < 0;
 
-  const variantBorder = {
-    default: "",
-    positive: "border-s-4 border-s-emerald-500",
-    negative: "border-s-4 border-s-rose-500",
-    warning: "border-s-4 border-s-amber-500",
+  const variantAccent = {
+    default: {
+      dot: "bg-[#F0AE55] shadow-[0_0_6px_rgba(240,174,85,0.7)]",
+      iconBg: "bg-[rgba(240,174,85,0.08)] border-[rgba(240,174,85,0.22)] text-[#F0AE55] shadow-[0_0_12px_rgba(240,174,85,0.15)]",
+      badgeText: "فعال",
+    },
+    positive: {
+      dot: "bg-[#76A98C] shadow-[0_0_6px_rgba(118,169,140,0.8)]",
+      iconBg: "bg-[rgba(118,169,140,0.08)] border-[rgba(118,169,140,0.22)] text-[#76A98C] shadow-[0_0_12px_rgba(118,169,140,0.15)]",
+      badgeText: "مطلوب",
+    },
+    negative: {
+      dot: "bg-[#C77A82] shadow-[0_0_6px_rgba(199,122,130,0.8)]",
+      iconBg: "bg-[rgba(199,122,130,0.08)] border-[rgba(199,122,130,0.22)] text-[#C77A82] shadow-[0_0_12px_rgba(199,122,130,0.15)]",
+      badgeText: "توجه",
+    },
+    warning: {
+      dot: "bg-[#F0AE55] shadow-[0_0_6px_rgba(240,174,85,0.7)]",
+      iconBg: "bg-[rgba(240,174,85,0.08)] border-[rgba(240,174,85,0.22)] text-[#F0AE55] shadow-[0_0_12px_rgba(240,174,85,0.15)]",
+      badgeText: "جاری",
+    },
   }[variant];
 
   return (
     <div
       className={cn(
-        "fin-card p-5 flex flex-col justify-between relative overflow-hidden",
-        variantBorder,
+        "obsidian-card p-5 flex flex-col justify-between relative overflow-hidden group transition-all duration-200",
         className
       )}
     >
-      <div className="flex items-center justify-between">
-        <span className="text-xs font-semibold text-slate-500 dark:text-slate-400 uppercase tracking-wider">
-          {title}
-        </span>
-        {Icon && (
-          <div className="p-2 rounded-lg bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300">
-            <Icon className="h-4 w-4" />
-          </div>
-        )}
+      {/* Card Header: Icon & Title & Status Pill */}
+      <div className="flex items-center justify-between relative z-10">
+        <div className="flex items-center gap-2.5">
+          {Icon && (
+            <div
+              className={cn(
+                "w-9 h-9 rounded-[14px] border flex items-center justify-center transition-colors",
+                variantAccent.iconBg
+              )}
+            >
+              <Icon className="h-4 w-4 stroke-[1.8]" />
+            </div>
+          )}
+          <span className="text-xs font-normal text-[#9A9DA5]">
+            {title}
+          </span>
+        </div>
+
+        <div className="flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-[#1B1D21] border border-[#282A2F]">
+          <span className={cn("w-1.5 h-1.5 rounded-full", variantAccent.dot)} />
+          <span className="text-[10px] font-medium text-[#9A9DA5]">
+            {variantAccent.badgeText}
+          </span>
+        </div>
       </div>
 
-      <div className="mt-3">
-        <div className="text-2xl font-bold tracking-tight text-slate-900 dark:text-slate-100">
+      {/* Metric Value */}
+      <div className="mt-4 relative z-10">
+        <div className="text-2xl font-normal tracking-tight text-[#E8E8E8] font-number" dir="ltr">
           {displayVal}
         </div>
 
         {(hasChange || subtitle) && (
-          <div className="mt-2 flex items-center gap-2 text-xs">
+          <div className="mt-2.5 flex items-center gap-2 text-xs">
             {hasChange && (
               <span
                 className={cn(
-                  "inline-flex items-center gap-1 font-semibold px-1.5 py-0.5 rounded text-[11px]",
+                  "inline-flex items-center gap-1 font-medium px-2 py-0.5 rounded-full text-[11px] font-number",
                   isPositiveChange &&
-                    "text-emerald-700 bg-emerald-50 dark:text-emerald-400 dark:bg-emerald-950/50",
+                    "text-[#76A98C] bg-[#76A98C]/12 border border-[#76A98C]/25",
                   isNegativeChange &&
-                    "text-rose-700 bg-rose-50 dark:text-rose-400 dark:bg-rose-950/50",
-                  numChange === 0 && "text-slate-600 bg-slate-100 dark:text-slate-400 dark:bg-slate-800"
+                    "text-[#C77A82] bg-[#C77A82]/12 border border-[#C77A82]/25",
+                  numChange === 0 &&
+                    "text-[#9A9DA5] bg-[#1B1D21] border border-[#282A2F]"
                 )}
               >
                 {isPositiveChange && <TrendingUp className="h-3 w-3" />}
@@ -87,7 +119,7 @@ export function MetricCard({
                 {numChange > 0 ? `+${numChange.toFixed(1)}%` : `${numChange.toFixed(1)}%`}
               </span>
             )}
-            <span className="text-slate-500 dark:text-slate-400 text-[11px]">
+            <span className="text-[#9A9DA5] text-[11px]">
               {subtitle || changePeriod}
             </span>
           </div>

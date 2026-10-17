@@ -41,24 +41,24 @@ export default function TransactionsPage() {
     <div className="space-y-6">
       <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
         <div>
-          <h2 className="text-base font-bold text-slate-900 dark:text-slate-100">
+          <h2 className="text-lg font-bold text-slate-100">
             دفتر کل تراکنش‌های مالی
           </h2>
-          <p className="text-xs text-slate-500 dark:text-slate-400">
+          <p className="text-xs text-slate-400 mt-0.5">
             سوابق حسابداری کامل واریزها، برداشت‌ها، معاملات و دریافت سودهای نقدی
           </p>
         </div>
 
         {/* Filter Pills */}
-        <div className="flex items-center gap-1 bg-slate-100 dark:bg-slate-800 p-1 rounded-lg text-xs font-semibold overflow-x-auto max-w-full">
+        <div className="flex items-center gap-1 bg-[#1B1D21] border border-[#282A2F] p-1 rounded-[12px] text-xs font-medium overflow-x-auto max-w-full">
           {types.map((t) => (
             <button
               key={t}
               onClick={() => setFilterType(t)}
-              className={`px-3 py-1.5 rounded-md transition-all shrink-0 ${
+              className={`px-3 py-1.5 rounded-[8px] transition-colors shrink-0 cursor-pointer ${
                 filterType === t
-                  ? "bg-white dark:bg-slate-900 text-slate-900 dark:text-slate-100 shadow-xs"
-                  : "text-slate-500 hover:text-slate-900 dark:hover:text-slate-200"
+                  ? "bg-[#F0AE55]/15 text-[#F0AE55] border border-[#F0AE55]/30 font-medium"
+                  : "text-[#9A9DA5] hover:text-[#E8E8E8]"
               }`}
             >
               {TYPE_LABELS[t] || t}
@@ -68,30 +68,30 @@ export default function TransactionsPage() {
       </div>
 
       {/* Ledger Table */}
-      <div className="fin-card overflow-hidden">
+      <div className="obsidian-card overflow-hidden">
         <div className="overflow-x-auto">
           <table className="w-full text-start text-xs">
-            <thead className="bg-slate-50 dark:bg-slate-900/60 text-slate-500 uppercase tracking-wider border-b border-slate-200 dark:border-slate-800">
+            <thead className="bg-[#1B1D21] text-[#9A9DA5] uppercase tracking-wider border-b border-[#282A2F]">
               <tr>
-                <th className="py-3 px-6 font-semibold text-start">نوع عملیات</th>
-                <th className="py-3 px-4 font-semibold text-start">تاریخ</th>
-                <th className="py-3 px-4 font-semibold text-end">تعداد / حجم</th>
-                <th className="py-3 px-4 font-semibold text-end">نرخ واحد</th>
-                <th className="py-3 px-4 font-semibold text-end">کارمزد</th>
-                <th className="py-3 px-6 font-semibold text-end">مبلغ کل تراکنش</th>
-                <th className="py-3 px-4 font-semibold text-center">وضعیت</th>
+                <th className="py-3 px-6 font-medium text-start">نوع عملیات</th>
+                <th className="py-3 px-4 font-medium text-start">تاریخ</th>
+                <th className="py-3 px-4 font-medium text-end">تعداد / حجم</th>
+                <th className="py-3 px-4 font-medium text-end">نرخ واحد</th>
+                <th className="py-3 px-4 font-medium text-end">کارمزد</th>
+                <th className="py-3 px-6 font-medium text-end">مبلغ کل تراکنش</th>
+                <th className="py-3 px-4 font-medium text-center">وضعیت</th>
               </tr>
             </thead>
-            <tbody className="divide-y divide-slate-100 dark:divide-slate-800/60">
+            <tbody className="divide-y divide-[#282A2F]/50">
               {isLoading ? (
                 <tr>
-                  <td colSpan={7} className="py-12 text-center text-slate-400">
+                  <td colSpan={7} className="py-12 text-center text-[#9A9DA5]">
                     در حال بارگذاری سوابق تراکنش‌ها...
                   </td>
                 </tr>
               ) : filtered.length === 0 ? (
                 <tr>
-                  <td colSpan={7} className="py-12 text-center text-slate-400">
+                  <td colSpan={7} className="py-12 text-center text-[#9A9DA5]">
                     هیچ تراکنشی مطابق با فیلتر انتخابی یافت نشد.
                   </td>
                 </tr>
@@ -105,15 +105,15 @@ export default function TransactionsPage() {
                   return (
                     <tr
                       key={tx.id}
-                      className="hover:bg-slate-50/50 dark:hover:bg-slate-800/30 transition-colors"
+                      className="hover:bg-[#1B1D21]/30 transition-colors"
                     >
                       <td className="py-3.5 px-6">
                         <div className="flex items-center gap-2.5">
                           <div
-                            className={`p-1.5 rounded-lg shrink-0 ${
+                            className={`p-1.5 rounded-[8px] shrink-0 border ${
                               isPositiveFlow
-                                ? "bg-emerald-50 dark:bg-emerald-950/40 text-emerald-600 dark:text-emerald-400"
-                                : "bg-rose-50 dark:bg-rose-950/40 text-rose-600 dark:text-rose-400"
+                                ? "bg-[#76A98C]/10 text-[#76A98C] border-[#76A98C]/20"
+                                : "bg-[#C77A82]/10 text-[#C77A82] border-[#C77A82]/20"
                             }`}
                           >
                             {isPositiveFlow ? (
@@ -123,7 +123,7 @@ export default function TransactionsPage() {
                             )}
                           </div>
                           <div>
-                            <span className="font-bold text-slate-900 dark:text-slate-100 block">
+                            <span className="font-bold text-slate-100 block">
                               {TYPE_LABELS[tx.transaction_type] || tx.transaction_type}
                             </span>
                             {tx.notes && (
@@ -135,15 +135,15 @@ export default function TransactionsPage() {
                         </div>
                       </td>
 
-                      <td className="py-3.5 px-4 font-medium text-slate-600 dark:text-slate-300 font-mono">
+                      <td className="py-3.5 px-4 font-medium text-slate-300 font-mono">
                         {formatDate(tx.transaction_date)}
                       </td>
 
-                      <td className="py-3.5 px-4 text-end text-slate-700 dark:text-slate-300 font-mono">
+                      <td className="py-3.5 px-4 text-end text-slate-300 font-mono">
                         {tx.quantity ? parseFloat(tx.quantity).toLocaleString("en-US") : "—"}
                       </td>
 
-                      <td className="py-3.5 px-4 text-end text-slate-500 font-mono">
+                      <td className="py-3.5 px-4 text-end text-slate-400 font-mono">
                         {tx.unit_price ? formatMoney(tx.unit_price) : "—"}
                       </td>
 
@@ -155,8 +155,8 @@ export default function TransactionsPage() {
                         <span
                           className={
                             isPositiveFlow
-                              ? "text-emerald-600 dark:text-emerald-400"
-                              : "text-slate-900 dark:text-slate-100"
+                              ? "text-emerald-400"
+                              : "text-slate-200"
                           }
                         >
                           {isPositiveFlow ? "+" : "-"}
@@ -165,8 +165,8 @@ export default function TransactionsPage() {
                       </td>
 
                       <td className="py-3.5 px-4 text-center">
-                        <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-[10px] font-semibold bg-emerald-50 dark:bg-emerald-950/30 text-emerald-600 dark:text-emerald-400">
-                          <CheckCircle2 className="h-3 w-3" />
+                        <span className="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full text-[10px] font-semibold bg-emerald-500/10 text-emerald-400 border border-emerald-500/20">
+                          <CheckCircle2 className="h-3 w-3 stroke-[2.5]" />
                           تسویه شده
                         </span>
                       </td>

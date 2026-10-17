@@ -304,24 +304,24 @@ function RegisterContent() {
       <div className="w-full max-w-md space-y-6">
         {/* Top Header */}
         <div className="text-center space-y-2">
-          <div className="inline-flex h-12 w-12 rounded-2xl bg-gradient-to-tr from-sky-600 to-indigo-600 items-center justify-center shadow-lg shadow-sky-500/25 text-white mb-2">
+          <div className="inline-flex h-12 w-12 rounded-[16px] bg-[#141518] border border-[#282A2F] text-[#F0AE55] items-center justify-center mb-2">
             {step === "details" ? (
-              <UserPlus className="h-6 w-6" />
+              <UserPlus className="h-6 w-6 stroke-[2]" />
             ) : (
-              <KeyRound className="h-6 w-6" />
+              <KeyRound className="h-6 w-6 stroke-[2]" />
             )}
           </div>
-          <h2 className="text-2xl font-bold tracking-tight text-slate-900 dark:text-slate-100">
+          <h2 className="text-xl font-semibold tracking-tight text-[#E8E8E8]">
             ایجاد حساب کاربری جدید
           </h2>
-          <p className="text-sm text-slate-500 dark:text-slate-400">
+          <p className="text-xs text-[#9A9DA5]">
             مشخصات خود را جهت ثبت‌نام و ورود به سامانه وارد فرمایید
           </p>
         </div>
 
         {/* Error Alert */}
         {error && (
-          <div className="p-3.5 rounded-xl bg-rose-500/10 border border-rose-500/20 text-rose-600 dark:text-rose-400 text-xs flex items-center justify-between gap-2">
+          <div className="p-3.5 rounded-[14px] bg-[#C77A82]/12 border border-[#C77A82]/25 text-[#C77A82] text-xs flex items-center justify-between gap-2">
             <div className="flex items-center gap-2">
               <AlertCircle className="h-4 w-4 shrink-0" />
               <span>{error}</span>
@@ -329,7 +329,7 @@ function RegisterContent() {
             {error.includes("وارد شوید") && (
               <Link
                 href={`/login?identifier=${encodeURIComponent(phoneNumber)}`}
-                className="underline font-bold shrink-0 hover:text-rose-700 dark:hover:text-rose-300"
+                className="underline font-medium shrink-0 hover:text-[#C77A82]"
               >
                 ورود
               </Link>
@@ -338,16 +338,16 @@ function RegisterContent() {
         )}
 
         {/* Form Card */}
-        <div className="rounded-2xl border border-slate-200 dark:border-slate-800 bg-white/70 dark:bg-slate-900/70 backdrop-blur-xl p-6 shadow-xl shadow-slate-950/5">
+        <div className="rounded-[22px] border border-[#282A2F] bg-[#141518] p-6 shadow-xl space-y-5">
           {step === "details" ? (
             <form noValidate onSubmit={handleRegister} className="space-y-4">
               {/* Full Name Field */}
               <div key={`name-${fieldErrors.fullName ? shakeKey : 0}`} className="space-y-1.5">
-                <label className="text-xs font-semibold text-slate-700 dark:text-slate-300">
+                <label className="text-xs font-medium text-[#9A9DA5]">
                   نام و نام خانوادگی
                 </label>
                 <div className="relative">
-                  <User className="absolute right-3 top-3 h-4 w-4 text-slate-400" />
+                  <User className="absolute right-3.5 top-3 h-4 w-4 text-[#696D77]" />
                   <input
                     type="text"
                     maxLength={50}
@@ -359,15 +359,15 @@ function RegisterContent() {
                       }
                     }}
                     placeholder="علی رضایی"
-                    className={`w-full pr-10 pl-3 py-2 text-sm rounded-lg border transition-all ${
+                    className={`w-full pr-10 pl-3.5 py-2.5 text-sm rounded-[14px] border transition-colors ${
                       fieldErrors.fullName
-                        ? "border-rose-500 focus:border-rose-500 ring-2 ring-rose-500/20 animate-shake"
-                        : "border-slate-200 dark:border-slate-700 focus:border-sky-500 focus:ring-2 focus:ring-sky-500/40"
-                    } bg-white/50 dark:bg-slate-950/50 text-slate-900 dark:text-slate-100 placeholder:text-slate-400 focus:outline-none`}
+                        ? "border-[#C77A82] focus:border-[#C77A82] ring-1 ring-[#C77A82]/30 animate-shake"
+                        : "border-[#282A2F] focus:border-[#F0AE55]/50"
+                    } bg-[#1B1D21] text-[#E8E8E8] placeholder:text-[#696D77] focus:outline-none font-medium`}
                   />
                 </div>
                 {fieldErrors.fullName && (
-                  <div className="flex items-center gap-1.5 text-xs text-rose-500 dark:text-rose-400 font-medium mt-1 animate-in fade-in slide-in-from-top-1">
+                  <div className="flex items-center gap-1.5 text-xs text-[#C77A82] font-medium mt-1 animate-in fade-in slide-in-from-top-1">
                     <AlertCircle className="h-3.5 w-3.5 shrink-0" />
                     <span>{fieldErrors.fullName}</span>
                   </div>
@@ -376,11 +376,11 @@ function RegisterContent() {
 
               {/* Phone Number Field */}
               <div key={`phone-${fieldErrors.phoneNumber ? shakeKey : 0}`} className="space-y-1.5">
-                <label className="text-xs font-semibold text-slate-700 dark:text-slate-300">
+                <label className="text-xs font-medium text-[#9A9DA5]">
                   شماره موبایل
                 </label>
                 <div className="relative">
-                  <Smartphone className="absolute right-3 top-3 h-4 w-4 text-slate-400" />
+                  <Smartphone className="absolute right-3.5 top-3 h-4 w-4 text-[#696D77]" />
                   <input
                     type="tel"
                     maxLength={11}
@@ -398,20 +398,20 @@ function RegisterContent() {
                     }}
                     placeholder="09121111111"
                     dir="ltr"
-                    className={`w-full pr-10 pl-3 py-2 text-sm rounded-lg border transition-all text-left font-mono ${
+                    className={`w-full pr-10 pl-3.5 py-2.5 text-sm rounded-[14px] border transition-colors text-left font-mono font-medium ${
                       fieldErrors.phoneNumber
-                        ? "border-rose-500 focus:border-rose-500 ring-2 ring-rose-500/20 animate-shake"
-                        : "border-slate-200 dark:border-slate-700 focus:border-sky-500 focus:ring-2 focus:ring-sky-500/40"
-                    } bg-white/50 dark:bg-slate-950/50 text-slate-900 dark:text-slate-100 placeholder:text-slate-400 focus:outline-none`}
+                        ? "border-[#C77A82] focus:border-[#C77A82] ring-1 ring-[#C77A82]/30 animate-shake"
+                        : "border-[#282A2F] focus:border-[#F0AE55]/50"
+                    } bg-[#1B1D21] text-[#E8E8E8] placeholder:text-[#696D77] focus:outline-none`}
                   />
                 </div>
                 {fieldErrors.phoneNumber ? (
-                  <div className="flex items-center gap-1.5 text-xs text-rose-500 dark:text-rose-400 font-medium mt-1 animate-in fade-in slide-in-from-top-1">
+                  <div className="flex items-center gap-1.5 text-xs text-[#C77A82] font-medium mt-1 animate-in fade-in slide-in-from-top-1">
                     <AlertCircle className="h-3.5 w-3.5 shrink-0" />
                     <span>{fieldErrors.phoneNumber}</span>
                   </div>
                 ) : (
-                  <p className="text-[11px] text-slate-400">
+                  <p className="text-[11px] text-[#696D77]">
                     کد تایید پیامکی به این شماره ارسال خواهد شد.
                   </p>
                 )}
@@ -419,11 +419,11 @@ function RegisterContent() {
 
               {/* Password Field */}
               <div key={`pass-${fieldErrors.password ? shakeKey : 0}`} className="space-y-1.5">
-                <label className="text-xs font-semibold text-slate-700 dark:text-slate-300">
+                <label className="text-xs font-medium text-[#9A9DA5]">
                   رمز عبور (حداقل ۸ کاراکتر شامل حروف، عدد و نماد)
                 </label>
                 <div className="relative">
-                  <Lock className="absolute right-3 top-3 h-4 w-4 text-slate-400" />
+                  <Lock className="absolute right-3.5 top-3 h-4 w-4 text-[#696D77]" />
                   <input
                     type={showPassword ? "text" : "password"}
                     maxLength={128}
@@ -436,16 +436,16 @@ function RegisterContent() {
                     }}
                     placeholder="••••••••"
                     dir="ltr"
-                    className={`w-full pr-10 pl-10 py-2 text-sm rounded-lg border transition-all text-left ${
+                    className={`w-full pr-10 pl-10 py-2.5 text-sm rounded-[14px] border transition-colors text-left font-medium ${
                       fieldErrors.password
-                        ? "border-rose-500 focus:border-rose-500 ring-2 ring-rose-500/20 animate-shake"
-                        : "border-slate-200 dark:border-slate-700 focus:border-sky-500 focus:ring-2 focus:ring-sky-500/40"
-                    } bg-white/50 dark:bg-slate-950/50 text-slate-900 dark:text-slate-100 placeholder:text-slate-400 focus:outline-none`}
+                        ? "border-[#C77A82] focus:border-[#C77A82] ring-1 ring-[#C77A82]/30 animate-shake"
+                        : "border-[#282A2F] focus:border-[#F0AE55]/50"
+                    } bg-[#1B1D21] text-[#E8E8E8] placeholder:text-[#696D77] focus:outline-none`}
                   />
                   <button
                     type="button"
                     onClick={() => setShowPassword(!showPassword)}
-                    className="absolute left-3 top-2.5 p-0.5 text-slate-400 hover:text-slate-600 dark:hover:text-slate-200 cursor-pointer transition-colors"
+                    className="absolute left-3 top-2.5 p-0.5 text-[#696D77] hover:text-[#E8E8E8] cursor-pointer transition-colors"
                     tabIndex={-1}
                     aria-label={showPassword ? "مخفی کردن رمز عبور" : "نمایش رمز عبور"}
                   >
@@ -454,7 +454,7 @@ function RegisterContent() {
                 </div>
 
                 {fieldErrors.password && (
-                  <div className="flex items-center gap-1.5 text-xs text-rose-500 dark:text-rose-400 font-medium mt-1 animate-in fade-in slide-in-from-top-1">
+                  <div className="flex items-center gap-1.5 text-xs text-rose-400 font-medium mt-1 animate-in fade-in slide-in-from-top-1">
                     <AlertCircle className="h-3.5 w-3.5 shrink-0" />
                     <span>{fieldErrors.password}</span>
                   </div>
@@ -462,23 +462,23 @@ function RegisterContent() {
 
                 {/* Password Criteria Feedback Checklist */}
                 {password.length > 0 && (
-                  <div className="p-2.5 rounded-xl bg-slate-100/70 dark:bg-slate-800/50 border border-slate-200/60 dark:border-slate-700/60 space-y-1.5 mt-2 animate-in fade-in slide-in-from-top-1">
-                    <span className="text-[11px] font-semibold text-slate-500 dark:text-slate-400 block">
+                  <div className="p-3 rounded-xl bg-[#07080b] border border-white/5 space-y-1.5 mt-2 animate-in fade-in slide-in-from-top-1">
+                    <span className="text-[11px] font-semibold text-slate-400 block">
                       معیارهای امنیت رمز عبور:
                     </span>
                     <div className="grid grid-cols-2 gap-1.5 text-[11px]">
                       <div
                         className={`flex items-center gap-1.5 transition-colors ${
                           passwordCriteria.length
-                            ? "text-emerald-600 dark:text-emerald-400 font-medium"
-                            : "text-slate-400 dark:text-slate-500"
+                            ? "text-emerald-400 font-medium"
+                            : "text-slate-500"
                         }`}
                       >
                         <div
                           className={`h-3.5 w-3.5 rounded-full flex items-center justify-center shrink-0 ${
                             passwordCriteria.length
-                              ? "bg-emerald-500/20 text-emerald-600 dark:text-emerald-400"
-                              : "bg-slate-200 dark:bg-slate-700 text-slate-400"
+                              ? "bg-emerald-500/20 text-emerald-400"
+                              : "bg-white/5 text-slate-600"
                           }`}
                         >
                           <Check className="h-2.5 w-2.5" />
@@ -489,15 +489,15 @@ function RegisterContent() {
                       <div
                         className={`flex items-center gap-1.5 transition-colors ${
                           passwordCriteria.letters
-                            ? "text-emerald-600 dark:text-emerald-400 font-medium"
-                            : "text-slate-400 dark:text-slate-500"
+                            ? "text-emerald-400 font-medium"
+                            : "text-slate-500"
                         }`}
                       >
                         <div
                           className={`h-3.5 w-3.5 rounded-full flex items-center justify-center shrink-0 ${
                             passwordCriteria.letters
-                              ? "bg-emerald-500/20 text-emerald-600 dark:text-emerald-400"
-                              : "bg-slate-200 dark:bg-slate-700 text-slate-400"
+                              ? "bg-emerald-500/20 text-emerald-400"
+                              : "bg-white/5 text-slate-600"
                           }`}
                         >
                           <Check className="h-2.5 w-2.5" />
@@ -508,15 +508,15 @@ function RegisterContent() {
                       <div
                         className={`flex items-center gap-1.5 transition-colors ${
                           passwordCriteria.numbers
-                            ? "text-emerald-600 dark:text-emerald-400 font-medium"
-                            : "text-slate-400 dark:text-slate-500"
+                            ? "text-emerald-400 font-medium"
+                            : "text-slate-500"
                         }`}
                       >
                         <div
                           className={`h-3.5 w-3.5 rounded-full flex items-center justify-center shrink-0 ${
                             passwordCriteria.numbers
-                              ? "bg-emerald-500/20 text-emerald-600 dark:text-emerald-400"
-                              : "bg-slate-200 dark:bg-slate-700 text-slate-400"
+                              ? "bg-emerald-500/20 text-emerald-400"
+                              : "bg-white/5 text-slate-600"
                           }`}
                         >
                           <Check className="h-2.5 w-2.5" />
@@ -527,15 +527,15 @@ function RegisterContent() {
                       <div
                         className={`flex items-center gap-1.5 transition-colors ${
                           passwordCriteria.symbols
-                            ? "text-emerald-600 dark:text-emerald-400 font-medium"
-                            : "text-slate-400 dark:text-slate-500"
+                            ? "text-emerald-400 font-medium"
+                            : "text-slate-500"
                         }`}
                       >
                         <div
                           className={`h-3.5 w-3.5 rounded-full flex items-center justify-center shrink-0 ${
                             passwordCriteria.symbols
-                              ? "bg-emerald-500/20 text-emerald-600 dark:text-emerald-400"
-                              : "bg-slate-200 dark:bg-slate-700 text-slate-400"
+                              ? "bg-emerald-500/20 text-emerald-400"
+                              : "bg-white/5 text-slate-600"
                           }`}
                         >
                           <Check className="h-2.5 w-2.5" />
@@ -549,11 +549,11 @@ function RegisterContent() {
 
               {/* Confirm Password Field */}
               <div key={`confirm-${fieldErrors.confirmPassword ? shakeKey : 0}`} className="space-y-1.5">
-                <label className="text-xs font-semibold text-slate-700 dark:text-slate-300">
+                <label className="text-xs font-medium text-[#9A9DA5]">
                   تکرار رمز عبور
                 </label>
                 <div className="relative">
-                  <Lock className="absolute right-3 top-3 h-4 w-4 text-slate-400" />
+                  <Lock className="absolute right-3.5 top-3 h-4 w-4 text-[#696D77]" />
                   <input
                     type={showConfirmPassword ? "text" : "password"}
                     maxLength={128}
@@ -566,16 +566,16 @@ function RegisterContent() {
                     }}
                     placeholder="••••••••"
                     dir="ltr"
-                    className={`w-full pr-10 pl-10 py-2 text-sm rounded-lg border transition-all text-left ${
+                    className={`w-full pr-10 pl-10 py-2.5 text-sm rounded-[14px] border transition-colors text-left font-medium ${
                       fieldErrors.confirmPassword
-                        ? "border-rose-500 focus:border-rose-500 ring-2 ring-rose-500/20 animate-shake"
-                        : "border-slate-200 dark:border-slate-700 focus:border-sky-500 focus:ring-2 focus:ring-sky-500/40"
-                    } bg-white/50 dark:bg-slate-950/50 text-slate-900 dark:text-slate-100 placeholder:text-slate-400 focus:outline-none`}
+                        ? "border-[#C77A82] focus:border-[#C77A82] ring-1 ring-[#C77A82]/30 animate-shake"
+                        : "border-[#282A2F] focus:border-[#F0AE55]/50"
+                    } bg-[#1B1D21] text-[#E8E8E8] placeholder:text-[#696D77] focus:outline-none`}
                   />
                   <button
                     type="button"
                     onClick={() => setShowConfirmPassword(!showConfirmPassword)}
-                    className="absolute left-3 top-2.5 p-0.5 text-slate-400 hover:text-slate-600 dark:hover:text-slate-200 cursor-pointer transition-colors"
+                    className="absolute left-3 top-2.5 p-0.5 text-[#696D77] hover:text-[#E8E8E8] cursor-pointer transition-colors"
                     tabIndex={-1}
                     aria-label={showConfirmPassword ? "مخفی کردن تکرار رمز عبور" : "نمایش تکرار رمز عبور"}
                   >
@@ -583,7 +583,7 @@ function RegisterContent() {
                   </button>
                 </div>
                 {fieldErrors.confirmPassword && (
-                  <div className="flex items-center gap-1.5 text-xs text-rose-500 dark:text-rose-400 font-medium mt-1 animate-in fade-in slide-in-from-top-1">
+                  <div className="flex items-center gap-1.5 text-xs text-[#C77A82] font-medium mt-1 animate-in fade-in slide-in-from-top-1">
                     <AlertCircle className="h-3.5 w-3.5 shrink-0" />
                     <span>{fieldErrors.confirmPassword}</span>
                   </div>
@@ -593,14 +593,14 @@ function RegisterContent() {
               <button
                 type="submit"
                 disabled={isLoading}
-                className="w-full py-2.5 px-4 rounded-xl bg-gradient-to-r from-sky-600 to-indigo-600 hover:from-sky-500 hover:to-indigo-500 text-white font-medium text-sm shadow-md shadow-sky-600/20 active:scale-[0.98] transition-all disabled:opacity-50 flex items-center justify-center gap-2 cursor-pointer mt-2"
+                className="w-full py-3 px-4 rounded-[14px] bg-[#F0AE55] hover:bg-[#F5BA6E] text-[#0D0E10] font-medium text-sm transition-colors disabled:opacity-50 flex items-center justify-center gap-2 cursor-pointer mt-3"
               >
                 {isLoading ? (
-                  <div className="h-4 w-4 border-2 border-white border-t-transparent rounded-full animate-spin" />
+                  <div className="h-4 w-4 border-2 border-[#0D0E10] border-t-transparent rounded-full animate-spin" />
                 ) : (
                   <>
                     <span>ثبت‌نام و ورود به سامانه</span>
-                    <ArrowRight className="h-4 w-4" />
+                    <ArrowRight className="h-4 w-4 stroke-[2]" />
                   </>
                 )}
               </button>
@@ -608,9 +608,9 @@ function RegisterContent() {
           ) : (
             /* Step 2: OTP Verification Form */
             <form noValidate onSubmit={handleVerifyOTP} className="space-y-5">
-              <div className="p-3 bg-sky-50 dark:bg-sky-950/30 border border-sky-200 dark:border-sky-800/40 rounded-xl flex items-center justify-between text-xs">
-                <div className="flex items-center gap-2 text-sky-800 dark:text-sky-300">
-                  <Smartphone className="h-4 w-4 shrink-0 text-sky-600" />
+              <div className="p-3 bg-[#1B1D21] border border-[#282A2F] rounded-[14px] flex items-center justify-between text-xs">
+                <div className="flex items-center gap-2 text-[#E8E8E8]">
+                  <Smartphone className="h-4 w-4 shrink-0 text-[#F0AE55]" />
                   <span className="font-mono dir-ltr">{phoneNumber}</span>
                 </div>
                 <button
@@ -620,7 +620,7 @@ function RegisterContent() {
                     setError(null);
                     setFieldErrors({});
                   }}
-                  className="text-sky-600 dark:text-sky-400 font-semibold hover:underline flex items-center gap-1 cursor-pointer"
+                  className="text-[#F0AE55] font-medium hover:underline flex items-center gap-1 cursor-pointer"
                 >
                   <ArrowLeft className="h-3 w-3" />
                   <span>تغییر شماره</span>
@@ -628,7 +628,7 @@ function RegisterContent() {
               </div>
 
               <div key={`otp-${fieldErrors.otpCode ? shakeKey : 0}`} className="space-y-2">
-                <label className="text-xs font-semibold text-slate-700 dark:text-slate-300 text-center block">
+                <label className="text-xs font-medium text-[#9A9DA5] text-center block">
                   {otpChannel === "bale"
                     ? "کد تایید ۵ رقمی ارسال‌شده در پیام‌رسان بله را وارد فرمایید"
                     : "کد تایید ۵ رقمی پیامک شده را وارد فرمایید"}
@@ -652,15 +652,15 @@ function RegisterContent() {
                       }
                     }}
                     placeholder="• • • • •"
-                    className={`w-full py-3.5 px-4 text-center tracking-[0.6em] text-2xl font-mono rounded-xl border transition-all ${
+                    className={`w-full py-3.5 px-4 text-center tracking-[0.6em] text-2xl font-mono rounded-[14px] border transition-colors ${
                       fieldErrors.otpCode
-                        ? "border-rose-500 focus:border-rose-500 ring-2 ring-rose-500/20 animate-shake"
-                        : "border-slate-200 dark:border-slate-700 focus:border-sky-500 focus:ring-2 focus:ring-sky-500/40"
-                    } bg-white/50 dark:bg-slate-950/50 text-slate-900 dark:text-slate-100 placeholder:text-slate-300 dark:placeholder:text-slate-600 focus:outline-none`}
+                        ? "border-[#C77A82] focus:border-[#C77A82] ring-1 ring-[#C77A82]/30 animate-shake"
+                        : "border-[#282A2F] focus:border-[#F0AE55]"
+                    } bg-[#1B1D21] text-[#F0AE55] placeholder:text-[#696D77] focus:outline-none`}
                   />
                 </div>
                 {fieldErrors.otpCode && (
-                  <div className="flex items-center justify-center gap-1.5 text-xs text-rose-500 dark:text-rose-400 font-medium mt-1 animate-in fade-in slide-in-from-top-1">
+                  <div className="flex items-center justify-center gap-1.5 text-xs text-[#C77A82] font-medium mt-1 animate-in fade-in slide-in-from-top-1">
                     <AlertCircle className="h-3.5 w-3.5 shrink-0" />
                     <span>{fieldErrors.otpCode}</span>
                   </div>
@@ -670,10 +670,10 @@ function RegisterContent() {
               {/* Countdown / Resend */}
               <div className="text-center">
                 {countdown > 0 ? (
-                  <div className="inline-flex items-center gap-1.5 text-xs text-slate-500 dark:text-slate-400">
-                    <RotateCcw className="h-3.5 w-3.5 animate-spin" />
+                  <div className="inline-flex items-center gap-1.5 text-xs text-[#9A9DA5]">
+                    <RotateCcw className="h-3.5 w-3.5 animate-spin text-[#F0AE55]" />
                     <span>ارسال مجدد کد پس از:</span>
-                    <span className="font-mono font-bold text-sky-600 dark:text-sky-400 text-sm">
+                    <span className="font-mono font-medium text-[#F0AE55] text-sm">
                       {formatCountdown(countdown)}
                     </span>
                   </div>
@@ -682,7 +682,7 @@ function RegisterContent() {
                     type="button"
                     disabled={isLoading}
                     onClick={() => handleRequestOTP()}
-                    className="text-xs text-sky-600 dark:text-sky-400 hover:text-sky-700 font-semibold hover:underline inline-flex items-center gap-1.5 cursor-pointer disabled:opacity-50"
+                    className="text-xs text-[#F0AE55] hover:text-[#F5BA6E] font-medium hover:underline inline-flex items-center gap-1.5 cursor-pointer disabled:opacity-50"
                   >
                     <RotateCcw className="h-3.5 w-3.5" />
                     <span>ارسال مجدد کد تایید</span>
@@ -693,10 +693,10 @@ function RegisterContent() {
               <button
                 type="submit"
                 disabled={isLoading || otpCode.length < 5}
-                className="w-full py-2.5 px-4 rounded-xl bg-gradient-to-r from-sky-600 to-indigo-600 hover:from-sky-500 hover:to-indigo-500 text-white font-medium text-sm shadow-md shadow-sky-600/20 active:scale-[0.98] transition-all disabled:opacity-50 flex items-center justify-center gap-2 cursor-pointer"
+                className="w-full py-3 px-4 rounded-[14px] bg-[#F0AE55] hover:bg-[#F5BA6E] text-[#0D0E10] font-medium text-sm transition-colors disabled:opacity-50 flex items-center justify-center gap-2 cursor-pointer"
               >
                 {isLoading ? (
-                  <div className="h-4 w-4 border-2 border-white border-t-transparent rounded-full animate-spin" />
+                  <div className="h-4 w-4 border-2 border-[#0D0E10] border-t-transparent rounded-full animate-spin" />
                 ) : (
                   <>
                     <CheckCircle2 className="h-4 w-4" />
@@ -709,11 +709,11 @@ function RegisterContent() {
         </div>
 
         {/* Login footer link */}
-        <div className="text-center text-xs text-slate-500 dark:text-slate-400">
+        <div className="text-center text-xs text-[#9A9DA5]">
           <span>قبلاً حساب کاربری ساخته‌اید؟ </span>
           <Link
             href="/login"
-            className="text-sky-600 dark:text-sky-400 font-semibold hover:underline"
+            className="text-[#F0AE55] font-medium hover:underline"
           >
             ورود به سیستم
           </Link>

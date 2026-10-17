@@ -37,7 +37,7 @@ export function AppShell({ children }: { children: React.ReactNode }) {
       return null;
     }
     return (
-      <div className="min-h-screen bg-slate-50 dark:bg-[#070b14] text-slate-900 dark:text-slate-100 flex items-center justify-center">
+      <div className="min-h-screen bg-[#0D0E10] text-[#E8E8E8] flex items-center justify-center">
         {children}
       </div>
     );
@@ -46,9 +46,9 @@ export function AppShell({ children }: { children: React.ReactNode }) {
   // If still checking authentication status
   if (isLoading) {
     return (
-      <div className="min-h-screen flex flex-col items-center justify-center bg-slate-50 dark:bg-[#070b14] text-slate-600 dark:text-slate-300">
-        <div className="w-10 h-10 border-4 border-primary-500/30 border-t-primary-500 rounded-full animate-spin mb-4" />
-        <p className="text-sm font-medium">در حال بررسی هویت...</p>
+      <div className="min-h-screen flex flex-col items-center justify-center bg-[#0D0E10] text-[#9A9DA5]">
+        <div className="w-9 h-9 border-2 border-[rgba(240,174,85,0.2)] border-t-[#F0AE55] rounded-full animate-spin mb-4" />
+        <p className="text-xs font-normal">در حال بررسی هویت...</p>
       </div>
     );
   }
@@ -61,7 +61,7 @@ export function AppShell({ children }: { children: React.ReactNode }) {
   // If unauthenticated on an info route, show public shell
   if (!isAuthenticated && isInfoRoute) {
     return (
-      <div className="min-h-screen flex flex-col bg-slate-50 dark:bg-[#070b14] text-slate-900 dark:text-slate-100">
+      <div className="min-h-screen flex flex-col bg-[#0D0E10] text-[#E8E8E8]">
         <PublicHeader />
         <main className="flex-1 w-full">
           {children}
@@ -73,7 +73,7 @@ export function AppShell({ children }: { children: React.ReactNode }) {
 
   // Authenticated user: render full dashboard shell
   return (
-    <div className="flex min-h-screen bg-slate-50 dark:bg-[#070b14] text-slate-900 dark:text-slate-100">
+    <div className="flex min-h-screen bg-[#0D0E10] text-[#E8E8E8] relative overflow-x-hidden selection:bg-[#F0AE55]/20 selection:text-[#F0AE55]">
       {/* Navigation Sidebar */}
       <Sidebar />
 
@@ -81,7 +81,7 @@ export function AppShell({ children }: { children: React.ReactNode }) {
       <div className="flex-1 flex flex-col min-w-0">
         <Header
           title="مشاور مدیریت مالی تئا"
-          subtitle="بررسی وضعیت مالی، عملکرد مدیریت و شاخص پیشرفت"
+          subtitle="مرکز فرماندهی هوشمند دارایی‌ها، نسبت‌ها و پایش سبد سرمایه‌گذاری"
           onOpenQuickTx={() => setIsQuickTxOpen(true)}
         />
 

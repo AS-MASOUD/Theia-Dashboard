@@ -9,6 +9,7 @@ import {
   User,
   Wrench,
   Loader2,
+  Sparkles,
 } from "lucide-react";
 import { api } from "@/lib/api";
 import { SafeMarkdown } from "@/components/safe-markdown";
@@ -63,19 +64,23 @@ export default function AIAssistantPage() {
   return (
     <div className="flex flex-col h-[calc(100vh-8.5rem)] space-y-4">
       {/* Header Info */}
-      <div className="flex items-center justify-between pb-2 border-b border-slate-200 dark:border-slate-800">
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 pb-3 border-b border-[#282A2F]">
         <div>
-          <h2 className="text-base font-bold text-slate-900 dark:text-slate-100 flex items-center gap-2">
-            <Bot className="h-5 w-5 text-indigo-500" />
-            <span>دستیار هوشمند و تحلیل‌گر مالی (AI)</span>
-          </h2>
-          <p className="text-xs text-slate-500 dark:text-slate-400">
+          <div className="flex items-center gap-2.5">
+            <div className="h-9 w-9 rounded-[12px] bg-[#1B1D21] border border-[#282A2F] text-[#F0AE55] flex items-center justify-center">
+              <Bot className="h-4 w-4" />
+            </div>
+            <h2 className="text-base font-semibold text-[#E8E8E8] tracking-tight">
+              دستیار هوشمند و تحلیل‌گر مالی (AI)
+            </h2>
+          </div>
+          <p className="text-xs text-[#9A9DA5] mt-1 pr-11">
             تحلیل هوشمند زبانی متصل به موتور محاسباتی و داده‌های حسابداری شما
           </p>
         </div>
 
-        <div className="flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-indigo-50 dark:bg-indigo-950/40 border border-indigo-200 dark:border-indigo-900/60 text-indigo-600 dark:text-indigo-400 text-xs font-semibold">
-          <ShieldCheck className="h-3.5 w-3.5" />
+        <div className="flex items-center gap-2 px-3 py-1.5 rounded-full bg-[#1B1D21] border border-[#282A2F] text-[#9A9DA5] text-xs font-medium self-start sm:self-center">
+          <ShieldCheck className="h-3.5 w-3.5 text-[#76A98C]" />
           <span>گاردریل‌های محاسباتی قطعی</span>
         </div>
       </div>
@@ -86,7 +91,7 @@ export default function AIAssistantPage() {
           <button
             key={prompt}
             onClick={() => handleSend(prompt)}
-            className="px-3 py-1.5 rounded-lg border border-slate-200 dark:border-slate-800 hover:border-indigo-500/50 hover:bg-indigo-50/50 dark:hover:bg-indigo-950/20 text-slate-600 dark:text-slate-300 font-medium transition-all shrink-0 active:scale-95 text-[11px]"
+            className="px-3 py-1.5 rounded-[10px] border border-[#282A2F] bg-[#1B1D21] hover:bg-[#222327] hover:border-[#32343A] text-[#9A9DA5] hover:text-[#E8E8E8] font-medium transition-colors shrink-0 active:scale-95 text-[11px] cursor-pointer"
           >
             {prompt}
           </button>
@@ -94,7 +99,7 @@ export default function AIAssistantPage() {
       </div>
 
       {/* Chat Messages Log */}
-      <div className="flex-1 fin-card p-4 overflow-y-auto space-y-4">
+      <div className="flex-1 bg-[#141518] border border-[#282A2F] rounded-[22px] p-5 overflow-y-auto space-y-4">
         {messages.map((msg, index) => {
           const isUser = msg.role === "user";
 
@@ -104,33 +109,33 @@ export default function AIAssistantPage() {
               className={`flex gap-3 text-xs ${isUser ? "justify-end" : "justify-start"}`}
             >
               {!isUser && (
-                <div className="h-7 w-7 rounded-lg bg-indigo-600 text-white flex items-center justify-center shrink-0 shadow-xs">
+                <div className="h-8 w-8 rounded-[10px] bg-[#1B1D21] border border-[#282A2F] text-[#F0AE55] flex items-center justify-center shrink-0">
                   <Bot className="h-4 w-4" />
                 </div>
               )}
 
               <div
-                className={`max-w-2xl p-4 rounded-xl space-y-2 ${
+                className={`max-w-2xl p-4 rounded-[16px] space-y-2 leading-relaxed ${
                   isUser
-                    ? "bg-slate-900 text-white dark:bg-sky-600 dark:text-white"
-                    : "bg-slate-100 dark:bg-slate-800/80 text-slate-800 dark:text-slate-200 border border-slate-200 dark:border-slate-700/60"
+                    ? "bg-[#F0AE55] text-[#0D0E10] font-medium"
+                    : "bg-[#1B1D21] border border-[#282A2F] text-[#E8E8E8]"
                 }`}
               >
                 {/* Tool trace tag */}
                 {!isUser && msg.tool_calls && (
-                  <div className="inline-flex items-center gap-1 px-2 py-0.5 rounded text-[10px] font-mono font-semibold bg-indigo-500/10 text-indigo-500 dark:text-indigo-400 border border-indigo-500/20 mb-1">
-                    <Wrench className="h-2.5 w-2.5" />
+                  <div className="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-[6px] text-[10px] font-mono font-medium bg-[#141518] text-[#F0AE55] border border-[#282A2F] mb-1">
+                    <Wrench className="h-3 w-3 text-[#F0AE55]" />
                     <span>فراخوانی ابزار محاسباتی: get_financial_overview()</span>
                   </div>
                 )}
 
-                <div className="leading-relaxed text-xs font-normal">
+                <div className="leading-relaxed text-xs">
                   <SafeMarkdown content={msg.content} />
                 </div>
               </div>
 
               {isUser && (
-                <div className="h-7 w-7 rounded-lg bg-slate-700 text-white flex items-center justify-center shrink-0">
+                <div className="h-8 w-8 rounded-[10px] bg-[#1B1D21] border border-[#282A2F] text-[#E8E8E8] flex items-center justify-center shrink-0">
                   <User className="h-4 w-4" />
                 </div>
               )}
@@ -139,12 +144,12 @@ export default function AIAssistantPage() {
         })}
 
         {chatMutation.isPending && (
-          <div className="flex gap-3 text-xs items-center text-slate-400">
-            <div className="h-7 w-7 rounded-lg bg-indigo-600 text-white flex items-center justify-center shrink-0">
+          <div className="flex gap-3 text-xs items-center text-[#9A9DA5]">
+            <div className="h-8 w-8 rounded-[10px] bg-[#1B1D21] border border-[#282A2F] text-[#F0AE55] flex items-center justify-center shrink-0">
               <Bot className="h-4 w-4" />
             </div>
-            <div className="flex items-center gap-2 p-3 rounded-xl bg-slate-100 dark:bg-slate-800/60">
-              <Loader2 className="h-4 w-4 animate-spin text-indigo-500" />
+            <div className="flex items-center gap-2 p-3.5 rounded-[16px] bg-[#1B1D21] border border-[#282A2F]">
+              <Loader2 className="h-4 w-4 animate-spin text-[#F0AE55]" />
               <span>در حال فراخوانی مدل‌های حسابداری و پردازش پاسخ تحلیلی...</span>
             </div>
           </div>
@@ -157,19 +162,19 @@ export default function AIAssistantPage() {
           e.preventDefault();
           handleSend();
         }}
-        className="flex items-center gap-2"
+        className="flex items-center gap-2.5"
       >
         <input
           type="text"
           placeholder="سؤال مالی خود را بپرسید، مثلاً: تحلیل جریان نقدینگی یا تمرکز پورتفوی..."
           value={inputMessage}
           onChange={(e) => setInputMessage(e.target.value)}
-          className="flex-1 px-4 py-3 rounded-xl border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-900 text-slate-900 dark:text-slate-100 text-xs focus:outline-none focus:ring-2 focus:ring-indigo-500 shadow-sm"
+          className="flex-1 px-4 py-3 rounded-[14px] border border-[#282A2F] bg-[#1B1D21] text-[#E8E8E8] placeholder:text-[#696D77] text-xs focus:outline-none focus:border-[#F0AE55] focus:ring-1 focus:ring-[#F0AE55]/30 transition-colors"
         />
         <button
           type="submit"
           disabled={!inputMessage.trim() || chatMutation.isPending}
-          className="px-4 py-3 rounded-xl bg-indigo-600 hover:bg-indigo-500 text-white text-xs font-semibold shadow-sm transition-all disabled:opacity-40 flex items-center gap-1.5 shrink-0"
+          className="px-5 py-3 rounded-[14px] bg-[#F0AE55] hover:bg-[#F0AE55]/90 text-[#0D0E10] text-xs font-medium transition-colors active:scale-95 disabled:opacity-40 flex items-center gap-2 shrink-0 cursor-pointer"
         >
           <Send className="h-4 w-4" />
           <span>ارسال</span>

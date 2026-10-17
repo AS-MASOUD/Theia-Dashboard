@@ -27,16 +27,21 @@ export function ThemeProvider({
   useEffect(() => {
     try {
       const stored = localStorage.getItem(storageKey) as Theme | null;
-      if (stored === "dark" || stored === "light") {
-        setThemeState(stored);
-        document.documentElement.classList.remove("light", "dark");
-        document.documentElement.classList.add(stored);
+      if (stored === "dark") {
+        setThemeState("dark");
+        document.documentElement.classList.remove("light");
+        document.documentElement.classList.add("dark");
+      } else if (stored === "light") {
+        setThemeState("light");
+        document.documentElement.classList.remove("dark");
+        document.documentElement.classList.add("light");
       } else {
-        document.documentElement.classList.remove("light", "dark");
-        document.documentElement.classList.add(defaultTheme);
+        setThemeState("dark");
+        document.documentElement.classList.remove("light");
+        document.documentElement.classList.add("dark");
       }
     } catch {
-      // LocalStorage might be inaccessible in some environments
+      document.documentElement.classList.add("dark");
     }
   }, [defaultTheme, storageKey]);
 

@@ -54,19 +54,19 @@ export function NetWorthChart({ data }: NetWorthChartProps) {
   }, [data, range, currency, exchangeRate]);
 
   return (
-    <div className="fin-card p-5 flex flex-col justify-between h-[360px]">
+    <div className="bg-[#141518] border border-[#282A2F] rounded-[22px] p-5 flex flex-col justify-between h-[360px]">
       <div className="flex items-center justify-between mb-4">
         <div>
-          <h3 className="text-sm font-bold text-slate-900 dark:text-slate-100">
+          <h3 className="text-sm font-semibold text-[#E8E8E8]">
             روند ارزش خالص (Net Worth)
           </h3>
-          <p className="text-xs text-slate-500 dark:text-slate-400">
+          <p className="text-xs text-[#9A9DA5] font-normal">
             سیر تاریخی تغییرات ارزش پورتفولیو و تعهدات بدهی
           </p>
         </div>
 
         {/* Time range pills */}
-        <div className="flex items-center gap-1 bg-slate-100 dark:bg-slate-800 p-1 rounded-lg text-xs font-semibold">
+        <div className="flex items-center gap-1 bg-[#1B1D21] p-1 rounded-xl border border-[#282A2F] text-xs font-medium">
           {[
             { label: "۳۰ روزه", value: "30D" as const },
             { label: "۹۰ روزه", value: "90D" as const },
@@ -75,10 +75,10 @@ export function NetWorthChart({ data }: NetWorthChartProps) {
             <button
               key={r.value}
               onClick={() => setRange(r.value)}
-              className={`px-2.5 py-1 rounded-md transition-all ${
+              className={`px-3 py-1 rounded-lg transition-colors text-xs font-medium cursor-pointer ${
                 range === r.value
-                  ? "bg-white dark:bg-slate-900 text-slate-900 dark:text-slate-100 shadow-xs"
-                  : "text-slate-500 hover:text-slate-800 dark:hover:text-slate-200"
+                  ? "bg-[rgba(240,174,85,0.12)] border border-[rgba(240,174,85,0.30)] text-[#F0AE55]"
+                  : "text-[#9A9DA5] hover:text-[#E8E8E8]"
               }`}
             >
               {r.label}
@@ -89,7 +89,7 @@ export function NetWorthChart({ data }: NetWorthChartProps) {
 
       <div className="flex-1 w-full min-h-[260px]">
         {formattedData.length === 0 ? (
-          <div className="h-full flex items-center justify-center text-xs text-slate-400">
+          <div className="h-full flex items-center justify-center text-xs text-[#9A9DA5]">
             هنوز اسنپ‌شات تاریخی ثبت نشده است.
           </div>
         ) : (
@@ -97,19 +97,19 @@ export function NetWorthChart({ data }: NetWorthChartProps) {
             <AreaChart data={formattedData} margin={{ top: 10, right: 10, left: 0, bottom: 0 }}>
               <defs>
                 <linearGradient id="netWorthGrad" x1="0" y1="0" x2="0" y2="1">
-                  <stop offset="5%" stopColor="#38bdf8" stopOpacity={0.4} />
-                  <stop offset="95%" stopColor="#38bdf8" stopOpacity={0.0} />
+                  <stop offset="5%" stopColor="#F0AE55" stopOpacity={0.15} />
+                  <stop offset="95%" stopColor="#F0AE55" stopOpacity={0.0} />
                 </linearGradient>
               </defs>
               <XAxis
                 dataKey="date"
-                stroke="#64748b"
+                stroke="#696D77"
                 fontSize={11}
                 tickLine={false}
                 axisLine={false}
               />
               <YAxis
-                stroke="#64748b"
+                stroke="#696D77"
                 fontSize={11}
                 tickLine={false}
                 axisLine={false}
@@ -124,18 +124,18 @@ export function NetWorthChart({ data }: NetWorthChartProps) {
                   if (active && payload && payload.length) {
                     const row = payload[0]?.payload;
                     return (
-                      <div className="bg-slate-900 text-white p-3 rounded-xl shadow-xl text-xs space-y-1.5 border border-slate-700 text-right" dir="rtl">
-                        <div className="font-semibold text-slate-300">{label}</div>
-                        <div className="text-sky-400 font-bold">
+                      <div className="bg-[#1B1D21] text-[#E8E8E8] p-3 rounded-2xl shadow-xl text-xs space-y-1.5 border border-[#282A2F] text-right" dir="rtl">
+                        <div className="font-medium text-[#F0AE55]">{label}</div>
+                        <div className="text-[#E8E8E8] font-semibold font-number">
                           ارزش خالص: {formatMoney(row?.rawNetWorth)}
                         </div>
                         {row?.rawAssets !== undefined && (
-                          <div className="text-emerald-400">
+                          <div className="text-[#76A98C] font-number">
                             کل دارایی‌ها: {formatMoney(row?.rawAssets)}
                           </div>
                         )}
                         {row?.rawLiabilities !== undefined && (
-                          <div className="text-rose-400">
+                          <div className="text-[#C77A82] font-number">
                             کل بدهی‌ها: {formatMoney(row?.rawLiabilities)}
                           </div>
                         )}
@@ -148,8 +148,8 @@ export function NetWorthChart({ data }: NetWorthChartProps) {
               <Area
                 type="monotone"
                 dataKey="netWorth"
-                stroke="#0284c7"
-                strokeWidth={2.5}
+                stroke="#F0AE55"
+                strokeWidth={2}
                 fillOpacity={1}
                 fill="url(#netWorthGrad)"
               />
@@ -162,13 +162,13 @@ export function NetWorthChart({ data }: NetWorthChartProps) {
 }
 
 const ALLOCATION_COLORS = [
-  "#3b82f6", // Cash
-  "#10b981", // Equity
-  "#8b5cf6", // Crypto
-  "#f59e0b", // Commodity
-  "#ec4899", // Fixed income
-  "#06b6d4", // Real estate
-  "#64748b", // Other
+  "#F0AE55", // Warm Amber
+  "#B9823D", // Muted Bronze
+  "#76A98C", // Soft Sage
+  "#88A9BC", // Slate Blue
+  "#3A3E47", // Charcoal Gray
+  "#C77A82", // Muted Rose
+  "#D4A373", // Warm Sand
 ];
 
 const CATEGORY_FA: Record<string, string> = {
@@ -196,18 +196,18 @@ export function AllocationDonut({ data }: AllocationDonutProps) {
   const { formatMoney } = useCurrency();
 
   return (
-    <div className="fin-card p-5 flex flex-col justify-between h-[360px]">
+    <div className="bg-[#141518] border border-[#282A2F] rounded-[22px] p-5 flex flex-col justify-between h-[360px]">
       <div>
-        <h3 className="text-sm font-bold text-slate-900 dark:text-slate-100">
+        <h3 className="text-sm font-semibold text-[#E8E8E8]">
           ترکیب و تخصیص دارایی‌ها
         </h3>
-        <p className="text-xs text-slate-500 dark:text-slate-400">
+        <p className="text-xs text-[#9A9DA5] font-normal">
           توزیع سرمایه میان طبقات دارایی و پوزیشن‌ها
         </p>
       </div>
 
       {chartData.length === 0 ? (
-        <div className="flex-1 flex items-center justify-center text-xs text-slate-400">
+        <div className="flex-1 flex items-center justify-center text-xs text-[#9A9DA5]">
           دارایی یا پوزیشنی جهت نمایش ثبت نشده است.
         </div>
       ) : (
@@ -232,7 +232,22 @@ export function AllocationDonut({ data }: AllocationDonutProps) {
                   ))}
                 </Pie>
                 <Tooltip
-                  formatter={(value: unknown) => [formatMoney(Number(value)), "ارزش روز"]}
+                  content={({ active, payload }) => {
+                    if (active && payload && payload.length) {
+                      const item = payload[0];
+                      return (
+                        <div className="bg-[#1B1D21] border border-[#282A2F] text-[#E8E8E8] p-2.5 rounded-xl shadow-xl text-xs space-y-0.5 text-right" dir="rtl">
+                          <div className="font-medium text-[#F0AE55]">
+                            {CATEGORY_FA[item.name as string] || item.name}
+                          </div>
+                          <div className="text-[#E8E8E8] font-semibold font-number">
+                            {formatMoney(Number(item.value))}
+                          </div>
+                        </div>
+                      );
+                    }
+                    return null;
+                  }}
                 />
               </PieChart>
             </ResponsiveContainer>
@@ -243,24 +258,24 @@ export function AllocationDonut({ data }: AllocationDonutProps) {
             {chartData.map((item, idx) => (
               <div
                 key={item.category}
-                className="flex items-center justify-between text-xs py-1 border-b border-slate-100 dark:border-slate-800/60"
+                className="flex items-center justify-between text-xs py-1.5 border-b border-[#282A2F]/50"
               >
                 <div className="flex items-center gap-2">
                   <span
-                    className="h-2.5 w-2.5 rounded-full"
+                    className="h-2 w-2 rounded-full"
                     style={{
                       backgroundColor: ALLOCATION_COLORS[idx % ALLOCATION_COLORS.length],
                     }}
                   />
-                  <span className="font-medium text-slate-700 dark:text-slate-300">
+                  <span className="font-normal text-[#E8E8E8]">
                     {CATEGORY_FA[item.category] || item.category}
                   </span>
                 </div>
                 <div className="flex items-center gap-2">
-                  <span className="font-semibold text-slate-900 dark:text-slate-100">
+                  <span className="font-semibold text-[#E8E8E8] font-number">
                     %{item.percentage.toFixed(1)}
                   </span>
-                  <span className="text-slate-400 text-[11px]">
+                  <span className="text-[#9A9DA5] text-[11px] font-number">
                     {formatMoney(item.amount)}
                   </span>
                 </div>

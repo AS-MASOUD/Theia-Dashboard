@@ -1,5 +1,7 @@
 @import "tailwindcss";
 
+@custom-variant dark (&:where(.dark, .dark *));
+
 /* Zero External Font Dependencies: Local Persian WOFF2 Fonts with swap */
 @font-face {
   font-family: 'Kalameh';
@@ -51,91 +53,116 @@
 }
 
 :root {
-  --background: #f8fafc;
-  --foreground: #0f172a;
-  --card: #ffffff;
-  --card-foreground: #0f172a;
-  --popover: #ffffff;
-  --popover-foreground: #0f172a;
-  --primary: #0f172a;
-  --primary-foreground: #f8fafc;
-  --secondary: #f1f5f9;
-  --secondary-foreground: #1e293b;
-  --muted: #f1f5f9;
-  --muted-foreground: #64748b;
-  --accent: #f1f5f9;
-  --accent-foreground: #0f172a;
-  --destructive: #ef4444;
-  --destructive-foreground: #f8fafc;
-  --border: #e2e8f0;
-  --input: #e2e8f0;
-  --ring: #0f172a;
-  --radius: 0.75rem;
+  --background: #0D0E10;
+  --foreground: #E8E8E8;
+  --card: #141518;
+  --card-elevated: #1B1D21;
+  --card-highlight: #222327;
+  --card-foreground: #E8E8E8;
+  --popover: #141518;
+  --popover-foreground: #E8E8E8;
+  --primary: #F0AE55;
+  --primary-foreground: #0D0E10;
+  --secondary: #1B1D21;
+  --secondary-foreground: #E8E8E8;
+  --muted: #1B1D21;
+  --muted-foreground: #9A9DA5;
+  --accent: #222327;
+  --accent-foreground: #E8E8E8;
+  --destructive: #C77A82;
+  --destructive-foreground: #E8E8E8;
+  --border: #282A2F;
+  --input: #282A2F;
+  --ring: #F0AE55;
+  --radius: 1.375rem;
+
+  /* Reference Design Tokens */
+  --app-bg: #0D0E10;
+  --sidebar-bg: #101114;
+  --surface-primary: #141518;
+  --surface-secondary: #1B1D21;
+  --surface-elevated: #222327;
+
+  --border-subtle: #282A2F;
+  --border-default: #32343A;
+
+  --text-primary: #E8E8E8;
+  --text-secondary: #9A9DA5;
+  --text-muted: #696D77;
+
+  --accent-primary: #F0AE55;
+  --accent-muted: #B9823D;
+  --accent-surface: rgba(240, 174, 85, 0.09);
+  --accent-border: rgba(240, 174, 85, 0.22);
+
+  --positive: #76A98C;
+  --negative: #C77A82;
+  --informational: #88A9BC;
+
+  --radius-card: 22px;
+  --radius-control: 14px;
+  --radius-small: 10px;
+
+  /* Ambient Glow Color & Opacity Tokens */
+  --glow-amber: 240 174 85;
+  --glow-green: 118 169 140;
+  --glow-red: 199 122 130;
+  --glow-blue: 136 169 188;
+
+  --amber-light: #F3BC72;
+  --amber-primary: #F0AE55;
+  --amber-deep: #B77A33;
+  --amber-fill: #A8793D;
+
+  --green-soft: #76A98C;
+  --red-soft: #C77A82;
+  --blue-soft: #88A9BC;
 
   /* Financial Semantic Tokens */
-  --finance-gain: #10b981;
-  --finance-gain-subtle: #ecfdf5;
-  --finance-loss: #f43f5e;
-  --finance-loss-subtle: #fff1f2;
-  --finance-warning: #f59e0b;
-  --finance-warning-subtle: #fffbeb;
-  --finance-neutral: #64748b;
-  --finance-neutral-subtle: #f8fafc;
-  --finance-brand: #3b82f6;
+  --finance-gain: #76A98C;
+  --finance-gain-subtle: rgba(118, 169, 140, 0.12);
+  --finance-loss: #C77A82;
+  --finance-loss-subtle: rgba(199, 122, 130, 0.12);
+  --finance-warning: #F0AE55;
+  --finance-warning-subtle: rgba(240, 174, 85, 0.12);
+  --finance-neutral: #9A9DA5;
+  --finance-neutral-subtle: rgba(154, 157, 165, 0.08);
+  --finance-brand: #F0AE55;
 }
 
 .dark {
-  --background: #090d16;
-  --foreground: #f8fafc;
-  --card: #111827;
-  --card-foreground: #f8fafc;
-  --popover: #111827;
-  --popover-foreground: #f8fafc;
-  --primary: #f8fafc;
-  --primary-foreground: #090d16;
-  --secondary: #1f2937;
-  --secondary-foreground: #f8fafc;
-  --muted: #1e293b;
-  --muted-foreground: #94a3b8;
-  --accent: #1e293b;
-  --accent-foreground: #f8fafc;
-  --destructive: #f43f5e;
-  --destructive-foreground: #f8fafc;
-  --border: #1f293d;
-  --input: #1f293d;
-  --ring: #38bdf8;
-
-  /* Financial Semantic Tokens Dark */
-  --finance-gain: #34d399;
-  --finance-gain-subtle: rgba(16, 185, 129, 0.12);
-  --finance-loss: #fb7185;
-  --finance-loss-subtle: rgba(244, 63, 94, 0.12);
-  --finance-warning: #fbbf24;
-  --finance-warning-subtle: rgba(245, 158, 11, 0.12);
-  --finance-neutral: #94a3b8;
-  --finance-neutral-subtle: rgba(148, 163, 184, 0.08);
-  --finance-brand: #60a5fa;
+  --background: #0D0E10;
+  --foreground: #E8E8E8;
+  --card: #141518;
+  --card-foreground: #E8E8E8;
+  --popover: #141518;
+  --popover-foreground: #E8E8E8;
+  --primary: #F0AE55;
+  --primary-foreground: #0D0E10;
+  --secondary: #1B1D21;
+  --secondary-foreground: #E8E8E8;
+  --muted: #1B1D21;
+  --muted-foreground: #9A9DA5;
+  --accent: #222327;
+  --accent-foreground: #E8E8E8;
+  --destructive: #C77A82;
+  --destructive-foreground: #E8E8E8;
+  --border: #282A2F;
+  --input: #282A2F;
+  --ring: #F0AE55;
 }
 
-/* Mobile 60-120 FPS Scrolling & Animation: Dedicated GPU layer, no background-attachment: fixed */
+/* Base Body Resets */
 body {
   font-family: 'Kalameh', 'Vazirmatn', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-  background-color: var(--background);
-  color: var(--foreground);
+  background-color: var(--app-bg);
+  color: var(--text-primary);
   font-feature-settings: "cv02", "cv03", "cv04";
   min-height: 100vh;
   -webkit-overflow-scrolling: touch;
   touch-action: pan-y;
   overscroll-behavior-y: auto;
-}
-
-body::before {
-  content: '';
-  position: fixed;
-  inset: 0;
-  z-index: -1;
-  transform: translateZ(0);
-  pointer-events: none;
+  -webkit-font-smoothing: antialiased;
 }
 
 /* Enforce English font & tabular digits for numbers, prices, and metrics */
@@ -149,16 +176,93 @@ input[dir="ltr"] {
   font-variant-numeric: tabular-nums lining-nums;
 }
 
-/* Custom Financial Card Elevation */
+/* Refined Minimalist Surfaces with Soft Material Depth (Loyal to Reference) */
+.obsidian-card {
+  background: linear-gradient(165deg, #17181C 0%, #141518 55%, #111215 100%);
+  border: 1px solid rgba(255, 255, 255, 0.055);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.035), 0 4px 20px -2px rgba(0, 0, 0, 0.4);
+  border-radius: var(--radius-card);
+  transition: border-color 0.2s ease, background-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.obsidian-card-elevated {
+  background: linear-gradient(165deg, #1E2025 0%, #1B1D21 60%, #15161A 100%);
+  border: 1px solid rgba(255, 255, 255, 0.075);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.05), 0 8px 24px -4px rgba(0, 0, 0, 0.5);
+  border-radius: var(--radius-card);
+}
+
+.obsidian-card:hover {
+  border-color: rgba(255, 255, 255, 0.09);
+}
+
+/* Enhanced fin-card mapping to minimalist surface */
 .fin-card {
-  background-color: var(--card);
-  border: 1px solid var(--border);
-  border-radius: var(--radius);
-  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+  background: linear-gradient(165deg, #17181C 0%, #141518 55%, #111215 100%);
+  border: 1px solid rgba(255, 255, 255, 0.055);
+  border-radius: var(--radius-card);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.035), 0 4px 20px -2px rgba(0, 0, 0, 0.4);
+  transition: border-color 0.2s ease, background-color 0.2s ease, box-shadow 0.2s ease;
 }
 
 .fin-card:hover {
-  border-color: rgba(99, 102, 241, 0.3);
+  border-color: rgba(255, 255, 255, 0.09);
+}
+
+/* Ambient Lighting & Controlled Diffused Illumination */
+.ambient-glow-amber {
+  position: relative;
+}
+.ambient-glow-amber::before {
+  content: '';
+  position: absolute;
+  inset: -6px;
+  background: radial-gradient(circle, rgba(240, 174, 85, 0.24) 0%, rgba(240, 174, 85, 0.06) 50%, transparent 75%);
+  border-radius: inherit;
+  pointer-events: none;
+  z-index: 0;
+}
+
+.ambient-glow-green {
+  position: relative;
+}
+.ambient-glow-green::before {
+  content: '';
+  position: absolute;
+  inset: -6px;
+  background: radial-gradient(circle, rgba(118, 169, 140, 0.22) 0%, rgba(118, 169, 140, 0.05) 50%, transparent 75%);
+  border-radius: inherit;
+  pointer-events: none;
+  z-index: 0;
+}
+
+.ambient-glow-red {
+  position: relative;
+}
+.ambient-glow-red::before {
+  content: '';
+  position: absolute;
+  inset: -6px;
+  background: radial-gradient(circle, rgba(199, 122, 130, 0.22) 0%, rgba(199, 122, 130, 0.05) 50%, transparent 75%);
+  border-radius: inherit;
+  pointer-events: none;
+  z-index: 0;
+}
+
+/* Tactile Illuminated Primary Button (Reference Screen 6: ACTIVATE) */
+.btn-illuminated-amber {
+  background: #F0AE55;
+  color: #0D0E10;
+  box-shadow: 0 0 16px -2px rgba(240, 174, 85, 0.38), 0 2px 6px rgba(0, 0, 0, 0.3);
+  transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+}
+.btn-illuminated-amber:hover {
+  background: #F3BC72;
+  box-shadow: 0 0 22px 0 rgba(240, 174, 85, 0.52), 0 2px 8px rgba(0, 0, 0, 0.35);
+}
+.btn-illuminated-amber:active {
+  transform: scale(0.97);
+  box-shadow: 0 0 10px -2px rgba(240, 174, 85, 0.3);
 }
 
 /* Clean Custom Scrollbar */

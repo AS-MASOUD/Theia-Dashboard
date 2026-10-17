@@ -268,10 +268,10 @@ export function LiabilityDetailModal({
     liabilityLabels[liability.liability_type?.toLowerCase()] || liability.liability_type;
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 backdrop-blur-sm p-3 sm:p-4 animate-in fade-in duration-200">
-      <div className="fin-card w-full max-w-2xl bg-white dark:bg-slate-900 shadow-2xl p-5 sm:p-7 relative max-h-[92vh] overflow-y-auto space-y-6">
+    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/75 backdrop-blur-md p-3 sm:p-4 animate-in fade-in duration-200">
+      <div className="obsidian-card-elevated w-full max-w-2xl bg-[#12151e] border border-white/10 shadow-2xl p-5 sm:p-7 relative max-h-[92vh] overflow-y-auto space-y-6">
         {/* Top Header */}
-        <div className="flex items-start justify-between border-b border-slate-100 dark:border-slate-800 pb-4">
+        <div className="flex items-start justify-between border-b border-white/10 pb-4">
           <div className="flex items-center gap-3.5">
             <LenderLogo
               lender={liability.lender}
@@ -280,16 +280,16 @@ export function LiabilityDetailModal({
             />
             <div>
               <div className="flex flex-wrap items-center gap-2">
-                <h2 className="text-base sm:text-lg font-bold text-slate-900 dark:text-slate-100">
+                <h2 className="text-base sm:text-lg font-bold text-slate-100">
                   {liability.name}
                 </h2>
                 <span
-                  className={`text-[11px] font-bold px-2 py-0.5 rounded-md flex items-center gap-1 ${
+                  className={`text-[11px] font-bold px-2 py-0.5 rounded-lg flex items-center gap-1 border ${
                     isFriendLent
-                      ? "bg-emerald-100 dark:bg-emerald-950/60 text-emerald-700 dark:text-emerald-300"
+                      ? "bg-emerald-500/10 text-emerald-400 border-emerald-500/20"
                       : isFriendBorrowed
-                      ? "bg-amber-100 dark:bg-amber-950/60 text-amber-700 dark:text-amber-300"
-                      : "bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300"
+                      ? "bg-amber-500/10 text-amber-400 border-amber-500/20"
+                      : "bg-white/5 text-slate-300 border-white/10"
                   }`}
                 >
                   {isFriendLent && <ArrowUpRight className="h-3 w-3" />}
@@ -298,7 +298,7 @@ export function LiabilityDetailModal({
                 </span>
 
                 {installmentMetrics.isFullyPaid && (
-                  <span className="text-[11px] font-bold px-2 py-0.5 rounded-md bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 border border-emerald-500/20 flex items-center gap-1">
+                  <span className="text-[11px] font-bold px-2 py-0.5 rounded-lg bg-emerald-500/10 text-emerald-400 border border-emerald-500/20 flex items-center gap-1">
                     <CheckCircle2 className="h-3 w-3" />
                     تسویه کامل
                   </span>
@@ -307,11 +307,11 @@ export function LiabilityDetailModal({
 
               <p className="text-xs text-slate-400 mt-1 flex items-center gap-1.5">
                 <span>طرف حساب:</span>
-                <span className="font-semibold text-slate-700 dark:text-slate-200">
+                <span className="font-semibold text-slate-200">
                   {liability.lender || brand.name}
                 </span>
                 {brand.badgeLabel && (
-                  <span className="text-[10px] px-1.5 py-0.2 rounded bg-slate-100 dark:bg-slate-800 text-slate-500">
+                  <span className="text-[10px] px-1.5 py-0.2 rounded-full bg-white/5 text-slate-400 border border-white/5">
                     {brand.badgeLabel}
                   </span>
                 )}
@@ -323,7 +323,7 @@ export function LiabilityDetailModal({
             {mode === "view" ? (
               <button
                 onClick={() => setMode("edit")}
-                className="px-2.5 py-1.5 rounded-lg text-xs font-semibold text-sky-600 dark:text-sky-400 hover:bg-sky-50 dark:hover:bg-sky-950/50 transition-colors flex items-center gap-1.5"
+                className="px-2.5 py-1.5 rounded-xl text-xs font-semibold text-amber-400 hover:bg-amber-500/10 transition-colors flex items-center gap-1.5 cursor-pointer"
                 title="ویرایش و تکمیل اطلاعات"
               >
                 <Edit3 className="h-3.5 w-3.5" />
@@ -332,7 +332,7 @@ export function LiabilityDetailModal({
             ) : (
               <button
                 onClick={() => setMode("view")}
-                className="px-2.5 py-1.5 rounded-lg text-xs font-semibold text-slate-600 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors"
+                className="px-2.5 py-1.5 rounded-xl text-xs font-semibold text-slate-300 hover:bg-white/5 transition-colors cursor-pointer"
               >
                 مشاهده جزییات
               </button>
@@ -340,7 +340,7 @@ export function LiabilityDetailModal({
 
             <button
               onClick={onClose}
-              className="p-1.5 rounded-lg text-slate-400 hover:text-slate-700 dark:hover:text-slate-200 hover:bg-slate-100 dark:hover:bg-slate-800"
+              className="p-1.5 rounded-lg text-slate-400 hover:text-slate-200 hover:bg-white/5 cursor-pointer"
             >
               <X className="h-4 w-4" />
             </button>
@@ -351,42 +351,42 @@ export function LiabilityDetailModal({
         {mode === "view" && (
           <div className="space-y-6 text-xs">
             {/* Installment Counter and Progress Showcase */}
-            <div className="p-4 rounded-2xl bg-gradient-to-br from-slate-50 to-slate-100/60 dark:from-slate-800/40 dark:to-slate-900/60 border border-slate-200/80 dark:border-slate-800 space-y-4">
+            <div className="p-5 rounded-2xl bg-white/[0.03] border border-white/10 space-y-4">
               <div className="flex items-center justify-between">
-                <span className="font-bold text-slate-700 dark:text-slate-300 flex items-center gap-1.5">
-                  <Calendar className="h-4 w-4 text-sky-500" />
+                <span className="font-bold text-slate-200 flex items-center gap-1.5">
+                  <Calendar className="h-4 w-4 text-amber-400" />
                   وضعیت و آمار اقساط
                 </span>
-                <span className="font-mono text-xs font-bold text-sky-600 dark:text-sky-400">
+                <span className="font-mono text-xs font-bold text-amber-400">
                   {installmentMetrics.repaidPercent.toFixed(1)}% پرداخت شده
                 </span>
               </div>
 
               {/* 3 Metrics in a row: Paid, Remaining, Total */}
               <div className="grid grid-cols-3 gap-2.5 text-center">
-                <div className="p-3 rounded-xl bg-white dark:bg-slate-800/80 border border-slate-200/60 dark:border-slate-700/60 shadow-xs">
+                <div className="p-3 rounded-xl bg-[#0d1015] border border-white/5 shadow-xs">
                   <span className="text-[10px] text-slate-400 block mb-1">اقساط پرداخت‌شده</span>
-                  <div className="text-lg sm:text-xl font-black text-emerald-600 dark:text-emerald-400 font-mono">
+                  <div className="text-lg sm:text-xl font-black text-emerald-400 font-mono">
                     {installmentMetrics.paidInstallments}
                   </div>
-                  <span className="text-[10px] text-emerald-600/80 dark:text-emerald-400/80 font-medium">
+                  <span className="text-[10px] text-emerald-400/80 font-medium">
                     قسط تا الان
                   </span>
                 </div>
 
-                <div className="p-3 rounded-xl bg-white dark:bg-slate-800/80 border border-slate-200/60 dark:border-slate-700/60 shadow-xs">
+                <div className="p-3 rounded-xl bg-[#0d1015] border border-white/5 shadow-xs">
                   <span className="text-[10px] text-slate-400 block mb-1">اقساط باقی‌مانده</span>
-                  <div className="text-lg sm:text-xl font-black text-rose-600 dark:text-rose-400 font-mono">
+                  <div className="text-lg sm:text-xl font-black text-rose-400 font-mono">
                     {installmentMetrics.remainingInstallments}
                   </div>
-                  <span className="text-[10px] text-rose-600/80 dark:text-rose-400/80 font-medium">
+                  <span className="text-[10px] text-rose-400/80 font-medium">
                     قسط مانده
                   </span>
                 </div>
 
-                <div className="p-3 rounded-xl bg-white dark:bg-slate-800/80 border border-slate-200/60 dark:border-slate-700/60 shadow-xs">
+                <div className="p-3 rounded-xl bg-[#0d1015] border border-white/5 shadow-xs">
                   <span className="text-[10px] text-slate-400 block mb-1">کل تعداد اقساط</span>
-                  <div className="text-lg sm:text-xl font-black text-slate-800 dark:text-slate-200 font-mono">
+                  <div className="text-lg sm:text-xl font-black text-slate-200 font-mono">
                     {installmentMetrics.totalInstallments}
                   </div>
                   <span className="text-[10px] text-slate-400 font-medium">قسط کل</span>
@@ -395,12 +395,12 @@ export function LiabilityDetailModal({
 
               {/* Visual Progress Bar */}
               <div className="space-y-1.5">
-                <div className="w-full h-3 bg-slate-200/70 dark:bg-slate-700/60 rounded-full overflow-hidden p-0.5">
+                <div className="w-full h-1.5 bg-[#1B1D21] border border-[#282A2F] rounded-full overflow-hidden">
                   <div
-                    className={`h-full rounded-full transition-all duration-500 ${
+                    className={`h-full rounded-full transition-all duration-300 ${
                       isFriendLent
-                        ? "bg-emerald-500 shadow-sm shadow-emerald-500/50"
-                        : "bg-sky-500 shadow-sm shadow-sky-500/50"
+                        ? "bg-[#76A98C]"
+                        : "bg-[#F0AE55]"
                     }`}
                     style={{ width: `${Math.min(100, installmentMetrics.repaidPercent)}%` }}
                   />
@@ -409,7 +409,7 @@ export function LiabilityDetailModal({
                   <span>پرداخت‌شده: {formatMoney(installmentMetrics.repaidAmount)}</span>
                   <span>
                     مانده:{" "}
-                    <b className="text-slate-700 dark:text-slate-200 font-bold">
+                    <b className="text-slate-100 font-bold">
                       {formatMoney(liability.current_balance)}
                     </b>
                   </span>
@@ -419,59 +419,59 @@ export function LiabilityDetailModal({
 
             {/* Entity Financial Details Grid */}
             <div className="grid grid-cols-2 sm:grid-cols-3 gap-3">
-              <div className="p-3 rounded-xl bg-slate-50 dark:bg-slate-800/50 border border-slate-100 dark:border-slate-800">
+              <div className="p-3 rounded-xl bg-white/[0.03] border border-white/5">
                 <span className="text-slate-400 text-[10px] block mb-1">اصل مبلغ تعهد (وام)</span>
-                <span className="text-sm font-bold text-slate-900 dark:text-slate-100 font-mono">
+                <span className="text-sm font-bold text-slate-100 font-mono">
                   {formatMoney(liability.original_principal)}
                 </span>
               </div>
 
-              <div className="p-3 rounded-xl bg-slate-50 dark:bg-slate-800/50 border border-slate-100 dark:border-slate-800">
+              <div className="p-3 rounded-xl bg-white/[0.03] border border-white/5">
                 <span className="text-slate-400 text-[10px] block mb-1">مبلغ قسط هر ماه</span>
-                <span className="text-sm font-bold text-slate-900 dark:text-slate-100 font-mono">
+                <span className="text-sm font-bold text-slate-100 font-mono">
                   {formatMoney(liability.monthly_payment)}
                 </span>
               </div>
 
-              <div className="p-3 rounded-xl bg-slate-50 dark:bg-slate-800/50 border border-slate-100 dark:border-slate-800">
+              <div className="p-3 rounded-xl bg-white/[0.03] border border-white/5">
                 <span className="text-slate-400 text-[10px] block mb-1">نرخ سود سالانه</span>
-                <span className="text-sm font-bold text-slate-900 dark:text-slate-100 font-mono">
+                <span className="text-sm font-bold text-slate-100 font-mono">
                   {parseFloat(liability.interest_rate_percent || "0") === 0
                     ? "بدون سود (۰٪)"
                     : `${parseFloat(liability.interest_rate_percent).toFixed(1)}%`}
                 </span>
               </div>
 
-              <div className="p-3 rounded-xl bg-slate-50 dark:bg-slate-800/50 border border-slate-100 dark:border-slate-800">
+              <div className="p-3 rounded-xl bg-white/[0.03] border border-white/5">
                 <span className="text-slate-400 text-[10px] block mb-1">تاریخ شروع / دریافت</span>
-                <span className="text-xs font-semibold text-slate-800 dark:text-slate-200">
+                <span className="text-xs font-semibold text-slate-200">
                   {liability.start_date ? formatDate(liability.start_date) : "ثبت‌نشده"}
                 </span>
               </div>
 
-              <div className="p-3 rounded-xl bg-slate-50 dark:bg-slate-800/50 border border-slate-100 dark:border-slate-800">
+              <div className="p-3 rounded-xl bg-white/[0.03] border border-white/5">
                 <span className="text-slate-400 text-[10px] block mb-1">تاریخ سررسید نهایی</span>
-                <span className="text-xs font-semibold text-slate-800 dark:text-slate-200">
+                <span className="text-xs font-semibold text-slate-200">
                   {liability.maturity_date ? formatDate(liability.maturity_date) : "مشخص‌نشده"}
                 </span>
               </div>
 
-              <div className="p-3 rounded-xl bg-slate-50 dark:bg-slate-800/50 border border-slate-100 dark:border-slate-800">
+              <div className="p-3 rounded-xl bg-white/[0.03] border border-white/5">
                 <span className="text-slate-400 text-[10px] block mb-1">واحد پولی</span>
-                <span className="text-xs font-bold text-slate-800 dark:text-slate-200 font-mono">
+                <span className="text-xs font-bold text-slate-200 font-mono">
                   {liability.currency || "TOMAN"}
                 </span>
               </div>
             </div>
 
             {/* Quick Action Buttons */}
-            <div className="flex flex-wrap items-center justify-between gap-2 pt-2 border-t border-slate-100 dark:border-slate-800">
+            <div className="flex flex-wrap items-center justify-between gap-2 pt-2 border-t border-white/10">
               <button
                 type="button"
                 onClick={() => setMode("payment")}
-                className="px-4 py-2 rounded-xl bg-sky-600 hover:bg-sky-500 text-white font-semibold flex items-center gap-2 shadow-sm transition-all"
+                className="px-4 py-2 rounded-xl bg-gradient-to-r from-amber-500 to-amber-600 hover:from-amber-400 hover:to-amber-500 text-slate-950 font-bold flex items-center gap-2 shadow-md shadow-amber-500/20 transition-all cursor-pointer"
               >
-                <PlusCircle className="h-4 w-4" />
+                <PlusCircle className="h-4 w-4 stroke-[2.5]" />
                 <span>ثبت پرداخت قسط جدید</span>
               </button>
 
@@ -483,7 +483,7 @@ export function LiabilityDetailModal({
                   }
                 }}
                 disabled={deleteMutation.isPending}
-                className="px-3 py-2 rounded-xl text-rose-600 hover:bg-rose-50 dark:hover:bg-rose-950/40 border border-rose-200 dark:border-rose-900 transition-colors flex items-center gap-1.5"
+                className="px-3 py-2 rounded-xl text-rose-400 hover:bg-rose-500/10 border border-rose-500/20 transition-colors flex items-center gap-1.5 cursor-pointer"
               >
                 <Trash2 className="h-3.5 w-3.5" />
                 <span>حذف این تعهد</span>
@@ -543,34 +543,34 @@ export function LiabilityDetailModal({
             }}
             className="space-y-4 text-xs"
           >
-            <div className="p-3 rounded-xl bg-sky-50/70 dark:bg-sky-950/30 border border-sky-200 dark:border-sky-900 text-sky-800 dark:text-sky-200 leading-relaxed">
-              <span className="font-bold block mb-0.5">ویرایش و تکمیل اطلاعات تعهد مالی</span>
+            <div className="p-3.5 rounded-xl bg-amber-500/10 border border-amber-500/20 text-amber-300 leading-relaxed">
+              <span className="font-bold block mb-0.5 text-amber-400">ویرایش و تکمیل اطلاعات تعهد مالی</span>
               شما می‌توانید مقادیر ناقص (مانند نام بانک، تاریخ سررسید، مبلغ اقساط ماهانه یا نرخ سود)
               را در این فرم تکمیل و ذخیره فرمایید.
             </div>
 
             {editError && (
-              <div className="p-3 rounded-lg bg-rose-50 dark:bg-rose-950/40 border border-rose-200 dark:border-rose-900 text-rose-700 dark:text-rose-300">
+              <div className="p-3 rounded-xl bg-rose-500/10 border border-rose-500/20 text-rose-400">
                 {editError}
               </div>
             )}
 
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-3.5">
               <div>
-                <label className="block font-semibold text-slate-800 dark:text-slate-200 mb-1">
+                <label className="block font-semibold text-slate-300 mb-1">
                   عنوان یا نام تعهد *
                 </label>
                 <input
                   type="text"
                   value={editName}
                   onChange={(e) => setEditName(e.target.value)}
-                  className="w-full p-2.5 rounded-xl border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 text-slate-900 dark:text-slate-100"
+                  className="w-full p-2.5 rounded-xl border border-white/10 bg-[#0a0c12] text-slate-100 placeholder:text-slate-500 focus:outline-none focus:ring-2 focus:ring-amber-500/40 focus:border-amber-500/60"
                   required
                 />
               </div>
 
               <div>
-                <label className="block font-semibold text-slate-800 dark:text-slate-200 mb-1">
+                <label className="block font-semibold text-slate-300 mb-1">
                   نام بانک، پلتفرم یا طرف حساب
                 </label>
                 <input
@@ -578,18 +578,18 @@ export function LiabilityDetailModal({
                   value={editLender}
                   onChange={(e) => setEditLender(e.target.value)}
                   placeholder="مثال: بانک مسکن، اسنپ‌پی، دوست..."
-                  className="w-full p-2.5 rounded-xl border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 text-slate-900 dark:text-slate-100"
+                  className="w-full p-2.5 rounded-xl border border-white/10 bg-[#0a0c12] text-slate-100 placeholder:text-slate-500 focus:outline-none focus:ring-2 focus:ring-amber-500/40 focus:border-amber-500/60"
                 />
               </div>
 
               <div>
-                <label className="block font-semibold text-slate-800 dark:text-slate-200 mb-1">
+                <label className="block font-semibold text-slate-300 mb-1">
                   نوع تعهد
                 </label>
                 <select
                   value={editType}
                   onChange={(e) => setEditType(e.target.value)}
-                  className="w-full p-2.5 rounded-xl border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 text-slate-900 dark:text-slate-100"
+                  className="w-full p-2.5 rounded-xl border border-white/10 bg-[#0a0c12] text-slate-100 focus:outline-none focus:ring-2 focus:ring-amber-500/40 focus:border-amber-500/60"
                 >
                   {liabilityTypes.map((t) => (
                     <option key={t.id} value={t.id}>
@@ -600,13 +600,13 @@ export function LiabilityDetailModal({
               </div>
 
               <div>
-                <label className="block font-semibold text-slate-800 dark:text-slate-200 mb-1">
+                <label className="block font-semibold text-slate-300 mb-1">
                   واحد پولی
                 </label>
                 <select
                   value={editCurrency}
                   onChange={(e) => setEditCurrency(e.target.value)}
-                  className="w-full p-2.5 rounded-xl border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 text-slate-900 dark:text-slate-100 font-mono"
+                  className="w-full p-2.5 rounded-xl border border-white/10 bg-[#0a0c12] text-slate-100 font-mono focus:outline-none focus:ring-2 focus:ring-amber-500/40 focus:border-amber-500/60"
                 >
                   <option value="TOMAN">تومان (TOMAN)</option>
                   <option value="USD">دلار آمریکا (USD)</option>
@@ -616,45 +616,45 @@ export function LiabilityDetailModal({
               </div>
 
               <div>
-                <label className="block font-semibold text-slate-800 dark:text-slate-200 mb-1">
+                <label className="block font-semibold text-slate-300 mb-1">
                   اصل مبلغ کل اولیه *
                 </label>
                 <input
                   type="number"
                   value={editOriginalPrincipal}
                   onChange={(e) => setEditOriginalPrincipal(e.target.value)}
-                  className="w-full p-2.5 rounded-xl border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 text-slate-900 dark:text-slate-100 font-mono"
+                  className="w-full p-2.5 rounded-xl border border-white/10 bg-[#0a0c12] text-slate-100 font-mono focus:outline-none focus:ring-2 focus:ring-amber-500/40 focus:border-amber-500/60 font-bold"
                   required
                 />
               </div>
 
               <div>
-                <label className="block font-semibold text-slate-800 dark:text-slate-200 mb-1">
+                <label className="block font-semibold text-slate-300 mb-1">
                   مانده بدهی فعلی *
                 </label>
                 <input
                   type="number"
                   value={editCurrentBalance}
                   onChange={(e) => setEditCurrentBalance(e.target.value)}
-                  className="w-full p-2.5 rounded-xl border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 text-slate-900 dark:text-slate-100 font-mono"
+                  className="w-full p-2.5 rounded-xl border border-white/10 bg-[#0a0c12] text-slate-100 font-mono focus:outline-none focus:ring-2 focus:ring-amber-500/40 focus:border-amber-500/60 font-bold"
                   required
                 />
               </div>
 
               <div>
-                <label className="block font-semibold text-slate-800 dark:text-slate-200 mb-1">
+                <label className="block font-semibold text-slate-300 mb-1">
                   مبلغ هر قسط ماهانه
                 </label>
                 <input
                   type="number"
                   value={editMonthlyPayment}
                   onChange={(e) => setEditMonthlyPayment(e.target.value)}
-                  className="w-full p-2.5 rounded-xl border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 text-slate-900 dark:text-slate-100 font-mono"
+                  className="w-full p-2.5 rounded-xl border border-white/10 bg-[#0a0c12] text-slate-100 font-mono focus:outline-none focus:ring-2 focus:ring-amber-500/40 focus:border-amber-500/60"
                 />
               </div>
 
               <div>
-                <label className="block font-semibold text-slate-800 dark:text-slate-200 mb-1">
+                <label className="block font-semibold text-slate-300 mb-1">
                   نرخ سود سالانه (درصد)
                 </label>
                 <input
@@ -662,47 +662,47 @@ export function LiabilityDetailModal({
                   step="0.1"
                   value={editInterestRate}
                   onChange={(e) => setEditInterestRate(e.target.value)}
-                  className="w-full p-2.5 rounded-xl border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 text-slate-900 dark:text-slate-100 font-mono"
+                  className="w-full p-2.5 rounded-xl border border-white/10 bg-[#0a0c12] text-slate-100 font-mono focus:outline-none focus:ring-2 focus:ring-amber-500/40 focus:border-amber-500/60"
                 />
               </div>
 
               <div>
-                <label className="block font-semibold text-slate-800 dark:text-slate-200 mb-1">
+                <label className="block font-semibold text-slate-300 mb-1">
                   تاریخ شروع / دریافت
                 </label>
                 <input
                   type="date"
                   value={editStartDate}
                   onChange={(e) => setEditStartDate(e.target.value)}
-                  className="w-full p-2.5 rounded-xl border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 text-slate-900 dark:text-slate-100 font-mono"
+                  className="w-full p-2.5 rounded-xl border border-white/10 bg-[#0a0c12] text-slate-100 font-mono focus:outline-none focus:ring-2 focus:ring-amber-500/40 focus:border-amber-500/60"
                 />
               </div>
 
               <div>
-                <label className="block font-semibold text-slate-800 dark:text-slate-200 mb-1">
+                <label className="block font-semibold text-slate-300 mb-1">
                   تاریخ سررسید نهایی
                 </label>
                 <input
                   type="date"
                   value={editMaturityDate}
                   onChange={(e) => setEditMaturityDate(e.target.value)}
-                  className="w-full p-2.5 rounded-xl border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 text-slate-900 dark:text-slate-100 font-mono"
+                  className="w-full p-2.5 rounded-xl border border-white/10 bg-[#0a0c12] text-slate-100 font-mono focus:outline-none focus:ring-2 focus:ring-amber-500/40 focus:border-amber-500/60"
                 />
               </div>
             </div>
 
-            <div className="flex items-center justify-end gap-2 pt-3 border-t border-slate-100 dark:border-slate-800">
+            <div className="flex items-center justify-end gap-2 pt-3 border-t border-white/10">
               <button
                 type="button"
                 onClick={() => setMode("view")}
-                className="px-4 py-2 rounded-xl text-slate-600 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-800 font-semibold"
+                className="px-4 py-2 rounded-xl text-slate-300 hover:bg-white/5 font-semibold transition-colors cursor-pointer"
               >
                 انصراف
               </button>
               <button
                 type="submit"
                 disabled={updateMutation.isPending}
-                className="px-5 py-2 rounded-xl bg-sky-600 hover:bg-sky-500 text-white font-semibold flex items-center gap-2 shadow-sm"
+                className="px-5 py-2.5 rounded-xl bg-gradient-to-r from-amber-500 to-amber-600 hover:from-amber-400 hover:to-amber-500 text-slate-950 font-bold flex items-center gap-2 shadow-md shadow-amber-500/20 transition-all cursor-pointer"
               >
                 {updateMutation.isPending ? (
                   <>
@@ -711,7 +711,7 @@ export function LiabilityDetailModal({
                   </>
                 ) : (
                   <>
-                    <Save className="h-4 w-4" />
+                    <Save className="h-4 w-4 stroke-[2.5]" />
                     <span>ذخیره تغییرات</span>
                   </>
                 )}
@@ -729,82 +729,82 @@ export function LiabilityDetailModal({
             }}
             className="space-y-4 text-xs"
           >
-            <div className="p-3 rounded-xl bg-emerald-50/70 dark:bg-emerald-950/30 border border-emerald-200 dark:border-emerald-900 text-emerald-800 dark:text-emerald-200 leading-relaxed">
-              <span className="font-bold block mb-0.5">ثبت واریز یا بازپرداخت قسط جدید</span>
+            <div className="p-3.5 rounded-xl bg-emerald-500/10 border border-emerald-500/20 text-emerald-300 leading-relaxed">
+              <span className="font-bold block mb-0.5 text-emerald-400">ثبت واریز یا بازپرداخت قسط جدید</span>
               مبلغ پرداختی شما از مانده اصل این تعهد مالی کسر گردیده و آمار اقساط به‌روزرسانی
               می‌شود.
             </div>
 
             {paymentError && (
-              <div className="p-3 rounded-lg bg-rose-50 dark:bg-rose-950/40 border border-rose-200 dark:border-rose-900 text-rose-700 dark:text-rose-300">
+              <div className="p-3 rounded-xl bg-rose-500/10 border border-rose-500/20 text-rose-400">
                 {paymentError}
               </div>
             )}
 
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-3.5">
               <div>
-                <label className="block font-semibold text-slate-800 dark:text-slate-200 mb-1">
+                <label className="block font-semibold text-slate-300 mb-1">
                   تاریخ پرداخت قسط *
                 </label>
                 <input
                   type="date"
                   value={payDate}
                   onChange={(e) => setPayDate(e.target.value)}
-                  className="w-full p-2.5 rounded-xl border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 text-slate-900 dark:text-slate-100 font-mono"
+                  className="w-full p-2.5 rounded-xl border border-white/10 bg-[#0a0c12] text-slate-100 font-mono focus:outline-none focus:ring-2 focus:ring-amber-500/40 focus:border-amber-500/60"
                   required
                 />
               </div>
 
               <div>
-                <label className="block font-semibold text-slate-800 dark:text-slate-200 mb-1">
+                <label className="block font-semibold text-slate-300 mb-1">
                   سهم اصل قسط (کاهنده بدهی) *
                 </label>
                 <input
                   type="number"
                   value={payPrincipal}
                   onChange={(e) => setPayPrincipal(e.target.value)}
-                  className="w-full p-2.5 rounded-xl border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 text-slate-900 dark:text-slate-100 font-mono"
+                  className="w-full p-2.5 rounded-xl border border-white/10 bg-[#0a0c12] text-slate-100 font-mono focus:outline-none focus:ring-2 focus:ring-amber-500/40 focus:border-amber-500/60 font-bold"
                   required
                 />
               </div>
 
               <div>
-                <label className="block font-semibold text-slate-800 dark:text-slate-200 mb-1">
+                <label className="block font-semibold text-slate-300 mb-1">
                   سهم سود یا کارمزد بانکی
                 </label>
                 <input
                   type="number"
                   value={payInterest}
                   onChange={(e) => setPayInterest(e.target.value)}
-                  className="w-full p-2.5 rounded-xl border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 text-slate-900 dark:text-slate-100 font-mono"
+                  className="w-full p-2.5 rounded-xl border border-white/10 bg-[#0a0c12] text-slate-100 font-mono focus:outline-none focus:ring-2 focus:ring-amber-500/40 focus:border-amber-500/60"
                 />
               </div>
 
               <div>
-                <label className="block font-semibold text-slate-800 dark:text-slate-200 mb-1">
+                <label className="block font-semibold text-slate-300 mb-1">
                   پرداخت اضافه مازاد بر قسط (پیش‌پرداخت اصل)
                 </label>
                 <input
                   type="number"
                   value={payExtraPrincipal}
                   onChange={(e) => setPayExtraPrincipal(e.target.value)}
-                  className="w-full p-2.5 rounded-xl border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 text-slate-900 dark:text-slate-100 font-mono"
+                  className="w-full p-2.5 rounded-xl border border-white/10 bg-[#0a0c12] text-slate-100 font-mono focus:outline-none focus:ring-2 focus:ring-amber-500/40 focus:border-amber-500/60"
                 />
               </div>
             </div>
 
-            <div className="flex items-center justify-end gap-2 pt-3 border-t border-slate-100 dark:border-slate-800">
+            <div className="flex items-center justify-end gap-2 pt-3 border-t border-white/10">
               <button
                 type="button"
                 onClick={() => setMode("view")}
-                className="px-4 py-2 rounded-xl text-slate-600 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-800 font-semibold"
+                className="px-4 py-2 rounded-xl text-slate-300 hover:bg-white/5 font-semibold transition-colors cursor-pointer"
               >
                 انصراف
               </button>
               <button
                 type="submit"
                 disabled={paymentMutation.isPending}
-                className="px-5 py-2 rounded-xl bg-emerald-600 hover:bg-emerald-500 text-white font-semibold flex items-center gap-2 shadow-sm"
+                className="px-5 py-2.5 rounded-xl bg-gradient-to-r from-emerald-500 to-emerald-600 hover:from-emerald-400 hover:to-emerald-500 text-slate-950 font-bold flex items-center gap-2 shadow-md shadow-emerald-500/20 transition-all cursor-pointer"
               >
                 {paymentMutation.isPending ? (
                   <>
@@ -813,7 +813,7 @@ export function LiabilityDetailModal({
                   </>
                 ) : (
                   <>
-                    <CheckCircle2 className="h-4 w-4" />
+                    <CheckCircle2 className="h-4 w-4 stroke-[2.5]" />
                     <span>ثبت پرداخت قسط</span>
                   </>
                 )}

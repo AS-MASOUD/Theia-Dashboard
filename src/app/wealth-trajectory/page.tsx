@@ -69,19 +69,19 @@ const RANGE_OPTIONS: RangeOption[] = [
 ];
 
 const LOAN_COLORS = [
-  "#ef4444", // red
-  "#f97316", // orange
+  "#f43f5e", // rose
+  "#fb923c", // orange
   "#f59e0b", // amber
   "#ec4899", // pink
   "#d946ef", // fuchsia
-  "#e11d48", // rose
+  "#e11d48", // crimson
 ];
 
 const INVESTMENT_COLORS = [
   "#10b981", // emerald
   "#06b6d4", // cyan
-  "#3b82f6", // blue
-  "#8b5cf6", // purple
+  "#38bdf8", // sky
+  "#8b5cf6", // amethyst
   "#14b8a6", // teal
   "#84cc16", // lime
 ];
@@ -100,32 +100,30 @@ export default function WealthTrajectoryPage() {
   const [activeTab, setActiveTab] = useState<
     "chart" | "loans" | "investments" | "income" | "timeline" | "ai"
   >("chart");
-  const [viewMode, setViewMode] = useState<"individual" | "aggregated">("individual");
+  const [viewMode, setViewMode] = useState<"aggregated" | "individual">("individual");
   const [showConfidenceArea, setShowConfidenceArea] = useState(true);
+  const [timelineFilter, setTimelineFilter] = useState<"all" | "forecast" | "history">("all");
 
-  // Selected series for individual breakdown
+  // Multi-series checkboxes for individual view
   const [selectedLoans, setSelectedLoans] = useState<Record<string, boolean>>({});
   const [selectedInvestments, setSelectedInvestments] = useState<Record<string, boolean>>({});
   const [showSalary, setShowSalary] = useState(true);
 
-  // Timeline table filter
-  const [timelineFilter, setTimelineFilter] = useState<"all" | "forecast" | "history">("all");
-
+  // Active range spec
   const currentRange = useMemo(
     () => RANGE_OPTIONS.find((r) => r.key === selectedRangeKey) || RANGE_OPTIONS[3],
     [selectedRangeKey]
   );
 
-  // Fetch wealth trajectory
+  // Fetch trajectory from backend API
   const {
     data: trajectoryData,
     isLoading,
     isFetching,
-    error,
     refetch,
-  } = useQuery({
+  } = useQuery<WealthTrajectoryResponse>({
     queryKey: [
-      "wealth-trajectory-page",
+      "wealth-trajectory",
       currentRange.historyDays,
       currentRange.forecastMonths,
       growthOverride,
@@ -136,41 +134,39 @@ export default function WealthTrajectoryPage() {
         forecast_months: currentRange.forecastMonths,
         annual_growth_override: growthOverride !== null ? growthOverride : undefined,
       }),
+    staleTime: 5 * 60 * 1000,
   });
 
-  // Sync selected checkboxes when data arrives
+  // Automatically select all items on data load
   useEffect(() => {
     if (trajectoryData?.loans) {
       const initLoans: Record<string, boolean> = {};
-      trajectoryData.loans.forEach((l) => {
-        initLoans[l.id] = true;
-      });
+      trajectoryData.loans.forEach((l) => (initLoans[l.id] = true));
       setSelectedLoans(initLoans);
     }
     if (trajectoryData?.investments) {
       const initInvs: Record<string, boolean> = {};
-      trajectoryData.investments.forEach((inv) => {
-        initInvs[inv.id] = true;
-      });
+      trajectoryData.investments.forEach((i) => (initInvs[i.id] = true));
       setSelectedInvestments(initInvs);
     }
-  }, [trajectoryData?.loans, trajectoryData?.investments]);
+  }, [trajectoryData]);
 
-  // Format data for Recharts
   const timeline = trajectoryData?.timeline;
+
+  // Format timeline points with currency scaling
   const formattedTimeline = useMemo(() => {
     if (!timeline) return [];
 
-    return timeline.map((point) => {
-      const rawLiab = Number(point.total_liabilities) || 0;
-      const rawInv = Number(point.total_investments) || 0;
-      const rawSalary = Number(point.salary_income) || 0;
-      const rawNw = Number(point.net_worth) || 0;
+    return timeline.map((p) => {
+      const rawLiab = Number(p.total_liabilities) || 0;
+      const rawInv = Number(p.total_investments) || 0;
+      const rawSalary = Number(p.salary_income) || 0;
+      const rawNw = Number(p.net_worth) || 0;
 
       const row: Record<string, string | number | boolean | null | undefined> = {
-        date: point.date,
-        display_date: point.display_date,
-        is_forecast: point.is_forecast,
+        date: p.date,
+        display_date: p.display_date,
+        is_forecast: p.is_forecast,
         total_liabilities: rawLiab * factor,
         total_investments: rawInv * factor,
         salary_income: rawSalary * factor,
@@ -181,15 +177,15 @@ export default function WealthTrajectoryPage() {
         raw_nw: rawNw,
       };
 
-      if (point.forecast_confidence_upper != null) {
-        row.confidence_upper = Number(point.forecast_confidence_upper) * factor;
+      if (p.forecast_confidence_upper != null) {
+        row.confidence_upper = Number(p.forecast_confidence_upper) * factor;
       }
-      if (point.forecast_confidence_lower != null) {
-        row.confidence_lower = Number(point.forecast_confidence_lower) * factor;
+      if (p.forecast_confidence_lower != null) {
+        row.confidence_lower = Number(p.forecast_confidence_lower) * factor;
       }
 
-      if (point.item_values) {
-        Object.entries(point.item_values).forEach(([k, v]) => {
+      if (p.item_values) {
+        Object.entries(p.item_values).forEach(([k, v]) => {
           row[`item_${k}`] = (Number(v) || 0) * factor;
           row[`raw_item_${k}`] = Number(v) || 0;
         });
@@ -214,8 +210,7 @@ export default function WealthTrajectoryPage() {
   const currentNw = Number(latestHistoricalPoint?.net_worth || 0);
   const projectedEndNw = Number(endForecastPoint?.net_worth || 0);
   const nwDelta = projectedEndNw - currentNw;
-  const nwDeltaPercent =
-    currentNw > 0 ? (nwDelta / currentNw) * 100 : 0;
+  const nwDeltaPercent = currentNw > 0 ? (nwDelta / currentNw) * 100 : 0;
 
   // Filtered timeline rows for Table
   const filteredTimelineRows = useMemo(() => {
@@ -305,34 +300,34 @@ export default function WealthTrajectoryPage() {
       {/* 1. Header & Breadcrumb & Action bar */}
       <div className="flex flex-col md:flex-row items-start md:items-center justify-between gap-4">
         <div>
-          <div className="flex items-center gap-2 text-xs text-slate-500 dark:text-slate-400 mb-1">
+          <div className="flex items-center gap-2 text-xs text-slate-400 mb-1.5">
             <Link
               href="/"
-              className="hover:text-indigo-600 dark:hover:text-indigo-400 transition-colors"
+              className="hover:text-amber-400 transition-colors"
             >
               نمای کلی (داشبورد)
             </Link>
-            <span>/</span>
-            <span className="text-slate-700 dark:text-slate-200 font-semibold">
+            <span className="text-slate-600">/</span>
+            <span className="text-slate-200 font-semibold">
               مسیر رشد و استهلاک ثروت (Wealth Trajectory)
             </span>
           </div>
 
           <div className="flex items-center gap-3">
-            <div className="h-10 w-10 rounded-2xl bg-indigo-600/10 text-indigo-600 dark:bg-indigo-500/20 dark:text-indigo-400 flex items-center justify-center shrink-0 shadow-sm">
+            <div className="h-10 w-10 rounded-2xl bg-amber-500/10 border border-amber-500/20 text-amber-400 flex items-center justify-center shrink-0 shadow-lg shadow-amber-500/5">
               <Layers className="h-5 w-5" />
             </div>
             <div>
-              <div className="flex items-center gap-2">
-                <h1 className="text-xl sm:text-2xl font-black text-slate-900 dark:text-slate-100 tracking-tight">
+              <div className="flex items-center gap-2.5">
+                <h1 className="text-xl sm:text-2xl font-black text-slate-100 tracking-tight">
                   مرکز تحلیل جامع و پیش‌بینی مسیر ثروت
                 </h1>
-                <span className="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full text-[10px] font-bold bg-indigo-100 text-indigo-700 dark:bg-indigo-950/60 dark:text-indigo-300">
+                <span className="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full text-[10px] font-bold bg-amber-500/10 text-amber-300 border border-amber-500/20">
                   <Sparkles className="h-3 w-3" />
                   شبیه‌ساز هوش مصنوعی
                 </span>
               </div>
-              <p className="text-xs sm:text-sm text-slate-500 dark:text-slate-400 mt-0.5">
+              <p className="text-xs sm:text-sm text-slate-400 mt-0.5">
                 شبیه‌سازی دقیق و پویا از استهلاک اقساط، بازدهی مرکب سرمایه‌گذاری‌ها و برآورد زمان‌بندی آزادی مالی
               </p>
             </div>
@@ -342,7 +337,7 @@ export default function WealthTrajectoryPage() {
         {/* Top Controls: Range Selector + Scenario Simulator toggle */}
         <div className="flex flex-wrap items-center gap-2 w-full md:w-auto justify-end">
           {/* Range Options */}
-          <div className="flex items-center gap-1 bg-slate-100 dark:bg-slate-800/80 p-1 rounded-2xl text-xs font-semibold">
+          <div className="flex items-center gap-1 bg-[#10131a] border border-white/10 p-1 rounded-2xl text-xs font-semibold shadow-inner">
             {RANGE_OPTIONS.map((opt) => (
               <button
                 key={opt.key}
@@ -350,8 +345,8 @@ export default function WealthTrajectoryPage() {
                 className={cn(
                   "px-3 py-1.5 rounded-xl transition-all cursor-pointer font-bold",
                   selectedRangeKey === opt.key
-                    ? "bg-white dark:bg-slate-900 text-indigo-600 dark:text-indigo-400 shadow-sm"
-                    : "text-slate-500 hover:text-slate-800 dark:hover:text-slate-200"
+                    ? "bg-gradient-to-r from-amber-500 to-amber-600 text-slate-950 font-black shadow-lg shadow-amber-500/20"
+                    : "text-slate-400 hover:text-slate-200 hover:bg-white/5"
                 )}
               >
                 {opt.label}
@@ -365,15 +360,15 @@ export default function WealthTrajectoryPage() {
             className={cn(
               "inline-flex items-center gap-1.5 px-3.5 py-2 rounded-2xl text-xs font-bold transition-all cursor-pointer border",
               isSimulationOpen || growthOverride !== null
-                ? "bg-indigo-50 border-indigo-200 text-indigo-700 dark:bg-indigo-950/40 dark:border-indigo-800 dark:text-indigo-300 shadow-sm"
-                : "bg-white dark:bg-slate-900 border-slate-200 dark:border-slate-800 text-slate-700 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-slate-800"
+                ? "bg-amber-500/10 border-amber-500/30 text-amber-300 shadow-lg shadow-amber-500/10"
+                : "bg-[#10131a] border-white/10 text-slate-300 hover:bg-white/5"
             )}
             title="تغییر فرضیات بازدهی سالانه"
           >
             <SlidersHorizontal className="h-4 w-4" />
             <span>شبیه‌ساز سناریو</span>
             {growthOverride !== null && (
-              <span className="h-2 w-2 rounded-full bg-indigo-500" />
+              <span className="h-1.5 w-1.5 rounded-full bg-[#F0AE55]" />
             )}
           </button>
 
@@ -381,7 +376,7 @@ export default function WealthTrajectoryPage() {
           <button
             onClick={handleExportCSV}
             disabled={!timeline || timeline.length === 0}
-            className="inline-flex items-center gap-1.5 px-3 py-2 rounded-2xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 text-slate-700 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-slate-800 text-xs font-bold transition-all cursor-pointer disabled:opacity-50"
+            className="inline-flex items-center gap-1.5 px-3.5 py-2 rounded-2xl bg-[#10131a] border border-white/10 text-slate-300 hover:bg-white/5 text-xs font-bold transition-all cursor-pointer disabled:opacity-50"
             title="دانلود جدول داده‌ها با فرمت CSV"
           >
             <Download className="h-3.5 w-3.5" />
@@ -392,26 +387,26 @@ export default function WealthTrajectoryPage() {
           <button
             onClick={() => refetch()}
             disabled={isFetching}
-            className="p-2 rounded-2xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 text-slate-600 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-slate-800 text-xs transition-all cursor-pointer"
+            className="p-2 rounded-2xl bg-[#10131a] border border-white/10 text-slate-300 hover:bg-white/5 text-xs transition-all cursor-pointer"
             title="به‌روزرسانی داده‌ها"
           >
-            <RefreshCw className={cn("h-4 w-4", isFetching && "animate-spin text-indigo-500")} />
+            <RefreshCw className={cn("h-4 w-4", isFetching && "animate-spin text-amber-400")} />
           </button>
         </div>
       </div>
 
       {/* 2. Simulation / Growth Override Banner (Collapsible) */}
       {isSimulationOpen && (
-        <div className="p-4 sm:p-5 rounded-3xl bg-gradient-to-r from-indigo-500/10 via-purple-500/5 to-transparent border border-indigo-200 dark:border-indigo-800/80 shadow-sm animate-in slide-in-from-top-2 duration-200">
+        <div className="p-4 sm:p-5 rounded-2xl bg-gradient-to-r from-amber-500/10 via-purple-500/5 to-transparent border border-amber-500/30 shadow-xl animate-in slide-in-from-top-2 duration-200">
           <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
             <div>
               <div className="flex items-center gap-2">
-                <SlidersHorizontal className="h-4 w-4 text-indigo-600 dark:text-indigo-400" />
-                <h3 className="text-sm font-bold text-slate-900 dark:text-slate-100">
+                <SlidersHorizontal className="h-4 w-4 text-amber-400" />
+                <h3 className="text-sm font-bold text-slate-100">
                   شبیه‌ساز سناریوی نرخ بازدهی سالانه سبد سرمایه‌گذاری
                 </h3>
               </div>
-              <p className="text-xs text-slate-500 dark:text-slate-400 mt-0.5">
+              <p className="text-xs text-slate-400 mt-0.5">
                 با اعمال یک نرخ رشد فرضی متفاوت، نمودار و پیش‌بینی‌های آتی بر پایه آن نرخ شبیه‌سازی خواهند شد.
               </p>
             </div>
@@ -429,23 +424,23 @@ export default function WealthTrajectoryPage() {
                     setTempGrowthInput(String(p.val));
                   }}
                   className={cn(
-                    "px-2.5 py-1 rounded-xl text-xs font-semibold border transition-all cursor-pointer",
+                    "px-3 py-1.5 rounded-xl text-xs font-semibold border transition-all cursor-pointer",
                     growthOverride === p.val
-                      ? "bg-indigo-600 text-white border-indigo-600 shadow-xs"
-                      : "bg-white dark:bg-slate-900 border-slate-200 dark:border-slate-800 text-slate-700 dark:text-slate-300 hover:border-indigo-300"
+                      ? "bg-amber-500 text-slate-950 font-bold border-amber-500 shadow-md"
+                      : "bg-[#07080b] border-white/10 text-slate-300 hover:border-amber-500/30"
                   )}
                 >
                   {p.label}
                 </button>
               ))}
 
-              <div className="flex items-center gap-1.5 bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded-xl px-2 py-1">
+              <div className="flex items-center gap-1.5 bg-[#07080b] border border-white/10 rounded-xl px-2.5 py-1">
                 <input
                   type="number"
                   placeholder="درصد دلخواه..."
                   value={tempGrowthInput}
                   onChange={(e) => setTempGrowthInput(e.target.value)}
-                  className="w-24 text-xs font-bold bg-transparent outline-none text-slate-900 dark:text-slate-100"
+                  className="w-24 text-xs font-bold bg-transparent outline-none text-slate-100 placeholder:text-slate-600 font-mono"
                 />
                 <button
                   onClick={() => {
@@ -454,7 +449,7 @@ export default function WealthTrajectoryPage() {
                       setGrowthOverride(num);
                     }
                   }}
-                  className="px-2 py-0.5 rounded-lg bg-indigo-600 text-white text-[11px] font-bold cursor-pointer hover:bg-indigo-500"
+                  className="px-2.5 py-1 rounded-lg bg-amber-500 text-slate-950 text-[11px] font-bold cursor-pointer hover:bg-amber-400 transition-colors"
                 >
                   اعمال
                 </button>
@@ -466,7 +461,7 @@ export default function WealthTrajectoryPage() {
                     setGrowthOverride(null);
                     setTempGrowthInput("");
                   }}
-                  className="inline-flex items-center gap-1 px-2.5 py-1 rounded-xl bg-rose-50 dark:bg-rose-950/40 text-rose-600 dark:text-rose-400 border border-rose-200 dark:border-rose-800 text-xs font-bold cursor-pointer"
+                  className="inline-flex items-center gap-1 px-3 py-1.5 rounded-xl bg-rose-500/10 text-rose-300 border border-rose-500/20 text-xs font-bold cursor-pointer hover:bg-rose-500/20 transition-colors"
                 >
                   <RotateCcw className="h-3 w-3" />
                   <span>ریست به پیش‌فرض</span>
@@ -480,92 +475,92 @@ export default function WealthTrajectoryPage() {
       {/* 3. Top High-Level KPI Summary Cards */}
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
         {/* Card 1: Projected Net Worth */}
-        <div className="fin-card p-5 relative overflow-hidden group">
+        <div className="bg-[#141518] border border-[#282A2F] rounded-[22px] p-5 relative overflow-hidden transition-colors">
           <div className="flex items-center justify-between">
-            <span className="text-xs font-semibold text-slate-500 dark:text-slate-400">
+            <span className="text-[11px] font-medium text-[#9A9DA5]">
               ارزش خالص در انتهای افق ({currentRange.label})
             </span>
-            <div className="h-8 w-8 rounded-xl bg-indigo-50 dark:bg-indigo-950/40 text-indigo-600 dark:text-indigo-400 flex items-center justify-center">
+            <div className="h-8 w-8 rounded-[10px] bg-[#1B1D21] border border-[#282A2F] text-[#F0AE55] flex items-center justify-center">
               <Wallet className="h-4 w-4" />
             </div>
           </div>
-          <div className="text-xl font-black text-slate-900 dark:text-slate-100 mt-2" dir="ltr">
+          <div className="text-xl font-semibold text-[#E8E8E8] mt-2 font-mono" dir="ltr">
             {formatMoney(projectedEndNw)}
           </div>
           <div className="flex items-center gap-1.5 mt-2 text-xs">
             {nwDelta >= 0 ? (
-              <span className="inline-flex items-center gap-0.5 text-emerald-600 dark:text-emerald-400 font-bold">
+              <span className="inline-flex items-center gap-0.5 text-[#76A98C] font-medium font-mono">
                 <TrendingUp className="h-3.5 w-3.5" />
                 +{nwDeltaPercent.toFixed(1)}%
               </span>
             ) : (
-              <span className="inline-flex items-center gap-0.5 text-rose-600 dark:text-rose-400 font-bold">
+              <span className="inline-flex items-center gap-0.5 text-[#C77A82] font-medium font-mono">
                 <TrendingDown className="h-3.5 w-3.5" />
                 {nwDeltaPercent.toFixed(1)}%
               </span>
             )}
-            <span className="text-slate-400 text-[11px]">نسبت به ارزش خالص امروز</span>
+            <span className="text-[#696D77] text-[11px]">نسبت به ارزش خالص امروز</span>
           </div>
         </div>
 
         {/* Card 2: Debt-Free Payoff Horizon */}
-        <div className="fin-card p-5 relative overflow-hidden group">
+        <div className="bg-[#141518] border border-[#282A2F] rounded-[22px] p-5 relative overflow-hidden transition-colors">
           <div className="flex items-center justify-between">
-            <span className="text-xs font-semibold text-slate-500 dark:text-slate-400">
+            <span className="text-[11px] font-medium text-[#9A9DA5]">
               افق رهایی کامل از بدهی
             </span>
-            <div className="h-8 w-8 rounded-xl bg-rose-50 dark:bg-rose-950/40 text-rose-600 dark:text-rose-400 flex items-center justify-center">
+            <div className="h-8 w-8 rounded-[10px] bg-[#1B1D21] border border-[#282A2F] text-[#C77A82] flex items-center justify-center">
               <Clock className="h-4 w-4" />
             </div>
           </div>
-          <div className="text-base font-black text-slate-900 dark:text-slate-100 mt-2 truncate">
+          <div className="text-base font-semibold text-[#E8E8E8] mt-2 truncate font-mono">
             {trajectoryData?.debt_free_date || "در مسیر استهلاک منظم"}
           </div>
-          <div className="flex items-center justify-between text-xs text-slate-400 mt-2">
+          <div className="flex items-center justify-between text-xs text-[#9A9DA5] mt-2">
             <span>تعداد کل تسهیلات فعال:</span>
-            <span className="font-bold text-slate-700 dark:text-slate-200">
+            <span className="font-medium text-[#E8E8E8] font-mono">
               {trajectoryData?.loans?.length || 0} فقره
             </span>
           </div>
         </div>
 
         {/* Card 3: Projected Compounding Profit */}
-        <div className="fin-card p-5 relative overflow-hidden group">
+        <div className="bg-[#141518] border border-[#282A2F] rounded-[22px] p-5 relative overflow-hidden transition-colors">
           <div className="flex items-center justify-between">
-            <span className="text-xs font-semibold text-slate-500 dark:text-slate-400">
+            <span className="text-[11px] font-medium text-[#9A9DA5]">
               سود مرکب مورد انتظار سرمایه‌گذاری
             </span>
-            <div className="h-8 w-8 rounded-xl bg-emerald-50 dark:bg-emerald-950/40 text-emerald-600 dark:text-emerald-400 flex items-center justify-center">
+            <div className="h-8 w-8 rounded-[10px] bg-[#1B1D21] border border-[#282A2F] text-[#76A98C] flex items-center justify-center">
               <Percent className="h-4 w-4" />
             </div>
           </div>
-          <div className="text-xl font-black text-emerald-600 dark:text-emerald-400 mt-2" dir="ltr">
+          <div className="text-xl font-semibold text-[#76A98C] mt-2 font-mono" dir="ltr">
             +{formatMoney(trajectoryData?.projected_total_profit || 0)}
           </div>
-          <div className="flex items-center justify-between text-xs text-slate-400 mt-2">
+          <div className="flex items-center justify-between text-xs text-[#9A9DA5] mt-2">
             <span>تعداد موقعیت‌های فعال:</span>
-            <span className="font-bold text-slate-700 dark:text-slate-200">
+            <span className="font-medium text-[#E8E8E8] font-mono">
               {trajectoryData?.investments?.length || 0} دارایی
             </span>
           </div>
         </div>
 
         {/* Card 4: Debt Interest Saved */}
-        <div className="fin-card p-5 relative overflow-hidden group">
+        <div className="bg-[#141518] border border-[#282A2F] rounded-[22px] p-5 relative overflow-hidden transition-colors">
           <div className="flex items-center justify-between">
-            <span className="text-xs font-semibold text-slate-500 dark:text-slate-400">
+            <span className="text-[11px] font-medium text-[#9A9DA5]">
               صرفه‌جویی در سود بانکی
             </span>
-            <div className="h-8 w-8 rounded-xl bg-sky-50 dark:bg-sky-950/40 text-sky-600 dark:text-sky-400 flex items-center justify-center">
+            <div className="h-8 w-8 rounded-[10px] bg-[#1B1D21] border border-[#282A2F] text-[#88A9BC] flex items-center justify-center">
               <ShieldAlert className="h-4 w-4" />
             </div>
           </div>
-          <div className="text-xl font-black text-sky-600 dark:text-sky-400 mt-2" dir="ltr">
+          <div className="text-xl font-semibold text-[#88A9BC] mt-2 font-mono" dir="ltr">
             {formatMoney(trajectoryData?.total_debt_interest_saved || 0)}
           </div>
-          <div className="flex items-center justify-between text-xs text-slate-400 mt-2">
+          <div className="flex items-center justify-between text-xs text-[#9A9DA5] mt-2">
             <span>نقطه برابری ثروت:</span>
-            <span className="font-bold text-slate-700 dark:text-slate-200">
+            <span className="font-medium text-[#E8E8E8]">
               {trajectoryData?.crossover_date ? "محقق شده" : "در افق پیش‌بینی"}
             </span>
           </div>
@@ -573,7 +568,7 @@ export default function WealthTrajectoryPage() {
       </div>
 
       {/* 4. Tab Navigation */}
-      <div className="flex items-center gap-1 border-b border-slate-200 dark:border-slate-800 overflow-x-auto pb-1">
+      <div className="flex items-center gap-1.5 border-b border-white/10 overflow-x-auto pb-2">
         {[
           { id: "chart" as const, label: "نمودار تفکیکی جامع", icon: Layers },
           {
@@ -587,7 +582,7 @@ export default function WealthTrajectoryPage() {
             icon: Coins,
           },
           { id: "income" as const, label: "جریان درآمد و حقوق", icon: Wallet },
-          { id: "timeline" as const, label: "جدول گام‌به‌گام زمان‌بندی", icon: FileSpreadsheet },
+          { id: "timeline" as const, label: "جدول زمان‌بندی ماهانه", icon: FileSpreadsheet },
           { id: "ai" as const, label: "توصیه و تحلیل هوش مصنوعی", icon: Sparkles },
         ].map((tab) => {
           const Icon = tab.icon;
@@ -597,10 +592,10 @@ export default function WealthTrajectoryPage() {
               key={tab.id}
               onClick={() => setActiveTab(tab.id)}
               className={cn(
-                "inline-flex items-center gap-2 px-4 py-2.5 text-xs font-bold rounded-2xl transition-all cursor-pointer whitespace-nowrap",
+                "inline-flex items-center gap-2 px-4 py-2.5 text-xs font-bold rounded-xl transition-all cursor-pointer whitespace-nowrap",
                 isActive
-                  ? "bg-indigo-600 text-white shadow-md shadow-indigo-600/20"
-                  : "text-slate-500 hover:text-slate-900 dark:hover:text-slate-200 hover:bg-slate-100 dark:hover:bg-slate-800"
+                  ? "bg-amber-500/10 text-amber-400 border border-amber-500/30 shadow-md"
+                  : "text-slate-400 hover:text-slate-200 hover:bg-white/5"
               )}
             >
               <Icon className="h-4 w-4" />
@@ -613,21 +608,21 @@ export default function WealthTrajectoryPage() {
       {/* 5. TAB CONTENTS */}
       {/* TAB 1: ADVANCED CHART */}
       {activeTab === "chart" && (
-        <div className="fin-card p-5 sm:p-6 space-y-6">
+        <div className="bg-[#141518] border border-[#282A2F] rounded-2xl p-5 sm:p-6 space-y-6 shadow-xl">
           {/* Controls Bar: Mode toggle + Quick filter presets */}
-          <div className="flex flex-col lg:flex-row items-start lg:items-center justify-between gap-4 p-3.5 rounded-2xl bg-slate-50 dark:bg-slate-800/40 border border-slate-100 dark:border-slate-800">
+          <div className="flex flex-col lg:flex-row items-start lg:items-center justify-between gap-4 p-3.5 rounded-2xl bg-[#07080b] border border-white/10">
             <div className="flex flex-wrap items-center gap-3">
-              <span className="text-xs font-bold text-slate-700 dark:text-slate-300">
+              <span className="text-xs font-bold text-slate-300">
                 حالت رسم نمودار:
               </span>
-              <div className="flex items-center gap-1 bg-white dark:bg-slate-900 p-0.5 rounded-xl border border-slate-200 dark:border-slate-700 text-xs">
+              <div className="flex items-center gap-1 bg-[#10131a] p-1 rounded-xl border border-white/10 text-xs">
                 <button
                   onClick={() => setViewMode("individual")}
                   className={cn(
-                    "px-3 py-1 rounded-lg font-bold transition-all cursor-pointer",
+                    "px-3 py-1.5 rounded-lg font-bold transition-all cursor-pointer",
                     viewMode === "individual"
-                      ? "bg-indigo-600 text-white shadow-xs"
-                      : "text-slate-500 hover:text-slate-900 dark:hover:text-slate-200"
+                      ? "bg-amber-500 text-slate-950 shadow-md"
+                      : "text-slate-400 hover:text-slate-200"
                   )}
                 >
                   تفکیک تک‌تک وام‌ها و دارایی‌ها
@@ -635,10 +630,10 @@ export default function WealthTrajectoryPage() {
                 <button
                   onClick={() => setViewMode("aggregated")}
                   className={cn(
-                    "px-3 py-1 rounded-lg font-bold transition-all cursor-pointer",
+                    "px-3 py-1.5 rounded-lg font-bold transition-all cursor-pointer",
                     viewMode === "aggregated"
-                      ? "bg-indigo-600 text-white shadow-xs"
-                      : "text-slate-500 hover:text-slate-900 dark:hover:text-slate-200"
+                      ? "bg-amber-500 text-slate-950 shadow-md"
+                      : "text-slate-400 hover:text-slate-200"
                   )}
                 >
                   تجمیعی کل بدهی و سرمایه
@@ -648,32 +643,32 @@ export default function WealthTrajectoryPage() {
 
             {viewMode === "individual" && (
               <div className="flex flex-wrap items-center gap-2 text-xs">
-                <span className="text-slate-400 font-medium">فیلترهای سریع:</span>
+                <span className="text-slate-500 font-medium">فیلترهای سریع:</span>
                 <button
                   onClick={handleSelectAll}
-                  className="px-2.5 py-1 rounded-lg bg-white dark:bg-slate-900 hover:bg-slate-100 dark:hover:bg-slate-800 text-slate-700 dark:text-slate-300 border border-slate-200 dark:border-slate-700 font-semibold cursor-pointer"
+                  className="px-2.5 py-1.5 rounded-xl bg-white/5 hover:bg-white/10 text-slate-300 border border-white/10 font-semibold cursor-pointer transition-colors"
                 >
                   انتخاب همه
                 </button>
                 <button
                   onClick={handleOnlyLoans}
-                  className="px-2.5 py-1 rounded-lg bg-rose-50 hover:bg-rose-100 dark:bg-rose-950/40 text-rose-700 dark:text-rose-300 border border-rose-200 dark:border-rose-800 font-semibold cursor-pointer"
+                  className="px-2.5 py-1.5 rounded-xl bg-rose-500/10 hover:bg-rose-500/20 text-rose-300 border border-rose-500/20 font-semibold cursor-pointer transition-colors"
                 >
                   فقط اقساط وام‌ها
                 </button>
                 <button
                   onClick={handleOnlyInvestments}
-                  className="px-2.5 py-1 rounded-lg bg-emerald-50 hover:bg-emerald-100 dark:bg-emerald-950/40 text-emerald-700 dark:text-emerald-300 border border-emerald-200 dark:border-emerald-800 font-semibold cursor-pointer"
+                  className="px-2.5 py-1.5 rounded-xl bg-emerald-500/10 hover:bg-emerald-500/20 text-emerald-300 border border-emerald-500/20 font-semibold cursor-pointer transition-colors"
                 >
                   فقط سرمایه‌گذاری‌ها
                 </button>
                 <button
                   onClick={() => setShowConfidenceArea((prev) => !prev)}
                   className={cn(
-                    "px-2.5 py-1 rounded-lg border font-semibold cursor-pointer transition-all",
+                    "px-2.5 py-1.5 rounded-xl border font-semibold cursor-pointer transition-all",
                     showConfidenceArea
-                      ? "bg-indigo-50 dark:bg-indigo-950/50 text-indigo-700 dark:text-indigo-300 border-indigo-200 dark:border-indigo-800"
-                      : "bg-white dark:bg-slate-900 text-slate-400 border-slate-200 dark:border-slate-800"
+                      ? "bg-amber-500/10 text-amber-300 border-amber-500/30"
+                      : "bg-white/5 text-slate-400 border-white/10"
                   )}
                 >
                   بازه اطمینان پیش‌بینی
@@ -684,11 +679,11 @@ export default function WealthTrajectoryPage() {
 
           {/* Individual Item Checkboxes Pills */}
           {viewMode === "individual" && (
-            <div className="p-4 rounded-2xl bg-slate-50/70 dark:bg-slate-800/30 border border-slate-100 dark:border-slate-800/80 space-y-3.5">
+            <div className="p-4 rounded-2xl bg-[#07080b] border border-white/5 space-y-4">
               {/* Loans Pills */}
               {trajectoryData?.loans && trajectoryData.loans.length > 0 && (
                 <div>
-                  <span className="text-[11px] font-bold text-slate-500 uppercase tracking-wider block mb-2">
+                  <span className="text-[11px] font-bold text-slate-400 uppercase tracking-wider block mb-2">
                     اقساط و تسهیلات جهت نمایش روی نمودار:
                   </span>
                   <div className="flex flex-wrap gap-2">
@@ -705,10 +700,10 @@ export default function WealthTrajectoryPage() {
                             }))
                           }
                           className={cn(
-                            "inline-flex items-center gap-1.5 px-3 py-1 rounded-xl text-xs font-semibold border transition-all cursor-pointer",
+                            "inline-flex items-center gap-2 px-3 py-1.5 rounded-xl text-xs font-semibold border transition-all cursor-pointer",
                             isChecked
-                              ? "bg-white dark:bg-slate-900 text-slate-900 dark:text-slate-100 shadow-xs"
-                              : "bg-slate-100 dark:bg-slate-800/60 text-slate-400 border-transparent opacity-60"
+                              ? "bg-[#10131a] text-slate-100 shadow-md"
+                              : "bg-white/5 text-slate-500 border-transparent opacity-60"
                           )}
                           style={{ borderColor: isChecked ? color : "transparent" }}
                         >
@@ -717,7 +712,7 @@ export default function WealthTrajectoryPage() {
                             style={{ backgroundColor: color }}
                           />
                           <span>{loan.name}</span>
-                          <span className="text-[10px] text-slate-400" dir="ltr">
+                          <span className="text-[10px] text-slate-400 font-mono" dir="ltr">
                             ({formatMoney(loan.current_balance)})
                           </span>
                         </button>
@@ -730,7 +725,7 @@ export default function WealthTrajectoryPage() {
               {/* Investments Pills */}
               {trajectoryData?.investments && trajectoryData.investments.length > 0 && (
                 <div>
-                  <span className="text-[11px] font-bold text-slate-500 uppercase tracking-wider block mb-2">
+                  <span className="text-[11px] font-bold text-slate-400 uppercase tracking-wider block mb-2">
                     دارایی‌ها و سرمایه‌گذاری‌ها جهت نمایش روی نمودار:
                   </span>
                   <div className="flex flex-wrap gap-2">
@@ -747,10 +742,10 @@ export default function WealthTrajectoryPage() {
                             }))
                           }
                           className={cn(
-                            "inline-flex items-center gap-1.5 px-3 py-1 rounded-xl text-xs font-semibold border transition-all cursor-pointer",
+                            "inline-flex items-center gap-2 px-3 py-1.5 rounded-xl text-xs font-semibold border transition-all cursor-pointer",
                             isChecked
-                              ? "bg-white dark:bg-slate-900 text-slate-900 dark:text-slate-100 shadow-xs"
-                              : "bg-slate-100 dark:bg-slate-800/60 text-slate-400 border-transparent opacity-60"
+                              ? "bg-[#10131a] text-slate-100 shadow-md"
+                              : "bg-white/5 text-slate-500 border-transparent opacity-60"
                           )}
                           style={{ borderColor: isChecked ? color : "transparent" }}
                         >
@@ -759,7 +754,7 @@ export default function WealthTrajectoryPage() {
                             style={{ backgroundColor: color }}
                           />
                           <span>{inv.name}</span>
-                          <span className="text-[10px] text-slate-400" dir="ltr">
+                          <span className="text-[10px] text-slate-400 font-mono" dir="ltr">
                             ({formatMoney(inv.current_value)})
                           </span>
                         </button>
@@ -774,15 +769,15 @@ export default function WealthTrajectoryPage() {
                 <button
                   onClick={() => setShowSalary((prev) => !prev)}
                   className={cn(
-                    "inline-flex items-center gap-1.5 px-3 py-1 rounded-xl text-xs font-semibold border transition-all cursor-pointer",
+                    "inline-flex items-center gap-2 px-3 py-1.5 rounded-xl text-xs font-semibold border transition-all cursor-pointer",
                     showSalary
-                      ? "bg-white dark:bg-slate-900 text-sky-600 dark:text-sky-400 border-sky-400 shadow-xs"
-                      : "bg-slate-100 dark:bg-slate-800/60 text-slate-400 border-transparent opacity-60"
+                      ? "bg-[#10131a] text-amber-400 border-amber-500/40 shadow-sm"
+                      : "bg-white/5 text-slate-500 border-transparent opacity-60"
                   )}
                 >
-                  <span className="h-2.5 w-2.5 rounded-full bg-sky-500 shrink-0" />
+                  <span className="h-2.5 w-2.5 rounded-full bg-amber-400 shrink-0" />
                   <span>حقوق و ورودی درآمد ماهانه</span>
-                  <span className="text-[10px] text-slate-400" dir="ltr">
+                  <span className="text-[10px] text-slate-400 font-mono" dir="ltr">
                     ({formatMoney(trajectoryData?.baseline_salary || 0)})
                   </span>
                 </button>
@@ -791,16 +786,16 @@ export default function WealthTrajectoryPage() {
           )}
 
           {/* Chart Canvas */}
-          <div className="h-[420px] sm:h-[480px] w-full p-2 rounded-3xl bg-slate-50/50 dark:bg-slate-900/50 border border-slate-100 dark:border-slate-800/80">
+          <div className="h-[420px] sm:h-[480px] w-full p-3 rounded-2xl bg-[#0a0c12] border border-white/10">
             {isLoading ? (
               <div className="h-full w-full flex items-center justify-center">
                 <div className="flex flex-col items-center gap-3 text-slate-400 text-xs">
-                  <RefreshCw className="h-6 w-6 animate-spin text-indigo-500" />
+                  <RefreshCw className="h-6 w-6 animate-spin text-amber-400" />
                   <span>در حال محاسبه و استخراج داده‌های شبیه‌سازی...</span>
                 </div>
               </div>
             ) : formattedTimeline.length === 0 ? (
-              <div className="h-full w-full flex items-center justify-center text-xs text-slate-400">
+              <div className="h-full w-full flex items-center justify-center text-xs text-slate-500">
                 داده‌ای برای افق زمانی انتخاب شده یافت نشد.
               </div>
             ) : (
@@ -822,8 +817,8 @@ export default function WealthTrajectoryPage() {
 
                   <CartesianGrid
                     strokeDasharray="3 3"
-                    stroke="#334155"
-                    opacity={0.15}
+                    stroke="#1e293b"
+                    opacity={0.35}
                     vertical={false}
                   />
 
@@ -855,12 +850,12 @@ export default function WealthTrajectoryPage() {
                   {/* Today Divider */}
                   <ReferenceLine
                     x="امروز"
-                    stroke="#6366f1"
+                    stroke="#f59e0b"
                     strokeDasharray="4 4"
                     strokeWidth={1.5}
                     label={{
                       value: "امروز (آغاز پیش‌بینی)",
-                      fill: "#6366f1",
+                      fill: "#f59e0b",
                       fontSize: 11,
                       position: "top",
                     }}
@@ -874,19 +869,19 @@ export default function WealthTrajectoryPage() {
 
                         return (
                           <div
-                            className="bg-slate-900/95 backdrop-blur-md text-white p-4 rounded-2xl shadow-2xl text-xs space-y-2.5 border border-slate-700 min-w-[260px] text-right"
+                            className="bg-[#12151e]/95 backdrop-blur-md text-white p-4 rounded-2xl shadow-2xl text-xs space-y-2.5 border border-white/10 min-w-[260px] text-right"
                             dir="rtl"
                           >
-                            <div className="flex items-center justify-between border-b border-slate-800 pb-2">
-                              <span className="font-bold text-slate-200">
+                            <div className="flex items-center justify-between border-b border-white/10 pb-2">
+                              <span className="font-bold text-slate-100">
                                 {label} ({row?.date})
                               </span>
                               <span
                                 className={cn(
                                   "px-2.5 py-0.5 rounded-full text-[10px] font-bold border",
                                   isForecast
-                                    ? "bg-purple-900/80 text-purple-300 border-purple-700"
-                                    : "bg-sky-900/80 text-sky-300 border-sky-700"
+                                    ? "bg-purple-500/10 text-purple-300 border-purple-500/30"
+                                    : "bg-amber-500/10 text-amber-300 border-amber-500/30"
                                 )}
                               >
                                 {isForecast ? "پیش‌بینی هوش مصنوعی" : "داده واقعی گذشته"}
@@ -894,7 +889,7 @@ export default function WealthTrajectoryPage() {
                             </div>
 
                             {viewMode === "aggregated" ? (
-                              <div className="space-y-1.5">
+                              <div className="space-y-1.5 font-mono">
                                 <div className="flex justify-between text-emerald-400">
                                   <span>کل ارزش سرمایه‌گذاری:</span>
                                   <span className="font-bold" dir="ltr">
@@ -907,19 +902,19 @@ export default function WealthTrajectoryPage() {
                                     {formatMoney(row?.raw_liabilities)}
                                   </span>
                                 </div>
-                                <div className="flex justify-between text-sky-300">
+                                <div className="flex justify-between text-cyan-300">
                                   <span>حقوق دریافتی ماهانه:</span>
                                   <span className="font-bold" dir="ltr">
                                     {formatMoney(row?.raw_salary)}
                                   </span>
                                 </div>
-                                <div className="flex justify-between text-indigo-300 pt-1.5 border-t border-slate-800 font-bold">
+                                <div className="flex justify-between text-amber-300 pt-1.5 border-t border-white/10 font-bold">
                                   <span>ارزش خالص (Net Worth):</span>
                                   <span dir="ltr">{formatMoney(row?.raw_nw)}</span>
                                 </div>
                               </div>
                             ) : (
-                              <div className="space-y-1.5 max-h-[250px] overflow-y-auto">
+                              <div className="space-y-1.5 max-h-[250px] overflow-y-auto font-mono">
                                 {/* Checked loans */}
                                 {trajectoryData?.loans?.map((loan, idx) => {
                                   if (!selectedLoans[loan.id]) return null;
@@ -931,7 +926,7 @@ export default function WealthTrajectoryPage() {
                                       className="flex justify-between items-center text-[11px]"
                                       style={{ color }}
                                     >
-                                      <span className="truncate max-w-[140px]">{loan.name}:</span>
+                                      <span className="truncate max-w-[140px] font-sans">{loan.name}:</span>
                                       <span className="font-bold" dir="ltr">
                                         {formatMoney(rawVal)}
                                       </span>
@@ -951,7 +946,7 @@ export default function WealthTrajectoryPage() {
                                       className="flex justify-between items-center text-[11px]"
                                       style={{ color }}
                                     >
-                                      <span className="truncate max-w-[140px]">{inv.name}:</span>
+                                      <span className="truncate max-w-[140px] font-sans">{inv.name}:</span>
                                       <span className="font-bold" dir="ltr">
                                         {formatMoney(rawVal)}
                                       </span>
@@ -960,8 +955,8 @@ export default function WealthTrajectoryPage() {
                                 })}
 
                                 {showSalary && (
-                                  <div className="flex justify-between items-center text-[11px] text-sky-400 pt-1.5 border-t border-slate-800">
-                                    <span>حقوق ماهانه:</span>
+                                  <div className="flex justify-between items-center text-[11px] text-amber-400 pt-1.5 border-t border-white/10">
+                                    <span className="font-sans">حقوق ماهانه:</span>
                                     <span className="font-bold" dir="ltr">
                                       {formatMoney(row?.raw_salary)}
                                     </span>
@@ -1004,7 +999,7 @@ export default function WealthTrajectoryPage() {
                       <Line
                         type="monotone"
                         dataKey="salary_income"
-                        stroke="#38bdf8"
+                        stroke="#06b6d4"
                         strokeWidth={1.8}
                         strokeDasharray="3 3"
                         dot={false}
@@ -1055,7 +1050,7 @@ export default function WealthTrajectoryPage() {
                         <Line
                           type="monotone"
                           dataKey="salary_income"
-                          stroke="#0284c7"
+                          stroke="#f59e0b"
                           strokeWidth={1.8}
                           strokeDasharray="4 4"
                           dot={false}
@@ -1075,14 +1070,14 @@ export default function WealthTrajectoryPage() {
         <div className="space-y-6">
           <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3">
             <div>
-              <h2 className="text-base font-bold text-slate-900 dark:text-slate-100">
+              <h2 className="text-base font-bold text-slate-100">
                 جدول تفکیکی کلیه تسهیلات و برنامه استهلاک وام‌ها
               </h2>
-              <p className="text-xs text-slate-500">
+              <p className="text-xs text-slate-400">
                 بررسی روند تسویه اصل بدهی، سود و تاریخ برآورد تسویه صفر به ازای هر فقره وام
               </p>
             </div>
-            <span className="text-xs font-bold text-rose-600 dark:text-rose-400 bg-rose-50 dark:bg-rose-950/40 px-3 py-1.5 rounded-xl border border-rose-200 dark:border-rose-900">
+            <span className="text-xs font-bold text-rose-400 bg-rose-500/10 px-3.5 py-1.5 rounded-xl border border-rose-500/20 font-mono">
               مجموع مانده بدهی فعلی: {formatMoney(trajectoryData?.baseline_liabilities || 0)}
             </span>
           </div>
@@ -1096,7 +1091,7 @@ export default function WealthTrajectoryPage() {
                   return (
                     <div
                       key={loan.id}
-                      className="fin-card p-5 space-y-3.5 border-t-4"
+                      className="bg-[#141518] border border-[#282A2F] hover:border-white/20 rounded-2xl p-5 space-y-3.5 border-t-4 shadow-xl transition-all"
                       style={{ borderTopColor: color }}
                     >
                       <div className="flex items-center justify-between">
@@ -1105,53 +1100,53 @@ export default function WealthTrajectoryPage() {
                             className="h-3 w-3 rounded-full shrink-0"
                             style={{ backgroundColor: color }}
                           />
-                          <h4 className="text-sm font-bold text-slate-900 dark:text-slate-100">
+                          <h4 className="text-sm font-bold text-slate-100">
                             {loan.name}
                           </h4>
                         </div>
                         {loan.lender && (
-                          <span className="text-[11px] font-semibold text-slate-500 bg-slate-100 dark:bg-slate-800 px-2.5 py-0.5 rounded-lg">
+                          <span className="text-[11px] font-semibold text-slate-400 bg-white/5 border border-white/10 px-2.5 py-0.5 rounded-lg">
                             {loan.lender}
                           </span>
                         )}
                       </div>
 
                       <div className="grid grid-cols-2 gap-2 text-xs">
-                        <div className="p-2.5 rounded-xl bg-slate-50 dark:bg-slate-900/60 border border-slate-100 dark:border-slate-800">
-                          <span className="text-slate-400 block text-[10px]">مانده اصل وام:</span>
-                          <span className="font-bold text-rose-600 dark:text-rose-400" dir="ltr">
+                        <div className="p-2.5 rounded-xl bg-[#07080b] border border-white/5">
+                          <span className="text-slate-500 block text-[10px]">مانده اصل وام:</span>
+                          <span className="font-bold text-rose-400 font-mono" dir="ltr">
                             {formatMoney(loan.current_balance)}
                           </span>
                         </div>
-                        <div className="p-2.5 rounded-xl bg-slate-50 dark:bg-slate-900/60 border border-slate-100 dark:border-slate-800">
-                          <span className="text-slate-400 block text-[10px]">قسط ماهانه:</span>
-                          <span className="font-bold text-slate-900 dark:text-slate-100" dir="ltr">
+                        <div className="p-2.5 rounded-xl bg-[#07080b] border border-white/5">
+                          <span className="text-slate-500 block text-[10px]">قسط ماهانه:</span>
+                          <span className="font-bold text-slate-100 font-mono" dir="ltr">
                             {formatMoney(loan.monthly_payment)}
                           </span>
                         </div>
-                        <div className="p-2.5 rounded-xl bg-slate-50 dark:bg-slate-900/60 border border-slate-100 dark:border-slate-800">
-                          <span className="text-slate-400 block text-[10px]">نرخ سود سالانه:</span>
-                          <span className="font-bold text-amber-600 dark:text-amber-400" dir="ltr">
+                        <div className="p-2.5 rounded-xl bg-[#07080b] border border-white/5">
+                          <span className="text-slate-500 block text-[10px]">نرخ سود سالانه:</span>
+                          <span className="font-bold text-amber-400 font-mono" dir="ltr">
                             {loan.interest_rate_percent}%
                           </span>
                         </div>
-                        <div className="p-2.5 rounded-xl bg-slate-50 dark:bg-slate-900/60 border border-slate-100 dark:border-slate-800">
-                          <span className="text-slate-400 block text-[10px]">تسویه تخمینی:</span>
-                          <span className="font-bold text-slate-700 dark:text-slate-300">
+                        <div className="p-2.5 rounded-xl bg-[#07080b] border border-white/5">
+                          <span className="text-slate-500 block text-[10px]">تسویه تخمینی:</span>
+                          <span className="font-bold text-slate-300 font-mono">
                             {loan.remaining_months} ماه دیگر
                           </span>
                         </div>
                       </div>
 
                       {/* Repayment Progress bar */}
-                      <div className="space-y-1 pt-1">
-                        <div className="flex justify-between text-[11px] text-slate-500 font-medium">
+                      <div className="space-y-1.5 pt-1">
+                        <div className="flex justify-between text-[11px] text-slate-400 font-medium">
                           <span>پیشرفت استهلاک اصل بدهی:</span>
-                          <span className="font-bold">{loan.repaid_percent}%</span>
+                          <span className="font-bold text-slate-200 font-mono">{loan.repaid_percent}%</span>
                         </div>
-                        <div className="w-full h-2.5 bg-slate-100 dark:bg-slate-800 rounded-full overflow-hidden">
+                        <div className="w-full h-1.5 bg-[#1B1D21] border border-[#282A2F] rounded-full overflow-hidden">
                           <div
-                            className="h-full bg-emerald-500 transition-all rounded-full"
+                            className="h-full bg-[#76A98C] transition-all rounded-full"
                             style={{ width: `${Math.min(100, Number(loan.repaid_percent))}%` }}
                           />
                         </div>
@@ -1162,14 +1157,14 @@ export default function WealthTrajectoryPage() {
               </div>
 
               {/* Comprehensive Amortization Table */}
-              <div className="fin-card overflow-hidden">
-                <div className="p-4 border-b border-slate-100 dark:border-slate-800 flex items-center justify-between">
-                  <h3 className="text-xs font-bold text-slate-800 dark:text-slate-200">
+              <div className="bg-[#141518] border border-[#282A2F] rounded-2xl overflow-hidden shadow-xl">
+                <div className="p-4 border-b border-white/10 flex items-center justify-between">
+                  <h3 className="text-xs font-bold text-slate-200">
                     جدول کلی تسهیلات و سررسیدهای بازپرداخت
                   </h3>
                   <Link
                     href="/liabilities"
-                    className="text-xs font-bold text-indigo-600 dark:text-indigo-400 hover:underline flex items-center gap-1"
+                    className="text-xs font-bold text-amber-400 hover:text-amber-300 flex items-center gap-1 transition-colors"
                   >
                     <span>ویرایش و مدیریت تسهیلات</span>
                     <ArrowRight className="h-3 w-3" />
@@ -1178,7 +1173,7 @@ export default function WealthTrajectoryPage() {
                 <div className="overflow-x-auto">
                   <table className="w-full text-right text-xs">
                     <thead>
-                      <tr className="bg-slate-50 dark:bg-slate-800/40 text-slate-500 font-bold border-b border-slate-100 dark:border-slate-800">
+                      <tr className="bg-[#07080b] text-slate-400 font-bold border-b border-white/10">
                         <th className="p-3.5">عنوان تسهیلات</th>
                         <th className="p-3.5">موسسه / بانک</th>
                         <th className="p-3.5">مانده فعلی بدهی</th>
@@ -1189,33 +1184,33 @@ export default function WealthTrajectoryPage() {
                         <th className="p-3.5">درصد تسویه</th>
                       </tr>
                     </thead>
-                    <tbody className="divide-y divide-slate-100 dark:divide-slate-800">
+                    <tbody className="divide-y divide-white/5">
                       {trajectoryData.loans.map((loan) => (
                         <tr
                           key={loan.id}
-                          className="hover:bg-slate-50/50 dark:hover:bg-slate-800/30 transition-colors"
+                          className="hover:bg-white/5 transition-colors"
                         >
-                          <td className="p-3.5 font-bold text-slate-900 dark:text-slate-100">
+                          <td className="p-3.5 font-bold text-slate-100">
                             {loan.name}
                           </td>
-                          <td className="p-3.5 text-slate-500">{loan.lender || "—"}</td>
-                          <td className="p-3.5 font-bold text-rose-600 dark:text-rose-400" dir="ltr">
+                          <td className="p-3.5 text-slate-400">{loan.lender || "—"}</td>
+                          <td className="p-3.5 font-bold text-rose-400 font-mono" dir="ltr">
                             {formatMoney(loan.current_balance)}
                           </td>
-                          <td className="p-3.5 font-bold text-slate-800 dark:text-slate-200" dir="ltr">
+                          <td className="p-3.5 font-bold text-slate-200 font-mono" dir="ltr">
                             {formatMoney(loan.monthly_payment)}
                           </td>
-                          <td className="p-3.5 text-amber-600 font-bold" dir="ltr">
+                          <td className="p-3.5 text-amber-400 font-bold font-mono" dir="ltr">
                             {loan.interest_rate_percent}%
                           </td>
-                          <td className="p-3.5 text-slate-600 dark:text-slate-300">
+                          <td className="p-3.5 text-slate-300 font-mono">
                             {loan.remaining_months} ماه
                           </td>
-                          <td className="p-3.5 text-slate-700 dark:text-slate-300 font-semibold">
+                          <td className="p-3.5 text-slate-300 font-mono">
                             {loan.estimated_payoff_date}
                           </td>
                           <td className="p-3.5">
-                            <span className="inline-flex items-center px-2 py-0.5 rounded-full text-[11px] font-bold bg-emerald-50 dark:bg-emerald-950/40 text-emerald-600 dark:text-emerald-400">
+                            <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-[11px] font-bold bg-emerald-500/10 text-emerald-400 border border-emerald-500/20 font-mono">
                               {loan.repaid_percent}%
                             </span>
                           </td>
@@ -1227,7 +1222,7 @@ export default function WealthTrajectoryPage() {
               </div>
             </>
           ) : (
-            <div className="fin-card p-12 text-center text-xs text-slate-400">
+            <div className="bg-[#10131a] border border-white/10 rounded-2xl p-12 text-center text-xs text-slate-500">
               هیچ وام یا بدهی فعالی در حساب کاربری ثبت نشده است.
             </div>
           )}
@@ -1239,14 +1234,14 @@ export default function WealthTrajectoryPage() {
         <div className="space-y-6">
           <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3">
             <div>
-              <h2 className="text-base font-bold text-slate-900 dark:text-slate-100">
+              <h2 className="text-base font-bold text-slate-100">
                 جدول تفکیکی دارایی‌ها و پیش‌بینی سود مرکب
               </h2>
-              <p className="text-xs text-slate-500">
+              <p className="text-xs text-slate-400">
                 ارزش فعلی، بازدهی مورد انتظار و پیش‌بینی ارزش آتی سرمایه‌گذاری‌ها
               </p>
             </div>
-            <span className="text-xs font-bold text-emerald-600 dark:text-emerald-400 bg-emerald-50 dark:bg-emerald-950/40 px-3 py-1.5 rounded-xl border border-emerald-200 dark:border-emerald-900">
+            <span className="text-xs font-bold text-emerald-400 bg-emerald-500/10 px-3.5 py-1.5 rounded-xl border border-emerald-500/20 font-mono">
               مجموع ارزش پورتفولیو: {formatMoney(trajectoryData?.baseline_investments || 0)}
             </span>
           </div>
@@ -1260,7 +1255,7 @@ export default function WealthTrajectoryPage() {
                   return (
                     <div
                       key={inv.id}
-                      className="fin-card p-5 space-y-3.5 border-t-4"
+                      className="bg-[#141518] border border-[#282A2F] hover:border-white/20 rounded-2xl p-5 space-y-3.5 border-t-4 shadow-xl transition-all"
                       style={{ borderTopColor: color }}
                     >
                       <div className="flex items-center justify-between">
@@ -1270,33 +1265,33 @@ export default function WealthTrajectoryPage() {
                             style={{ backgroundColor: color }}
                           />
                           <div>
-                            <h4 className="text-sm font-bold text-slate-900 dark:text-slate-100">
+                            <h4 className="text-sm font-bold text-slate-100">
                               {inv.name}
                             </h4>
-                            <span className="text-[10px] text-slate-400">{inv.symbol}</span>
+                            <span className="text-[10px] text-slate-500 font-mono">{inv.symbol}</span>
                           </div>
                         </div>
-                        <span className="text-[11px] font-bold text-emerald-600 dark:text-emerald-400 bg-emerald-50 dark:bg-emerald-950/50 px-2.5 py-0.5 rounded-lg border border-emerald-200 dark:border-emerald-800">
+                        <span className="text-[11px] font-bold text-emerald-400 bg-emerald-500/10 px-2.5 py-0.5 rounded-lg border border-emerald-500/20 font-mono">
                           بازدهی: {inv.projected_annual_growth_rate}% سالانه
                         </span>
                       </div>
 
                       <div className="grid grid-cols-3 gap-2 text-xs">
-                        <div className="p-2.5 rounded-xl bg-slate-50 dark:bg-slate-900/60 border border-slate-100 dark:border-slate-800">
-                          <span className="text-slate-400 block text-[10px]">ارزش فعلی:</span>
-                          <span className="font-bold text-emerald-600 dark:text-emerald-400" dir="ltr">
+                        <div className="p-2.5 rounded-xl bg-[#07080b] border border-white/5">
+                          <span className="text-slate-500 block text-[10px]">ارزش فعلی:</span>
+                          <span className="font-bold text-emerald-400 font-mono" dir="ltr">
                             {formatMoney(inv.current_value)}
                           </span>
                         </div>
-                        <div className="p-2.5 rounded-xl bg-slate-50 dark:bg-slate-900/60 border border-slate-100 dark:border-slate-800">
-                          <span className="text-slate-400 block text-[10px]">افق ۱ ساله:</span>
-                          <span className="font-bold text-slate-900 dark:text-slate-100" dir="ltr">
+                        <div className="p-2.5 rounded-xl bg-[#07080b] border border-white/5">
+                          <span className="text-slate-500 block text-[10px]">افق ۱ ساله:</span>
+                          <span className="font-bold text-slate-100 font-mono" dir="ltr">
                             {formatMoney(inv.projected_value_1y)}
                           </span>
                         </div>
-                        <div className="p-2.5 rounded-xl bg-slate-50 dark:bg-slate-900/60 border border-slate-100 dark:border-slate-800">
-                          <span className="text-slate-400 block text-[10px]">افق ۲ ساله:</span>
-                          <span className="font-bold text-indigo-600 dark:text-indigo-400" dir="ltr">
+                        <div className="p-2.5 rounded-xl bg-[#07080b] border border-white/5">
+                          <span className="text-slate-500 block text-[10px]">افق ۲ ساله:</span>
+                          <span className="font-bold text-amber-400 font-mono" dir="ltr">
                             {formatMoney(inv.projected_value_2y)}
                           </span>
                         </div>
@@ -1307,14 +1302,14 @@ export default function WealthTrajectoryPage() {
               </div>
 
               {/* Comprehensive Table */}
-              <div className="fin-card overflow-hidden">
-                <div className="p-4 border-b border-slate-100 dark:border-slate-800 flex items-center justify-between">
-                  <h3 className="text-xs font-bold text-slate-800 dark:text-slate-200">
+              <div className="bg-[#141518] border border-[#282A2F] rounded-2xl overflow-hidden shadow-xl">
+                <div className="p-4 border-b border-white/10 flex items-center justify-between">
+                  <h3 className="text-xs font-bold text-slate-200">
                     جدول تفکیک کلیه موقعیت‌های سرمایه‌گذاری
                   </h3>
                   <Link
                     href="/portfolio"
-                    className="text-xs font-bold text-indigo-600 dark:text-indigo-400 hover:underline flex items-center gap-1"
+                    className="text-xs font-bold text-amber-400 hover:text-amber-300 flex items-center gap-1 transition-colors"
                   >
                     <span>مدیریت دارایی‌ها در پورتفولیو</span>
                     <ArrowRight className="h-3 w-3" />
@@ -1323,7 +1318,7 @@ export default function WealthTrajectoryPage() {
                 <div className="overflow-x-auto">
                   <table className="w-full text-right text-xs">
                     <thead>
-                      <tr className="bg-slate-50 dark:bg-slate-800/40 text-slate-500 font-bold border-b border-slate-100 dark:border-slate-800">
+                      <tr className="bg-[#07080b] text-slate-400 font-bold border-b border-white/10">
                         <th className="p-3.5">نام دارایی</th>
                         <th className="p-3.5">نماد</th>
                         <th className="p-3.5">کلاس دارایی</th>
@@ -1333,27 +1328,27 @@ export default function WealthTrajectoryPage() {
                         <th className="p-3.5">ارزش ۲ ساله</th>
                       </tr>
                     </thead>
-                    <tbody className="divide-y divide-slate-100 dark:divide-slate-800">
+                    <tbody className="divide-y divide-white/5">
                       {trajectoryData.investments.map((inv) => (
                         <tr
                           key={inv.id}
-                          className="hover:bg-slate-50/50 dark:hover:bg-slate-800/30 transition-colors"
+                          className="hover:bg-white/5 transition-colors"
                         >
-                          <td className="p-3.5 font-bold text-slate-900 dark:text-slate-100">
+                          <td className="p-3.5 font-bold text-slate-100">
                             {inv.name}
                           </td>
-                          <td className="p-3.5 text-slate-400">{inv.symbol}</td>
-                          <td className="p-3.5 text-slate-500">{inv.asset_class}</td>
-                          <td className="p-3.5 font-bold text-emerald-600 dark:text-emerald-400" dir="ltr">
+                          <td className="p-3.5 text-slate-400 font-mono">{inv.symbol}</td>
+                          <td className="p-3.5 text-slate-400">{inv.asset_class}</td>
+                          <td className="p-3.5 font-bold text-emerald-400 font-mono" dir="ltr">
                             {formatMoney(inv.current_value)}
                           </td>
-                          <td className="p-3.5 text-indigo-600 font-bold" dir="ltr">
+                          <td className="p-3.5 text-amber-400 font-bold font-mono" dir="ltr">
                             {inv.projected_annual_growth_rate}%
                           </td>
-                          <td className="p-3.5 font-bold text-slate-800 dark:text-slate-200" dir="ltr">
+                          <td className="p-3.5 font-bold text-slate-200 font-mono" dir="ltr">
                             {formatMoney(inv.projected_value_1y)}
                           </td>
-                          <td className="p-3.5 font-bold text-indigo-600 dark:text-indigo-400" dir="ltr">
+                          <td className="p-3.5 font-bold text-amber-400 font-mono" dir="ltr">
                             {formatMoney(inv.projected_value_2y)}
                           </td>
                         </tr>
@@ -1364,7 +1359,7 @@ export default function WealthTrajectoryPage() {
               </div>
             </>
           ) : (
-            <div className="fin-card p-12 text-center text-xs text-slate-400">
+            <div className="bg-[#10131a] border border-white/10 rounded-2xl p-12 text-center text-xs text-slate-500">
               هیچ دارایی یا موقعیت سرمایه‌گذاری فعالی در حساب کاربری ثبت نشده است.
             </div>
           )}
@@ -1376,36 +1371,36 @@ export default function WealthTrajectoryPage() {
         <div className="space-y-6">
           <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3">
             <div>
-              <h2 className="text-base font-bold text-slate-900 dark:text-slate-100">
+              <h2 className="text-base font-bold text-slate-100">
                 جریان ورودی حقوق و منابع درآمد ماهانه
               </h2>
-              <p className="text-xs text-slate-500">
+              <p className="text-xs text-slate-400">
                 موتور اصلی تامین مالی برای استهلاک تسهیلات و تزریق ماهانه به سبد سرمایه‌گذاری
               </p>
             </div>
-            <span className="text-xs font-bold text-sky-600 dark:text-sky-400 bg-sky-50 dark:bg-sky-950/40 px-3 py-1.5 rounded-xl border border-sky-200 dark:border-sky-900">
+            <span className="text-xs font-bold text-cyan-400 bg-cyan-500/10 px-3.5 py-1.5 rounded-xl border border-cyan-500/20 font-mono">
               درآمد ماهانه فعال: {formatMoney(trajectoryData?.baseline_salary || 0)}
             </span>
           </div>
 
           <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
-            <div className="fin-card p-5 space-y-1">
-              <span className="text-xs text-slate-500 font-semibold">مبلغ دریافتی ماهانه:</span>
-              <div className="text-xl font-bold text-sky-600 dark:text-sky-400" dir="ltr">
+            <div className="bg-[#141518] border border-[#282A2F] rounded-2xl p-5 space-y-1 shadow-xl">
+              <span className="text-xs text-slate-400 font-semibold">مبلغ دریافتی ماهانه:</span>
+              <div className="text-xl font-bold text-cyan-400 font-mono" dir="ltr">
                 {formatMoney(trajectoryData?.baseline_salary || 0)}
               </div>
             </div>
 
-            <div className="fin-card p-5 space-y-1">
-              <span className="text-xs text-slate-500 font-semibold">ارزش سالانه کل ورودی:</span>
-              <div className="text-xl font-bold text-indigo-600 dark:text-indigo-400" dir="ltr">
+            <div className="bg-[#141518] border border-[#282A2F] rounded-2xl p-5 space-y-1 shadow-xl">
+              <span className="text-xs text-slate-400 font-semibold">ارزش سالانه کل ورودی:</span>
+              <div className="text-xl font-bold text-amber-400 font-mono" dir="ltr">
                 {formatMoney(Number(trajectoryData?.baseline_salary || 0) * 12)}
               </div>
             </div>
 
-            <div className="fin-card p-5 space-y-1">
-              <span className="text-xs text-slate-500 font-semibold">پایداری جریان نقدی:</span>
-              <div className="text-sm font-bold text-emerald-600 dark:text-emerald-400 flex items-center gap-1.5 pt-1">
+            <div className="bg-[#141518] border border-[#282A2F] rounded-2xl p-5 space-y-1 shadow-xl">
+              <span className="text-xs text-slate-400 font-semibold">پایداری جریان نقدی:</span>
+              <div className="text-sm font-bold text-emerald-400 flex items-center gap-1.5 pt-1">
                 <CheckCircle2 className="h-4 w-4" />
                 تکرارشونده و پایدار
               </div>
@@ -1419,23 +1414,23 @@ export default function WealthTrajectoryPage() {
         <div className="space-y-4">
           <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3">
             <div>
-              <h2 className="text-base font-bold text-slate-900 dark:text-slate-100">
+              <h2 className="text-base font-bold text-slate-100">
                 جدول ماهانه زمان‌بندی استهلاک و رشد سرمایه
               </h2>
-              <p className="text-xs text-slate-500">
+              <p className="text-xs text-slate-400">
                 مشاهده ارقام دقیق بدهی، سرمایه‌گذاری و ارزش خالص در هر گام زمانی
               </p>
             </div>
 
             <div className="flex items-center gap-2">
-              <div className="flex items-center gap-1 bg-slate-100 dark:bg-slate-800 p-1 rounded-xl text-xs font-semibold">
+              <div className="flex items-center gap-1 bg-[#10131a] border border-white/10 p-1 rounded-xl text-xs font-semibold">
                 <button
                   onClick={() => setTimelineFilter("all")}
                   className={cn(
-                    "px-2.5 py-1 rounded-lg transition-all cursor-pointer",
+                    "px-3 py-1 rounded-lg transition-all cursor-pointer",
                     timelineFilter === "all"
-                      ? "bg-white dark:bg-slate-900 text-slate-900 dark:text-slate-100 shadow-xs font-bold"
-                      : "text-slate-500"
+                      ? "bg-amber-500 text-slate-950 font-bold shadow-sm"
+                      : "text-slate-400 hover:text-slate-200"
                   )}
                 >
                   همه گام‌ها ({timeline?.length || 0})
@@ -1443,10 +1438,10 @@ export default function WealthTrajectoryPage() {
                 <button
                   onClick={() => setTimelineFilter("forecast")}
                   className={cn(
-                    "px-2.5 py-1 rounded-lg transition-all cursor-pointer",
+                    "px-3 py-1 rounded-lg transition-all cursor-pointer",
                     timelineFilter === "forecast"
-                      ? "bg-white dark:bg-slate-900 text-slate-900 dark:text-slate-100 shadow-xs font-bold"
-                      : "text-slate-500"
+                      ? "bg-amber-500 text-slate-950 font-bold shadow-sm"
+                      : "text-slate-400 hover:text-slate-200"
                   )}
                 >
                   فقط پیش‌بینی
@@ -1454,10 +1449,10 @@ export default function WealthTrajectoryPage() {
                 <button
                   onClick={() => setTimelineFilter("history")}
                   className={cn(
-                    "px-2.5 py-1 rounded-lg transition-all cursor-pointer",
+                    "px-3 py-1 rounded-lg transition-all cursor-pointer",
                     timelineFilter === "history"
-                      ? "bg-white dark:bg-slate-900 text-slate-900 dark:text-slate-100 shadow-xs font-bold"
-                      : "text-slate-500"
+                      ? "bg-amber-500 text-slate-950 font-bold shadow-sm"
+                      : "text-slate-400 hover:text-slate-200"
                   )}
                 >
                   فقط گذشته
@@ -1466,7 +1461,7 @@ export default function WealthTrajectoryPage() {
 
               <button
                 onClick={handleExportCSV}
-                className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-indigo-600 hover:bg-indigo-500 text-white text-xs font-bold transition-all cursor-pointer shadow-sm"
+                className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-gradient-to-r from-amber-500 to-amber-600 hover:from-amber-400 text-slate-950 text-xs font-bold transition-all cursor-pointer shadow-lg shadow-amber-500/20"
               >
                 <Download className="h-3.5 w-3.5" />
                 <span>دانلود CSV</span>
@@ -1474,11 +1469,11 @@ export default function WealthTrajectoryPage() {
             </div>
           </div>
 
-          <div className="fin-card overflow-hidden">
+          <div className="bg-[#141518] border border-[#282A2F] rounded-2xl overflow-hidden shadow-xl">
             <div className="overflow-x-auto">
               <table className="w-full text-right text-xs">
                 <thead>
-                  <tr className="bg-slate-50 dark:bg-slate-800/40 text-slate-500 font-bold border-b border-slate-100 dark:border-slate-800">
+                  <tr className="bg-[#07080b] text-slate-400 font-bold border-b border-white/10">
                     <th className="p-3.5">تاریخ گام</th>
                     <th className="p-3.5">عنوان بازه</th>
                     <th className="p-3.5">وضعیت</th>
@@ -1488,44 +1483,44 @@ export default function WealthTrajectoryPage() {
                     <th className="p-3.5">ارزش خالص (Net Worth)</th>
                   </tr>
                 </thead>
-                <tbody className="divide-y divide-slate-100 dark:divide-slate-800">
+                <tbody className="divide-y divide-white/5 font-mono">
                   {filteredTimelineRows.map((row, idx) => (
                     <tr
                       key={idx}
                       className={cn(
-                        "hover:bg-slate-50/50 dark:hover:bg-slate-800/30 transition-colors",
+                        "hover:bg-white/5 transition-colors",
                         row.display_date === "امروز" &&
-                          "bg-indigo-50/50 dark:bg-indigo-950/30 font-bold"
+                          "bg-amber-500/10 font-bold border-y border-amber-500/20"
                       )}
                     >
-                      <td className="p-3.5 text-slate-700 dark:text-slate-300 font-mono">
+                      <td className="p-3.5 text-slate-300">
                         {row.date}
                       </td>
-                      <td className="p-3.5 font-semibold text-slate-900 dark:text-slate-100">
+                      <td className="p-3.5 font-semibold text-slate-100 font-sans">
                         {row.display_date}
                       </td>
                       <td className="p-3.5">
                         <span
                           className={cn(
-                            "px-2 py-0.5 rounded-full text-[10px] font-bold border",
+                            "px-2.5 py-0.5 rounded-full text-[10px] font-bold border font-sans",
                             row.is_forecast
-                              ? "bg-purple-50 dark:bg-purple-950/40 text-purple-700 dark:text-purple-300 border-purple-200 dark:border-purple-800"
-                              : "bg-sky-50 dark:bg-sky-950/40 text-sky-700 dark:text-sky-300 border-sky-200 dark:border-sky-800"
+                              ? "bg-purple-500/10 text-purple-300 border-purple-500/20"
+                              : "bg-amber-500/10 text-amber-300 border-amber-500/20"
                           )}
                         >
                           {row.is_forecast ? "پیش‌بینی هوش مصنوعی" : "داده واقعی گذشته"}
                         </span>
                       </td>
-                      <td className="p-3.5 font-bold text-rose-600 dark:text-rose-400" dir="ltr">
+                      <td className="p-3.5 font-bold text-rose-400" dir="ltr">
                         {formatMoney(row.total_liabilities)}
                       </td>
-                      <td className="p-3.5 font-bold text-emerald-600 dark:text-emerald-400" dir="ltr">
+                      <td className="p-3.5 font-bold text-emerald-400" dir="ltr">
                         {formatMoney(row.total_investments)}
                       </td>
-                      <td className="p-3.5 text-slate-600 dark:text-slate-400" dir="ltr">
+                      <td className="p-3.5 text-slate-400" dir="ltr">
                         {formatMoney(row.salary_income)}
                       </td>
-                      <td className="p-3.5 font-black text-slate-900 dark:text-slate-100" dir="ltr">
+                      <td className="p-3.5 font-black text-slate-100" dir="ltr">
                         {formatMoney(row.net_worth)}
                       </td>
                     </tr>
@@ -1540,66 +1535,66 @@ export default function WealthTrajectoryPage() {
       {/* TAB 6: AI NARRATIVE & STRATEGIC PLAYBOOK */}
       {activeTab === "ai" && (
         <div className="space-y-6">
-          <div className="p-6 rounded-3xl border border-indigo-200 dark:border-indigo-800/70 bg-gradient-to-r from-indigo-50/70 via-purple-50/40 to-white dark:from-indigo-950/40 dark:via-purple-950/20 dark:to-slate-900 space-y-4">
-            <div className="flex items-center gap-2 text-indigo-700 dark:text-indigo-300 font-bold text-sm">
+          <div className="p-6 rounded-2xl border border-amber-500/30 bg-gradient-to-r from-amber-500/10 via-purple-500/5 to-[#10131a] space-y-4 shadow-xl">
+            <div className="flex items-center gap-2 text-amber-400 font-bold text-sm">
               <Sparkles className="h-5 w-5" />
               <span>تحلیل استراتژیک مدل هوش مصنوعی مالی</span>
             </div>
-            <p className="text-sm text-slate-700 dark:text-slate-200 leading-relaxed font-medium">
+            <p className="text-sm text-slate-200 leading-relaxed font-medium">
               {trajectoryData?.ai_narrative}
             </p>
           </div>
 
           {/* Strategic Milestones Grid */}
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
-            <div className="fin-card p-5 space-y-1">
-              <div className="flex items-center gap-2 text-rose-500 mb-1">
+            <div className="bg-[#141518] border border-[#282A2F] rounded-2xl p-5 space-y-1 shadow-xl">
+              <div className="flex items-center gap-2 text-rose-400 mb-1">
                 <Clock className="h-4 w-4" />
-                <span className="text-xs font-bold">تاریخ آزادی از بدهی</span>
+                <span className="text-xs font-bold font-sans">تاریخ آزادی از بدهی</span>
               </div>
-              <div className="text-base font-bold text-slate-900 dark:text-slate-100">
+              <div className="text-base font-bold text-slate-100 font-mono">
                 {trajectoryData?.debt_free_date || "در مسیر استهلاک منظم"}
               </div>
-              <span className="text-[11px] text-slate-400 block pt-1">
+              <span className="text-[11px] text-slate-500 block pt-1">
                 نقطه صفر شدن کلیه اقساط و تعهدات مالی
               </span>
             </div>
 
-            <div className="fin-card p-5 space-y-1">
-              <div className="flex items-center gap-2 text-emerald-500 mb-1">
+            <div className="bg-[#141518] border border-[#282A2F] rounded-2xl p-5 space-y-1 shadow-xl">
+              <div className="flex items-center gap-2 text-emerald-400 mb-1">
                 <Percent className="h-4 w-4" />
-                <span className="text-xs font-bold">سود سرمایه‌گذاری برآورد شده</span>
+                <span className="text-xs font-bold font-sans">سود سرمایه‌گذاری برآورد شده</span>
               </div>
-              <div className="text-base font-bold text-emerald-600 dark:text-emerald-400" dir="ltr">
+              <div className="text-base font-bold text-emerald-400 font-mono" dir="ltr">
                 +{formatMoney(trajectoryData?.projected_total_profit || 0)}
               </div>
-              <span className="text-[11px] text-slate-400 block pt-1">
+              <span className="text-[11px] text-slate-500 block pt-1">
                 رشد مرکب دارایی‌ها در طول افق زمانی
               </span>
             </div>
 
-            <div className="fin-card p-5 space-y-1">
-              <div className="flex items-center gap-2 text-sky-500 mb-1">
+            <div className="bg-[#141518] border border-[#282A2F] rounded-2xl p-5 space-y-1 shadow-xl">
+              <div className="flex items-center gap-2 text-cyan-400 mb-1">
                 <ShieldAlert className="h-4 w-4" />
-                <span className="text-xs font-bold">صرفه‌جویی در سود بانکی</span>
+                <span className="text-xs font-bold font-sans">صرفه‌جویی در سود بانکی</span>
               </div>
-              <div className="text-base font-bold text-slate-900 dark:text-slate-100" dir="ltr">
+              <div className="text-base font-bold text-slate-100 font-mono" dir="ltr">
                 {formatMoney(trajectoryData?.total_debt_interest_saved || 0)}
               </div>
-              <span className="text-[11px] text-slate-400 block pt-1">
+              <span className="text-[11px] text-slate-500 block pt-1">
                 با پایبندی به برنامه منظم بازپرداخت
               </span>
             </div>
 
-            <div className="fin-card p-5 space-y-1">
-              <div className="flex items-center gap-2 text-indigo-500 mb-1">
+            <div className="bg-[#141518] border border-[#282A2F] rounded-2xl p-5 space-y-1 shadow-xl">
+              <div className="flex items-center gap-2 text-amber-400 mb-1">
                 <Building2 className="h-4 w-4" />
-                <span className="text-xs font-bold">نقطه برابری ثروت (Crossover)</span>
+                <span className="text-xs font-bold font-sans">نقطه برابری ثروت (Crossover)</span>
               </div>
-              <div className="text-base font-bold text-indigo-600 dark:text-indigo-400">
+              <div className="text-base font-bold text-amber-400">
                 {trajectoryData?.crossover_date ? "محقق گردیده است" : "پیش از پایان افق شبیه‌سازی"}
               </div>
-              <span className="text-[11px] text-slate-400 block pt-1">
+              <span className="text-[11px] text-slate-500 block pt-1">
                 برتری ارزش خالص دارایی‌ها بر کل بدهی‌ها
               </span>
             </div>

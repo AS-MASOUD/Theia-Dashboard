@@ -15,23 +15,23 @@ export interface ButtonProps
 
 const variantStyles: Record<NonNullable<ButtonProps["variant"]>, string> = {
   default:
-    "bg-indigo-600 text-white hover:bg-indigo-700 dark:bg-indigo-600 dark:hover:bg-indigo-700 shadow-sm",
+    "bg-[#F0AE55] hover:bg-[#F3BC72] text-[#0D0E10] font-medium shadow-[0_0_14px_-2px_rgba(240,174,85,0.36)] hover:shadow-[0_0_20px_rgba(240,174,85,0.5)] active:scale-98 transition-all",
   destructive:
-    "bg-rose-600 text-white hover:bg-rose-700 dark:bg-rose-600 dark:hover:bg-rose-700 shadow-sm",
+    "bg-[#1B1D21] border border-[#C77A82]/30 text-[#C77A82] hover:bg-[#C77A82]/15 shadow-[0_0_12px_rgba(199,122,130,0.12)] transition-all",
   outline:
-    "border border-slate-200 dark:border-slate-800 bg-transparent hover:bg-slate-100 dark:hover:bg-slate-800 text-slate-900 dark:text-slate-100",
+    "border border-[#282A2F] bg-transparent hover:bg-[#1B1D21] hover:border-[#32343A] text-[#E8E8E8] transition-colors",
   secondary:
-    "bg-slate-100 text-slate-900 hover:bg-slate-200 dark:bg-slate-800 dark:text-slate-100 dark:hover:bg-slate-700",
+    "bg-[#1B1D21] hover:bg-[#222327] border border-[#282A2F] text-[#E8E8E8] transition-colors",
   ghost:
-    "hover:bg-slate-100 hover:text-slate-900 dark:hover:bg-slate-800 dark:hover:text-slate-100 text-slate-700 dark:text-slate-300",
-  link: "text-indigo-600 underline-offset-4 hover:underline dark:text-indigo-400",
+    "hover:bg-[#1B1D21] text-[#9A9DA5] hover:text-[#E8E8E8] transition-colors",
+  link: "text-[#F0AE55] underline-offset-4 hover:underline hover:text-[#F3BC72]",
 };
 
 const sizeStyles: Record<NonNullable<ButtonProps["size"]>, string> = {
-  default: "h-9 px-4 py-2",
-  sm: "h-8 rounded-md px-3 text-xs",
-  lg: "h-10 rounded-md px-8 text-base",
-  icon: "h-9 w-9",
+  default: "h-9 px-4 py-2 rounded-[14px]",
+  sm: "h-8 rounded-[10px] px-3 text-xs font-medium",
+  lg: "h-11 rounded-[16px] px-8 text-base font-medium",
+  icon: "h-9 w-9 rounded-[12px]",
 };
 
 export const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
@@ -41,7 +41,7 @@ export const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
         ref={ref}
         type={type}
         className={cn(
-          "inline-flex items-center justify-center rounded-lg text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-500 disabled:pointer-events-none disabled:opacity-50 select-none cursor-pointer",
+          "inline-flex items-center justify-center text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-[#F0AE55]/40 disabled:pointer-events-none disabled:opacity-50 select-none cursor-pointer",
           variantStyles[variant],
           sizeStyles[size],
           className

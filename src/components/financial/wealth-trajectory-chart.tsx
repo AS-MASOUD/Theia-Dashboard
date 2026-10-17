@@ -144,12 +144,12 @@ export function WealthTrajectoryChart() {
 
   return (
     <>
-      <div className="fin-card p-5 flex flex-col justify-between min-h-[390px] relative overflow-hidden">
+      <div className="bg-[#141518] border border-[#282A2F] rounded-[22px] p-5 flex flex-col justify-between min-h-[390px] relative overflow-hidden">
         {/* Top Header: Title + Detail View Button + Time Range selector */}
         <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 mb-3">
           <div>
             <div className="flex items-center gap-2">
-              <h3 className="text-sm font-bold text-slate-900 dark:text-slate-100">
+              <h3 className="text-sm font-semibold text-[#E8E8E8]">
                 روند استهلاک بدهی‌ها و رشد سرمایه‌گذاری (Wealth Trajectory)
               </h3>
             </div>
@@ -159,7 +159,7 @@ export function WealthTrajectoryChart() {
             {/* Detail View Button */}
             <Link
               href="/wealth-trajectory"
-              className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-indigo-600 hover:bg-indigo-500 active:scale-95 text-white text-xs font-bold shadow-md shadow-indigo-600/20 transition-all cursor-pointer whitespace-nowrap"
+              className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-[12px] bg-[#F0AE55] hover:bg-[#F5BA6E] text-[#0D0E10] text-xs font-medium transition-colors cursor-pointer whitespace-nowrap"
               title="مشاهده تک‌تک اقساط و دارایی‌ها"
             >
               <Layers className="h-3.5 w-3.5" />
@@ -167,15 +167,15 @@ export function WealthTrajectoryChart() {
             </Link>
 
             {/* Range selector */}
-            <div className="flex items-center gap-1 bg-slate-100 dark:bg-slate-800 p-1 rounded-xl text-xs font-semibold">
+            <div className="flex items-center gap-1 bg-[#1B1D21] border border-[#282A2F] p-1 rounded-xl text-xs font-medium">
               {RANGE_OPTIONS.map((opt) => (
                 <button
                   key={opt.key}
                   onClick={() => setSelectedRange(opt.key)}
-                  className={`px-2.5 py-1 rounded-lg transition-all cursor-pointer ${
+                  className={`px-2.5 py-1 rounded-lg transition-colors cursor-pointer ${
                     selectedRange === opt.key
-                      ? "bg-white dark:bg-slate-900 text-slate-900 dark:text-slate-100 shadow-xs font-bold"
-                      : "text-slate-500 hover:text-slate-800 dark:hover:text-slate-200"
+                      ? "bg-[rgba(240,174,85,0.12)] border border-[rgba(240,174,85,0.30)] text-[#F0AE55] font-medium"
+                      : "text-[#9A9DA5] hover:text-[#E8E8E8]"
                   }`}
                 >
                   {opt.label}
@@ -186,20 +186,20 @@ export function WealthTrajectoryChart() {
         </div>
 
         {/* Series Visibility Toggles & Quick Stats Legend */}
-        <div className="flex flex-wrap items-center justify-between gap-2.5 py-2 px-3 rounded-xl bg-slate-50/70 dark:bg-slate-900/40 border border-slate-100 dark:border-slate-800/80 text-xs">
+        <div className="flex flex-wrap items-center justify-between gap-2.5 py-2 px-3 rounded-xl bg-[#101114] border border-[#282A2F] text-xs">
           <div className="flex flex-wrap items-center gap-2 sm:gap-3">
             {/* Aggregated Net Worth toggle (Default ON) */}
             <button
               onClick={() => setShowNetWorth(!showNetWorth)}
-              className={`inline-flex items-center gap-1.5 px-2.5 py-1 rounded-lg font-semibold transition-all cursor-pointer ${
+              className={`inline-flex items-center gap-1.5 px-2.5 py-1 rounded-lg font-medium transition-colors cursor-pointer ${
                 showNetWorth
-                  ? "bg-purple-50 dark:bg-purple-950/40 text-purple-700 dark:text-purple-300 border border-purple-200 dark:border-purple-800"
-                  : "bg-slate-100 dark:bg-slate-800 text-slate-400 border border-transparent opacity-60"
+                  ? "bg-[rgba(240,174,85,0.12)] text-[#F0AE55] border border-[rgba(240,174,85,0.25)]"
+                  : "bg-transparent text-[#9A9DA5] border border-transparent opacity-60"
               }`}
             >
-              <Wallet className="h-3.5 w-3.5 text-purple-500" />
+              <Wallet className="h-3.5 w-3.5 text-[#F0AE55]" />
               <span>ارزش خالص (تجمیعی کل)</span>
-              <span className="font-bold text-[11px]" dir="ltr">
+              <span className="font-semibold text-[11px] font-mono" dir="ltr">
                 {formatMoney(
                   Number(trajectoryData?.baseline_investments || 0) -
                     Number(trajectoryData?.baseline_liabilities || 0),
@@ -210,15 +210,15 @@ export function WealthTrajectoryChart() {
             {/* Investments toggle */}
             <button
               onClick={() => setShowInvestments(!showInvestments)}
-              className={`inline-flex items-center gap-1.5 px-2.5 py-1 rounded-lg font-semibold transition-all cursor-pointer ${
+              className={`inline-flex items-center gap-1.5 px-2.5 py-1 rounded-lg font-medium transition-colors cursor-pointer ${
                 showInvestments
-                  ? "bg-emerald-50 dark:bg-emerald-950/40 text-emerald-700 dark:text-emerald-300 border border-emerald-200 dark:border-emerald-800"
-                  : "bg-slate-100 dark:bg-slate-800 text-slate-400 border border-transparent opacity-60"
+                  ? "bg-[#76A98C]/12 text-[#76A98C] border border-[#76A98C]/25"
+                  : "bg-transparent text-[#9A9DA5] border border-transparent opacity-60"
               }`}
             >
-              <TrendingUp className="h-3.5 w-3.5 text-emerald-500" />
+              <TrendingUp className="h-3.5 w-3.5 text-[#76A98C]" />
               <span>کل سرمایه‌گذاری‌ها (صعودی)</span>
-              <span className="font-bold text-[11px]" dir="ltr">
+              <span className="font-semibold text-[11px] font-mono" dir="ltr">
                 {formatMoney(trajectoryData?.baseline_investments)}
               </span>
             </button>
@@ -226,15 +226,15 @@ export function WealthTrajectoryChart() {
             {/* Liabilities toggle */}
             <button
               onClick={() => setShowLiabilities(!showLiabilities)}
-              className={`inline-flex items-center gap-1.5 px-2.5 py-1 rounded-lg font-semibold transition-all cursor-pointer ${
+              className={`inline-flex items-center gap-1.5 px-2.5 py-1 rounded-lg font-medium transition-colors cursor-pointer ${
                 showLiabilities
-                  ? "bg-rose-50 dark:bg-rose-950/40 text-rose-700 dark:text-rose-300 border border-rose-200 dark:border-rose-800"
-                  : "bg-slate-100 dark:bg-slate-800 text-slate-400 border border-transparent opacity-60"
+                  ? "bg-[#C77A82]/12 text-[#C77A82] border border-[#C77A82]/25"
+                  : "bg-transparent text-[#9A9DA5] border border-transparent opacity-60"
               }`}
             >
-              <TrendingDown className="h-3.5 w-3.5 text-rose-500" />
+              <TrendingDown className="h-3.5 w-3.5 text-[#C77A82]" />
               <span>کل بدهی‌ها و اقساط (نزولی)</span>
-              <span className="font-bold text-[11px]" dir="ltr">
+              <span className="font-semibold text-[11px] font-mono" dir="ltr">
                 {formatMoney(trajectoryData?.baseline_liabilities)}
               </span>
             </button>
@@ -242,15 +242,15 @@ export function WealthTrajectoryChart() {
             {/* Salary toggle */}
             <button
               onClick={() => setShowSalary(!showSalary)}
-              className={`inline-flex items-center gap-1.5 px-2.5 py-1 rounded-lg font-semibold transition-all cursor-pointer ${
+              className={`inline-flex items-center gap-1.5 px-2.5 py-1 rounded-lg font-medium transition-colors cursor-pointer ${
                 showSalary
-                  ? "bg-sky-50 dark:bg-sky-950/40 text-sky-700 dark:text-sky-300 border border-sky-200 dark:border-sky-800"
-                  : "bg-slate-100 dark:bg-slate-800 text-slate-400 border border-transparent opacity-60"
+                  ? "bg-[#88A9BC]/12 text-[#88A9BC] border border-[#88A9BC]/25"
+                  : "bg-transparent text-[#9A9DA5] border border-transparent opacity-60"
               }`}
             >
-              <span className="h-2 w-2 rounded-full bg-sky-500" />
+              <span className="h-2 w-2 rounded-full bg-[#88A9BC]" />
               <span>حقوق و دریافتی ماهانه</span>
-              <span className="font-bold text-[11px]" dir="ltr">
+              <span className="font-semibold text-[11px] font-mono" dir="ltr">
                 {formatMoney(trajectoryData?.baseline_salary)}
               </span>
             </button>
@@ -258,13 +258,13 @@ export function WealthTrajectoryChart() {
             {/* AI Prediction toggle */}
             <button
               onClick={() => setShowAIPrediction(!showAIPrediction)}
-              className={`inline-flex items-center gap-1.5 px-2.5 py-1 rounded-lg font-semibold transition-all cursor-pointer ${
+              className={`inline-flex items-center gap-1.5 px-2.5 py-1 rounded-lg font-medium transition-colors cursor-pointer ${
                 showAIPrediction
-                  ? "bg-indigo-50 dark:bg-indigo-950/40 text-indigo-700 dark:text-indigo-300 border border-indigo-200 dark:border-indigo-800"
-                  : "bg-slate-100 dark:bg-slate-800 text-slate-400 border border-transparent opacity-60"
+                  ? "bg-[#B9823D]/12 text-[#B9823D] border border-[#B9823D]/25"
+                  : "bg-transparent text-[#9A9DA5] border border-transparent opacity-60"
               }`}
             >
-              <Sparkles className="h-3.5 w-3.5 text-indigo-500" />
+              <Sparkles className="h-3.5 w-3.5 text-[#B9823D]" />
               <span>بازه تخمین آینده AI</span>
             </button>
           </div>
@@ -277,7 +277,7 @@ export function WealthTrajectoryChart() {
               در حال بارگذاری شبیه‌سازی مالی هوش مصنوعی...
             </div>
           ) : formattedData.length === 0 ? (
-            <div className="h-full flex items-center justify-center text-xs text-slate-400">
+            <div className="h-full flex items-center justify-center text-xs text-[#9A9DA5]">
               داده‌ای جهت رسم نمودار مسیر مالی یافت نشد.
             </div>
           ) : (
@@ -288,8 +288,8 @@ export function WealthTrajectoryChart() {
               >
                 <defs>
                   <linearGradient id="netWorthGrad" x1="0" y1="0" x2="0" y2="1">
-                    <stop offset="5%" stopColor="#8b5cf6" stopOpacity={0.25} />
-                    <stop offset="95%" stopColor="#8b5cf6" stopOpacity={0.0} />
+                    <stop offset="5%" stopColor="#F0AE55" stopOpacity={0.15} />
+                    <stop offset="95%" stopColor="#F0AE55" stopOpacity={0.0} />
                   </linearGradient>
                   <linearGradient
                     id="invConfidenceGrad"
@@ -298,24 +298,24 @@ export function WealthTrajectoryChart() {
                     x2="0"
                     y2="1"
                   >
-                    <stop offset="5%" stopColor="#10b981" stopOpacity={0.2} />
-                    <stop offset="95%" stopColor="#10b981" stopOpacity={0.0} />
+                    <stop offset="5%" stopColor="#76A98C" stopOpacity={0.12} />
+                    <stop offset="95%" stopColor="#76A98C" stopOpacity={0.0} />
                   </linearGradient>
                   <linearGradient id="liabAreaGrad" x1="0" y1="0" x2="0" y2="1">
-                    <stop offset="5%" stopColor="#f43f5e" stopOpacity={0.2} />
-                    <stop offset="95%" stopColor="#f43f5e" stopOpacity={0.0} />
+                    <stop offset="5%" stopColor="#C77A82" stopOpacity={0.12} />
+                    <stop offset="95%" stopColor="#C77A82" stopOpacity={0.0} />
                   </linearGradient>
                 </defs>
 
                 <XAxis
                   dataKey="display_date"
-                  stroke="#64748b"
+                  stroke="#696D77"
                   fontSize={11}
                   tickLine={false}
                   axisLine={false}
                 />
                 <YAxis
-                  stroke="#64748b"
+                  stroke="#696D77"
                   fontSize={11}
                   tickLine={false}
                   axisLine={false}
@@ -329,12 +329,12 @@ export function WealthTrajectoryChart() {
                 {/* Milestone Reference Line for "امروز" */}
                 <ReferenceLine
                   x="امروز"
-                  stroke="#6366f1"
+                  stroke="#B9823D"
                   strokeDasharray="4 4"
                   strokeWidth={1.5}
                   label={{
                     value: "امروز (شروع پیش‌بینی)",
-                    fill: "#6366f1",
+                    fill: "#B9823D",
                     fontSize: 11,
                     position: "top",
                   }}
@@ -348,18 +348,18 @@ export function WealthTrajectoryChart() {
 
                       return (
                         <div
-                          className="bg-slate-900/95 text-white p-3 rounded-2xl shadow-xl text-xs space-y-1.5 border border-slate-700 text-right min-w-[210px]"
+                          className="bg-[#1B1D21] text-[#E8E8E8] p-3 rounded-2xl shadow-xl text-xs space-y-1.5 border border-[#282A2F] text-right min-w-[210px]"
                           dir="rtl"
                         >
-                          <div className="flex items-center justify-between border-b border-slate-800 pb-1">
-                            <span className="font-semibold text-slate-300">
+                          <div className="flex items-center justify-between border-b border-[#282A2F] pb-1">
+                            <span className="font-medium text-[#E8E8E8]">
                               {label} ({row?.date})
                             </span>
                             <span
-                              className={`px-1.5 py-0.2 rounded text-[10px] font-bold ${
+                              className={`px-1.5 py-0.5 rounded text-[10px] font-medium ${
                                 isForecast
-                                  ? "bg-purple-900/70 text-purple-300"
-                                  : "bg-sky-900/70 text-sky-300"
+                                  ? "bg-[rgba(240,174,85,0.12)] text-[#F0AE55] border border-[rgba(240,174,85,0.25)]"
+                                  : "bg-[#141518] text-[#9A9DA5] border border-[#282A2F]"
                               }`}
                             >
                               {isForecast ? "پیش‌بینی آینده" : "تاریخچه"}
@@ -367,14 +367,14 @@ export function WealthTrajectoryChart() {
                           </div>
 
                           {showNetWorth && (
-                            <div className="text-purple-300 flex items-center justify-between font-bold pt-0.5 pb-1 border-b border-slate-800/80">
+                            <div className="text-[#F0AE55] flex items-center justify-between font-semibold pt-0.5 pb-1 border-b border-[#282A2F]">
                               <span>ارزش خالص (تجمیعی کل):</span>
                               <span dir="ltr">{formatMoney(row?.raw_nw)}</span>
                             </div>
                           )}
 
                           {showInvestments && (
-                            <div className="text-emerald-400 flex items-center justify-between font-bold">
+                            <div className="text-[#76A98C] flex items-center justify-between font-medium">
                               <span>سرمایه‌گذاری‌ها:</span>
                               <span dir="ltr">
                                 {formatMoney(row?.raw_investments)}
@@ -383,7 +383,7 @@ export function WealthTrajectoryChart() {
                           )}
 
                           {showLiabilities && (
-                            <div className="text-rose-400 flex items-center justify-between font-bold">
+                            <div className="text-[#C77A82] flex items-center justify-between font-medium">
                               <span>بدهی‌ها و اقساط:</span>
                               <span dir="ltr">
                                 {formatMoney(row?.raw_liabilities)}
@@ -392,7 +392,7 @@ export function WealthTrajectoryChart() {
                           )}
 
                           {showSalary && (
-                            <div className="text-sky-300 flex items-center justify-between">
+                            <div className="text-[#88A9BC] flex items-center justify-between font-medium">
                               <span>حقوق ماهانه:</span>
                               <span dir="ltr">
                                 {formatMoney(row?.raw_salary)}
@@ -411,8 +411,8 @@ export function WealthTrajectoryChart() {
                   <Area
                     type="monotone"
                     dataKey="net_worth"
-                    stroke="#8b5cf6"
-                    strokeWidth={3}
+                    stroke="#F0AE55"
+                    strokeWidth={2}
                     fill="url(#netWorthGrad)"
                   />
                 )}
@@ -432,8 +432,8 @@ export function WealthTrajectoryChart() {
                   <Area
                     type="monotone"
                     dataKey="total_liabilities"
-                    stroke="#f43f5e"
-                    strokeWidth={2.5}
+                    stroke="#C77A82"
+                    strokeWidth={2}
                     fill="url(#liabAreaGrad)"
                   />
                 )}
@@ -443,8 +443,8 @@ export function WealthTrajectoryChart() {
                   <Line
                     type="monotone"
                     dataKey="total_investments"
-                    stroke="#10b981"
-                    strokeWidth={2.8}
+                    stroke="#76A98C"
+                    strokeWidth={2}
                     dot={false}
                   />
                 )}
@@ -454,8 +454,8 @@ export function WealthTrajectoryChart() {
                   <Line
                     type="monotone"
                     dataKey="salary_income"
-                    stroke="#0284c7"
-                    strokeWidth={1.8}
+                    stroke="#88A9BC"
+                    strokeWidth={1.5}
                     strokeDasharray="4 4"
                     dot={false}
                   />
@@ -466,23 +466,23 @@ export function WealthTrajectoryChart() {
         </div>
 
         {/* Bottom Key Milestones Strip */}
-        <div className="mt-3 pt-3 border-t border-slate-100 dark:border-slate-800/80 grid grid-cols-1 sm:grid-cols-3 gap-2 text-xs">
-          <div className="flex items-center gap-2 text-slate-600 dark:text-slate-400">
-            <Clock className="h-4 w-4 text-rose-500 shrink-0" />
+        <div className="mt-3 pt-3 border-t border-[#282A2F] grid grid-cols-1 sm:grid-cols-3 gap-2 text-xs">
+          <div className="flex items-center gap-2 text-[#9A9DA5]">
+            <Clock className="h-4 w-4 text-[#C77A82] shrink-0" />
             <span>
               تسویه کامل بدهی‌ها:{" "}
-              <strong className="text-slate-900 dark:text-slate-100 font-bold">
+              <strong className="text-[#E8E8E8] font-semibold">
                 {trajectoryData?.debt_free_date || "در مسیر کاهش"}
               </strong>
             </span>
           </div>
 
-          <div className="flex items-center gap-2 text-slate-600 dark:text-slate-400">
-            <Percent className="h-4 w-4 text-emerald-500 shrink-0" />
+          <div className="flex items-center gap-2 text-[#9A9DA5]">
+            <Percent className="h-4 w-4 text-[#76A98C] shrink-0" />
             <span>
               سود مرکب پیش‌بینی‌شده:{" "}
               <strong
-                className="text-emerald-600 dark:text-emerald-400 font-bold"
+                className="text-[#76A98C] font-semibold"
                 dir="ltr"
               >
                 +{formatMoney(trajectoryData?.projected_total_profit)}
@@ -490,10 +490,10 @@ export function WealthTrajectoryChart() {
             </span>
           </div>
 
-          <div className="flex items-center justify-between sm:justify-end gap-2 text-slate-600 dark:text-slate-400">
+          <div className="flex items-center justify-between sm:justify-end gap-2 text-[#9A9DA5]">
             <Link
               href="/wealth-trajectory"
-              className="text-xs font-bold text-indigo-600 dark:text-indigo-400 hover:text-indigo-700 dark:hover:text-indigo-300 flex items-center gap-1 cursor-pointer"
+              className="text-xs font-medium text-[#F0AE55] hover:text-[#F5BA6E] flex items-center gap-1 cursor-pointer transition-colors"
             >
               <span>مشاهده ریز محاسبات و جدول تفکیکی</span>
               <span aria-hidden="true">&larr;</span>

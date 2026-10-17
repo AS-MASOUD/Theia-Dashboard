@@ -29,33 +29,33 @@ export function AttentionBanner({ items }: AttentionBannerProps) {
             <div
               key={item.id}
               className={cn(
-                "p-3.5 rounded-xl border flex flex-col justify-between text-xs transition-all",
+                "p-3.5 rounded-2xl border flex flex-col justify-between text-xs transition-all bg-[#0c0e14]",
                 isCritical &&
-                  "bg-rose-50/60 dark:bg-rose-950/20 border-rose-200 dark:border-rose-900/40 text-rose-900 dark:text-rose-200",
+                  "border-rose-500/30 text-rose-300",
                 isWarning &&
-                  "bg-amber-50/60 dark:bg-amber-950/20 border-amber-200 dark:border-amber-900/40 text-amber-900 dark:text-amber-200",
+                  "border-amber-500/30 text-amber-300",
                 !isCritical &&
                   !isWarning &&
-                  "bg-slate-50 dark:bg-slate-900/40 border-slate-200 dark:border-slate-800 text-slate-800 dark:text-slate-200"
+                  "border-white/10 text-slate-200"
               )}
             >
               <div>
-                <div className="flex items-center gap-2 font-semibold text-sm">
-                  {isCritical && <AlertCircle className="h-4 w-4 text-rose-500 shrink-0" />}
-                  {isWarning && <AlertTriangle className="h-4 w-4 text-amber-500 shrink-0" />}
-                  {!isCritical && !isWarning && <Info className="h-4 w-4 text-sky-500 shrink-0" />}
+                <div className="flex items-center gap-2 font-bold text-sm text-slate-100">
+                  {isCritical && <AlertCircle className="h-4 w-4 text-rose-400 shrink-0" />}
+                  {isWarning && <AlertTriangle className="h-4 w-4 text-amber-400 shrink-0" />}
+                  {!isCritical && !isWarning && <Info className="h-4 w-4 text-cyan-400 shrink-0" />}
                   <span>{item.title}</span>
                 </div>
-                <p className="mt-1 text-slate-600 dark:text-slate-400 leading-relaxed text-[11px]">
+                <p className="mt-1 text-slate-400 leading-relaxed text-[11px]">
                   {item.message}
                 </p>
               </div>
 
               {item.action_link && (
-                <div className="mt-2.5 pt-2 border-t border-slate-200/50 dark:border-slate-800/50 flex justify-end">
+                <div className="mt-2.5 pt-2 border-t border-white/10 flex justify-end">
                   <Link
                     href={item.action_link}
-                    className="inline-flex items-center gap-1 font-semibold text-[11px] hover:underline"
+                    className="inline-flex items-center gap-1 font-semibold text-[11px] text-amber-400 hover:text-amber-300 hover:underline"
                   >
                     <span>مشاهده جزئیات</span>
                     <ArrowLeft className="h-3 w-3" />

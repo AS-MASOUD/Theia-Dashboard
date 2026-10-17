@@ -13,19 +13,19 @@ interface InfoCardProps {
 
 export function InfoCard({ title, description, icon, children, className }: InfoCardProps) {
   return (
-    <div className={cn("bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-xl p-6 transition-all hover:shadow-md", className)}>
+    <div className={cn("obsidian-card p-6 transition-all", className)}>
       <div className="flex items-center gap-4 mb-4">
         {icon && (
-          <div className="h-10 w-10 rounded-lg bg-slate-50 dark:bg-slate-800 text-indigo-600 dark:text-indigo-400 flex items-center justify-center shrink-0">
+          <div className="h-10 w-10 rounded-2xl bg-amber-500/10 text-amber-400 border border-amber-500/20 flex items-center justify-center shrink-0">
             {icon}
           </div>
         )}
         <div>
-          <h3 className="font-bold text-lg text-slate-900 dark:text-white">
+          <h3 className="font-bold text-lg text-slate-100">
             {title}
           </h3>
           {description && (
-            <p className="text-sm text-slate-500 dark:text-slate-400 mt-0.5">
+            <p className="text-sm text-slate-400 mt-0.5">
               {description}
             </p>
           )}
