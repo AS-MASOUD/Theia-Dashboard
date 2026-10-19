@@ -2,7 +2,12 @@ export interface InsightArticle {
   slug: string;
   title: string;
   excerpt: string;
-  category: "personal-finance" | "gold-currency" | "debt-strategy" | "ai-fintech" | "wealth-planning";
+  category:
+    | "personal-finance"
+    | "gold-currency"
+    | "debt-strategy"
+    | "ai-fintech"
+    | "wealth-planning";
   categoryLabel: string;
   publishedAt: string;
   readTimeMinutes: number;
@@ -20,7 +25,8 @@ export const INSIGHTS_ARTICLES: InsightArticle[] = [
   {
     slug: "managing-assets-in-inflationary-economy",
     title: "راهنمای مدیریت سبد دارایی و حفظ ارزش ثروت در اقتصاد تورمی",
-    excerpt: "در شرایط نوسان نرخ ارز و تورم دورقمی، نگهداری صرف وجوه نقد بزرگ‌ترین ریسک مالی است. چگونه دارایی‌های خود را میان طلا، ارز، سهام و درآمد ثابت متعادل کنیم؟",
+    excerpt:
+      "در شرایط نوسان نرخ ارز و تورم دورقمی، نگهداری صرف وجوه نقد بزرگ‌ترین ریسک مالی است. چگونه دارایی‌های خود را میان طلا، ارز، سهام و درآمد ثابت متعادل کنیم؟",
     category: "personal-finance",
     categoryLabel: "مدیریت ثروت و تورم",
     publishedAt: "۱۴۰۵/۰۷/۱۵",
@@ -37,7 +43,7 @@ export const INSIGHTS_ARTICLES: InsightArticle[] = [
     ],
     content: [
       "در اقتصادهای تورمی، خطای شناختی متداولی میان افراد شکل می‌گیرد: بسیاری افزایش اسمی قیمت خانه، خودرو یا طلا را «سود خالص» تلقی می‌کنند، در حالی که در واقعیت تنها قدرت خرید حفظ شده یا حتی با کسر تورم واقعی، ارزش حقیقی کاهش یافته است.",
-      "نخستین اصل در مرکز فرماندهی مالی تئا، تفکیک ارزش اسمی (Nominal) از بازده وزنی-زمانی (TWR) دارایی‌هاست. شما باید بدانید چه بخشی از سبد دارایی شما در طبقه «دارایی‌های نقدشونده امن»، چه بخشی در «سپر تورمی (طلا و ارز)» و چه میزان در «دارایی‌های مولد ارزش افزوده» قرار دارد.",
+      "نخستین اصل در مرکز مدیریت مالی تئا، تفکیک ارزش اسمی (Nominal) از بازده وزنی-زمانی (TWR) دارایی‌هاست. شما باید بدانید چه بخشی از سبد دارایی شما در طبقه «دارایی‌های نقدشونده امن»، چه بخشی در «سپر تورمی (طلا و ارز)» و چه میزان در «دارایی‌های مولد ارزش افزوده» قرار دارد.",
       "مدل پیشنهادی پورتفولیو در تئا (Ambient Allocation) به شما اجازه می‌دهد بر اساس افق زمانی و نرخ بازده مورد انتظار، سقف مشخصی برای نقدینگی ضروری تعیین کنید و مابقی منابع را به صورت خودکار پایش و ارزیابی نمایید.",
       "همواره یک صندوق اضطراری معادل حداقل ۳ ماه هزینه‌های ثابت زندگی در حساب‌های بانکی با دسترسی آنی نگه دارید؛ اما ریال مازاد را به سمت ابزارهای با همبستگی منفی با تورم (نظیر طلا و صندوق‌های طلا) هدایت کنید.",
     ],
@@ -45,7 +51,8 @@ export const INSIGHTS_ARTICLES: InsightArticle[] = [
   {
     slug: "debt-amortization-and-inflation-arbitrage",
     title: "استهلاک بدهی، مدیریت اقساط و آربیتراژ تورمی وام‌ها",
-    excerpt: "وام‌ها و تسهیلات بانکی در صورتی که برای خرید دارایی‌های سرمایه‌ای به کار گرفته شوند، در شرایط تورم می‌توانند به یک اهرم رشد ثروت تبدیل شوند.",
+    excerpt:
+      "وام‌ها و تسهیلات بانکی در صورتی که برای خرید دارایی‌های سرمایه‌ای به کار گرفته شوند، در شرایط تورم می‌توانند به یک اهرم رشد ثروت تبدیل شوند.",
     category: "debt-strategy",
     categoryLabel: "استراتژی بدهی و وام",
     publishedAt: "۱۴۰۵/۰۷/۱۰",
@@ -67,8 +74,10 @@ export const INSIGHTS_ARTICLES: InsightArticle[] = [
   },
   {
     slug: "gold-and-currency-pricing-mechanisms",
-    title: "مکانیسم کشف قیمت طلا و ارز در بازار ایران: از انس جهانی تا حباب سکه",
-    excerpt: "بررسی فرمول محاسبه طلای ۱۸ عیار و سکه امامی بر اساس انس جهانی و نرخ برابری دلار، و نحوه استفاده از داده‌های زنده برای تصمیم‌گیری ورود یا خروج.",
+    title:
+      "مکانیسم کشف قیمت طلا و ارز در بازار ایران: از انس جهانی تا حباب سکه",
+    excerpt:
+      "بررسی فرمول محاسبه طلای ۱۸ عیار و سکه امامی بر اساس انس جهانی و نرخ برابری دلار، و نحوه استفاده از داده‌های زنده برای تصمیم‌گیری ورود یا خروج.",
     category: "gold-currency",
     categoryLabel: "طلا و بازارهای جهانی",
     publishedAt: "۱۴۰۵/۰۷/۰۴",
@@ -91,7 +100,8 @@ export const INSIGHTS_ARTICLES: InsightArticle[] = [
   {
     slug: "ai-in-personal-financial-decision-making",
     title: "نقش هوش مصنوعی در درک سناریوهای مالی و تصمیم‌گیری عقلانی",
-    excerpt: "چرا دستیار هوشمند مالی نباید سیگنال خرید و فروش ارائه کند؟ بررسی مرز میان شبیه‌سازی آماری، پیش‌بینی سناریوها و مشاوره‌های توهم‌آمیز.",
+    excerpt:
+      "چرا دستیار هوشمند مالی نباید سیگنال خرید و فروش ارائه کند؟ بررسی مرز میان شبیه‌سازی آماری، پیش‌بینی سناریوها و مشاوره‌های توهم‌آمیز.",
     category: "ai-fintech",
     categoryLabel: "فناوری و هوش مصنوعی مالی",
     publishedAt: "۱۴۰۵/۰۶/۲۸",
@@ -121,8 +131,11 @@ export function getInsightBySlug(slug: string): InsightArticle | undefined {
   return INSIGHTS_ARTICLES.find((a) => a.slug === slug);
 }
 
-export function getRelatedInsights(currentSlug: string, category: string): InsightArticle[] {
+export function getRelatedInsights(
+  currentSlug: string,
+  category: string,
+): InsightArticle[] {
   return INSIGHTS_ARTICLES.filter(
-    (a) => a.slug !== currentSlug && (a.category === category || a.featured)
+    (a) => a.slug !== currentSlug && (a.category === category || a.featured),
   ).slice(0, 3);
 }

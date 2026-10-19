@@ -92,19 +92,31 @@ export default function OverviewDashboardPage() {
     liabilitiesValue,
     monthlyDebtService,
   } = React.useMemo(() => {
-    const fallbackNetWorth = overview?.net_worth ? parseFloat(overview.net_worth) : 0;
-    const fallbackLiabilities = overview?.total_liabilities ? parseFloat(overview.total_liabilities) : 0;
-    const fallbackDebtService = overview?.monthly_debt_service ? parseFloat(overview.monthly_debt_service) : 0;
+    const fallbackNetWorth = overview?.net_worth
+      ? parseFloat(overview.net_worth)
+      : 0;
+    const fallbackLiabilities = overview?.total_liabilities
+      ? parseFloat(overview.total_liabilities)
+      : 0;
+    const fallbackDebtService = overview?.monthly_debt_service
+      ? parseFloat(overview.monthly_debt_service)
+      : 0;
 
     const obligations = overview?.upcoming_obligations || [];
-    const loanPaymentsSum = obligations.reduce((acc, curr) => acc + (Number(curr.monthly_payment) || 0), 0);
+    const loanPaymentsSum = obligations.reduce(
+      (acc, curr) => acc + (Number(curr.monthly_payment) || 0),
+      0,
+    );
 
     // If user has not completed onboarding, or no snapshots exist, or snapshots are unreachable:
     if (!snapshots || !Array.isArray(snapshots) || snapshots.length === 0) {
       const safeLiab = fallbackLiabilities > 0 ? fallbackLiabilities : 0;
-      const safeDebtService = safeLiab > 0
-        ? (loanPaymentsSum > 0 ? loanPaymentsSum : fallbackDebtService)
-        : 0;
+      const safeDebtService =
+        safeLiab > 0
+          ? loanPaymentsSum > 0
+            ? loanPaymentsSum
+            : fallbackDebtService
+          : 0;
 
       return {
         netWorthValue: fallbackNetWorth,
@@ -116,23 +128,31 @@ export default function OverviewDashboardPage() {
 
     // Sort chronologically ascending
     const sorted = [...snapshots].sort(
-      (a, b) => new Date(a.snapshot_date).getTime() - new Date(b.snapshot_date).getTime()
+      (a, b) =>
+        new Date(a.snapshot_date).getTime() -
+        new Date(b.snapshot_date).getTime(),
     );
 
     const latestSnap = sorted[sorted.length - 1];
-    const latestNetWorth = latestSnap && latestSnap.net_worth !== undefined
-      ? parseFloat(latestSnap.net_worth)
-      : fallbackNetWorth;
+    const latestNetWorth =
+      latestSnap && latestSnap.net_worth !== undefined
+        ? parseFloat(latestSnap.net_worth)
+        : fallbackNetWorth;
 
-    const latestLiabRaw = latestSnap && latestSnap.total_liabilities !== undefined
-      ? parseFloat(latestSnap.total_liabilities)
-      : fallbackLiabilities;
+    const latestLiabRaw =
+      latestSnap && latestSnap.total_liabilities !== undefined
+        ? parseFloat(latestSnap.total_liabilities)
+        : fallbackLiabilities;
 
     // Liabilities: make it 0 if user not entered debt data or any loan or other things, and calculate from data snapshot if available
-    const safeLiab = !isNaN(latestLiabRaw) && latestLiabRaw > 0 ? latestLiabRaw : 0;
-    const safeDebtService = safeLiab > 0
-      ? (loanPaymentsSum > 0 ? loanPaymentsSum : fallbackDebtService)
-      : 0;
+    const safeLiab =
+      !isNaN(latestLiabRaw) && latestLiabRaw > 0 ? latestLiabRaw : 0;
+    const safeDebtService =
+      safeLiab > 0
+        ? loanPaymentsSum > 0
+          ? loanPaymentsSum
+          : fallbackDebtService
+        : 0;
 
     let nwChange = 0;
 
@@ -146,7 +166,9 @@ export default function OverviewDashboardPage() {
       let minDiff = Infinity;
 
       for (const s of previousSnaps) {
-        const diff = Math.abs(new Date(s.snapshot_date).getTime() - thirtyDaysAgo);
+        const diff = Math.abs(
+          new Date(s.snapshot_date).getTime() - thirtyDaysAgo,
+        );
         if (diff < minDiff) {
           minDiff = diff;
           refSnap = s;
@@ -157,7 +179,8 @@ export default function OverviewDashboardPage() {
         const pastNw = parseFloat(refSnap.net_worth);
         if (!isNaN(pastNw) && pastNw !== 0 && !isNaN(latestNetWorth)) {
           const rawNw = ((latestNetWorth - pastNw) / Math.abs(pastNw)) * 100;
-          nwChange = isFinite(rawNw) && !isNaN(rawNw) ? Number(rawNw.toFixed(1)) : 0;
+          nwChange =
+            isFinite(rawNw) && !isNaN(rawNw) ? Number(rawNw.toFixed(1)) : 0;
         }
       }
     }
@@ -223,7 +246,7 @@ export default function OverviewDashboardPage() {
                     عصر بخیر، {user?.full_name || "کاربر گرامی"}
                   </h2>
                   <span className="px-2.5 py-0.5 rounded-full bg-[rgba(240,174,85,0.09)] border border-[rgba(240,174,85,0.22)] text-[#F0AE55] text-[11px] font-medium">
-                    مرکز فرماندهی تئا
+                    داشبورد مدیریت تئا
                   </span>
                 </div>
 
@@ -235,11 +258,16 @@ export default function OverviewDashboardPage() {
                   <span>•</span>
                   <span className="flex items-center gap-1.5 font-normal">
                     <span className="w-1.5 h-1.5 rounded-full bg-[#F0AE55]" />
-                    <span>{overview.upcoming_obligations?.length || 0} تعهد فعال</span>
+                    <span>
+                      {overview.upcoming_obligations?.length || 0} تعهد فعال
+                    </span>
                   </span>
                   <span>•</span>
                   <span className="flex items-center gap-1.5 text-[#9A9DA5] font-number">
-                    ارزش خالص: <strong className="text-[#E8E8E8] font-semibold">{formatMoney(netWorthValue)}</strong>
+                    ارزش خالص:{" "}
+                    <strong className="text-[#E8E8E8] font-semibold">
+                      {formatMoney(netWorthValue)}
+                    </strong>
                   </span>
                 </div>
               </div>
@@ -265,7 +293,7 @@ export default function OverviewDashboardPage() {
                 className="px-3.5 py-1.5 rounded-[12px] text-xs font-medium bg-[#1B1D21] hover:bg-[#222327] text-[#9A9DA5] hover:text-[#E8E8E8] border border-[#282A2F] hover:border-[#32343A] transition-colors flex items-center gap-1.5"
               >
                 <Flame className="w-3.5 h-3.5 text-[#696D77]" />
-                <span>اقلیم بدهی‌ها</span>
+                <span>وام و اقساط</span>
               </Link>
 
               <Link
@@ -399,7 +427,8 @@ export default function OverviewDashboardPage() {
                     <span>معماری جریان نقدینگی ماهانه</span>
                   </h3>
                   <p className="text-xs text-[#9A9DA5] mt-0.5 font-normal">
-                    مازاد خالص نقدینگی پس از کسر هزینه‌های جاری زندگی و اقساط وام‌ها
+                    مازاد خالص نقدینگی پس از کسر هزینه‌های جاری زندگی و اقساط
+                    وام‌ها
                   </p>
                 </div>
                 <Link
@@ -419,7 +448,10 @@ export default function OverviewDashboardPage() {
                       کل درآمدها
                     </span>
                   </div>
-                  <div className="text-base font-semibold text-[#E8E8E8] mt-1.5 font-number" dir="ltr">
+                  <div
+                    className="text-base font-semibold text-[#E8E8E8] mt-1.5 font-number"
+                    dir="ltr"
+                  >
                     {formatMoney(overview.monthly_income)}
                   </div>
                 </div>
@@ -431,7 +463,10 @@ export default function OverviewDashboardPage() {
                       کل مخارج
                     </span>
                   </div>
-                  <div className="text-base font-semibold text-[#E8E8E8] mt-1.5 font-number" dir="ltr">
+                  <div
+                    className="text-base font-semibold text-[#E8E8E8] mt-1.5 font-number"
+                    dir="ltr"
+                  >
                     {formatMoney(overview.monthly_expenses)}
                   </div>
                 </div>
@@ -443,7 +478,10 @@ export default function OverviewDashboardPage() {
                       اقساط وام‌ها
                     </span>
                   </div>
-                  <div className="text-base font-semibold text-[#E8E8E8] mt-1.5 font-number" dir="ltr">
+                  <div
+                    className="text-base font-semibold text-[#E8E8E8] mt-1.5 font-number"
+                    dir="ltr"
+                  >
                     {formatMoney(overview.monthly_debt_service)}
                   </div>
                 </div>
@@ -455,7 +493,10 @@ export default function OverviewDashboardPage() {
                       پس‌انداز مازاد
                     </span>
                   </div>
-                  <div className="text-base font-semibold text-[#E8E8E8] mt-1.5 font-number" dir="ltr">
+                  <div
+                    className="text-base font-semibold text-[#E8E8E8] mt-1.5 font-number"
+                    dir="ltr"
+                  >
                     {formatMoney(overview.monthly_free_cashflow)}
                   </div>
                 </div>
@@ -465,7 +506,10 @@ export default function OverviewDashboardPage() {
               <div className="mt-4 space-y-2">
                 <div className="flex justify-between text-xs text-[#9A9DA5] font-normal">
                   <span>نرخ بهره‌برداری از درآمد</span>
-                  <span className="font-number text-[#E8E8E8] font-semibold" dir="ltr">
+                  <span
+                    className="font-number text-[#E8E8E8] font-semibold"
+                    dir="ltr"
+                  >
                     {parseFloat(overview.monthly_income) > 0
                       ? `${(
                           ((parseFloat(overview.monthly_expenses) +

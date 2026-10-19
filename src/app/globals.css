@@ -305,3 +305,24 @@ input[dir="ltr"] {
     transform: none !important;
   }
 }
+
+/* MUI X-Charts Dark Theme Overrides */
+.MuiChartsTooltip-root .MuiChartsTooltip-paper {
+  background-color: #1B1D21 !important;
+  border: 1px solid #282A2F !important;
+  border-radius: 12px !important;
+  color: #E8E8E8 !important;
+  box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.5) !important;
+}
+
+.MuiChartsTooltip-table th,
+.MuiChartsTooltip-table td {
+  color: #E8E8E8 !important;
+  border-bottom: none !important;
+}
+
+.MuiChartsTooltip-valueCell {
+  color: #F0AE55 !important;
+  font-weight: 600 !important;
+}
+

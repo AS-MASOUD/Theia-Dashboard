@@ -20,7 +20,7 @@ import { cn } from "@/lib/utils";
 
 const COMPARISON_FEATURES = [
   {
-    name: "داشبورد مرکز فرماندهی (Overview)",
+    name: "داشبورد مدیریت (Overview)",
     free: "کامل",
     pro: "پیشرفته و اختصاصی",
   },
@@ -69,7 +69,7 @@ const COMPARISON_FEATURES = [
 const FAQS = [
   {
     q: "آیا استفاده از پلن رایگان برای همیشه رایگان است؟",
-    a: "بله، پلن رایگان سامانه Theia فاقد محدودیت زمانی است و شما می‌توانید بدون نیاز به وارد کردن هرگونه اطلاعات پرداخت، دارایی‌ها، وام‌ها و بودجه خود را مدیریت کنید.",
+    a: "بله، پلن رایگان سامانه تئا، فاقد محدودیت زمانی است و شما می‌توانید بدون نیاز به وارد کردن هرگونه اطلاعات پرداخت، دارایی‌ها، وام‌ها و بودجه خود را مدیریت کنید.",
   },
   {
     q: "چگونه می‌توانم به نسخه حرفه‌ای (Pro) ارتقا دهم؟",
@@ -86,7 +86,9 @@ const FAQS = [
 ];
 
 export default function PricingPage() {
-  const [billingCycle, setBillingCycle] = useState<"monthly" | "annually">("annually");
+  const [billingCycle, setBillingCycle] = useState<"monthly" | "annually">(
+    "annually",
+  );
   const { isAuthenticated } = useAuth();
 
   return (
@@ -102,7 +104,9 @@ export default function PricingPage() {
             سرمایه‌گذاری روی درک و رشد ثروت شخصی
           </h1>
           <p className="text-xs md:text-sm text-[#A0A3AD] leading-relaxed">
-            امکانات پایه را رایگان شروع کنید و هر زمان که به شبیه‌سازی‌های عمیق آینده و دستیار هوشمند نامحدود نیاز داشتید، به نسخه حرفه‌ای ارتقا دهید.
+            امکانات پایه را رایگان شروع کنید و هر زمان که به شبیه‌سازی‌های عمیق
+            آینده و دستیار هوشمند نامحدود نیاز داشتید، به نسخه حرفه‌ای ارتقا
+            دهید.
           </p>
 
           {/* Billing Toggle */}
@@ -114,7 +118,7 @@ export default function PricingPage() {
                 "px-4 py-2 rounded-[11px] text-xs font-semibold transition-all cursor-pointer",
                 billingCycle === "monthly"
                   ? "bg-[#222328] text-[#F0F0F1] shadow"
-                  : "text-[#A0A3AD] hover:text-[#F0F0F1]"
+                  : "text-[#A0A3AD] hover:text-[#F0F0F1]",
               )}
             >
               پرداخت ماهانه
@@ -126,7 +130,7 @@ export default function PricingPage() {
                 "px-4 py-2 rounded-[11px] text-xs font-semibold transition-all flex items-center gap-1.5 cursor-pointer",
                 billingCycle === "annually"
                   ? "bg-[#F0AE55] text-[#0D0E10] font-bold shadow-[0_0_14px_rgba(240,174,85,0.25)]"
-                  : "text-[#A0A3AD] hover:text-[#F0F0F1]"
+                  : "text-[#A0A3AD] hover:text-[#F0F0F1]",
               )}
             >
               <span>پرداخت سالیانه</span>
@@ -146,16 +150,21 @@ export default function PricingPage() {
                 <span className="text-xs font-semibold text-[#A0A3AD] uppercase tracking-wider">
                   شروع هوشمند
                 </span>
-                <h3 className="text-2xl font-black text-[#F0F0F1]">رایگان (Free)</h3>
+                <h3 className="text-2xl font-black text-[#F0F0F1]">
+                  رایگان (Free)
+                </h3>
                 <p className="text-xs text-[#707581] leading-relaxed">
-                  ایده‌آل برای افرادی که می‌خواهند دارایی‌ها، وام‌ها و بودجه ماهانه خود را در یک نگاه شفاف کنند.
+                  ایده‌آل برای افرادی که می‌خواهند دارایی‌ها، وام‌ها و بودجه
+                  ماهانه خود را در یک نگاه شفاف کنند.
                 </p>
               </div>
 
               {/* Price */}
               <div className="flex items-baseline gap-2 pt-2">
                 <span className="text-4xl font-black text-[#F0F0F1]">۰</span>
-                <span className="text-xs text-[#A0A3AD]">تومان / برای همیشه</span>
+                <span className="text-xs text-[#A0A3AD]">
+                  تومان / برای همیشه
+                </span>
               </div>
 
               {/* Included list */}
@@ -169,7 +178,10 @@ export default function PricingPage() {
                   "۱۰ پرسش ماهانه از دستیار هوشمند مالی",
                   "نمایش تاریخچه مالی ۹۰ روزه",
                 ].map((item, i) => (
-                  <li key={i} className="flex items-center gap-2.5 text-[#E8E8E8]">
+                  <li
+                    key={i}
+                    className="flex items-center gap-2.5 text-[#E8E8E8]"
+                  >
                     <Check className="w-4 h-4 text-[#76A98C] shrink-0" />
                     <span>{item}</span>
                   </li>
@@ -198,11 +210,14 @@ export default function PricingPage() {
             <div className="space-y-6">
               <div className="space-y-2">
                 <span className="text-xs font-semibold text-[#F0AE55] uppercase tracking-wider">
-                  مرکز فرماندهی کامل
+                  داشبورد مدیریت کامل
                 </span>
-                <h3 className="text-2xl font-black text-[#F0F0F1]">حرفه‌ای (Pro)</h3>
+                <h3 className="text-2xl font-black text-[#F0F0F1]">
+                  حرفه‌ای (Pro)
+                </h3>
                 <p className="text-xs text-[#A0A3AD] leading-relaxed">
-                  برای سرمایه‌گذاران، صاحبان کسب‌وکار و افرادی که نیازمند مدل‌سازی چندساله ثروت و تحلیل‌های هوشمند هستند.
+                  برای سرمایه‌گذاران، صاحبان کسب‌وکار و افرادی که نیازمند
+                  مدل‌سازی چندساله ثروت و تحلیل‌های هوشمند هستند.
                 </p>
               </div>
 
@@ -228,7 +243,10 @@ export default function PricingPage() {
                   "حالت تعادلی سبد (Ambient Mode) با پیشنهادات بازتوزیع",
                   "پشتیبانی اولویت‌دار و دسترسی زودرس به ابزارهای جدید",
                 ].map((item, i) => (
-                  <li key={i} className="flex items-center gap-2.5 text-[#F0F0F1]">
+                  <li
+                    key={i}
+                    className="flex items-center gap-2.5 text-[#F0F0F1]"
+                  >
                     <Check className="w-4 h-4 text-[#F0AE55] shrink-0" />
                     <span className="font-medium">{item}</span>
                   </li>
@@ -253,7 +271,8 @@ export default function PricingPage() {
                 <ArrowLeft className="w-4 h-4 stroke-[2.2]" />
               </Link>
               <p className="text-[10px] text-center text-[#707581]">
-                در دوره پیش‌نمایش، دسترسی حرفه‌ای به صورت رایگان برای کاربران اولیه فعال است.
+                در دوره پیش‌نمایش، دسترسی حرفه‌ای به صورت رایگان برای کاربران
+                اولیه فعال است.
               </p>
             </div>
           </div>
@@ -274,7 +293,9 @@ export default function PricingPage() {
             <table className="w-full text-xs text-right">
               <thead>
                 <tr className="border-b border-white/[0.08] bg-[#1B1D22]">
-                  <th className="py-4 px-6 text-[#A0A3AD] font-semibold">امکانات</th>
+                  <th className="py-4 px-6 text-[#A0A3AD] font-semibold">
+                    امکانات
+                  </th>
                   <th className="py-4 px-6 text-[#E8E8E8] font-bold text-center w-1/4">
                     پلن رایگان
                   </th>
@@ -285,7 +306,10 @@ export default function PricingPage() {
               </thead>
               <tbody className="divide-y divide-white/[0.05]">
                 {COMPARISON_FEATURES.map((feat, i) => (
-                  <tr key={i} className="hover:bg-white/[0.02] transition-colors">
+                  <tr
+                    key={i}
+                    className="hover:bg-white/[0.02] transition-colors"
+                  >
                     <td className="py-3.5 px-6 font-medium text-[#F0F0F1]">
                       {feat.name}
                     </td>

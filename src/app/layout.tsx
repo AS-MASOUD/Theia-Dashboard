@@ -4,8 +4,10 @@ import { AppShell } from "@/components/layout/app-shell";
 import "./globals.css";
 
 export const metadata: Metadata = {
-  title: "Personal FC — سامانه جامع مدیریت مالی و سرمایه‌گذاری",
-  description: "مرکز فرماندهی پیشرفته مدیریت دارایی‌ها، تحلیل پورتفولیو، رصد بودجه و جریان نقدینگی شخصی.",
+  title:
+    "Personal Financial Consultant — سامانه جامع مدیریت مالی و سرمایه‌گذاری",
+  description:
+    " مدیریت دارایی‌ها، تحلیل پورتفولیو، رصد بودجه و جریان نقدینگی شخصی.",
 };
 
 export default function RootLayout({

@@ -12,7 +12,11 @@ import {
   Sparkles,
   TrendingUp,
 } from "lucide-react";
-import { getInsightBySlug, getRelatedInsights, getAllInsights } from "@/data/insights-data";
+import {
+  getInsightBySlug,
+  getRelatedInsights,
+  getAllInsights,
+} from "@/data/insights-data";
 
 interface Props {
   params: Promise<{ slug: string }>;
@@ -44,7 +48,10 @@ export default async function InsightArticlePage({ params }: Props) {
             صفحه اصلی
           </Link>
           <span>/</span>
-          <Link href="/insights" className="hover:text-[#F0AE55] transition-colors">
+          <Link
+            href="/insights"
+            className="hover:text-[#F0AE55] transition-colors"
+          >
             بینش و مقالات
           </Link>
           <span>/</span>
@@ -88,9 +95,7 @@ export default async function InsightArticlePage({ params }: Props) {
                 <p className="text-sm font-bold text-[#F0F0F1]">
                   {article.author.name}
                 </p>
-                <p className="text-xs text-[#707581]">
-                  {article.author.role}
-                </p>
+                <p className="text-xs text-[#707581]">{article.author.role}</p>
               </div>
             </div>
 
@@ -141,7 +146,10 @@ export default async function InsightArticlePage({ params }: Props) {
             <span>چگونه این مفهوم را در سامانه تئا پیاده‌سازی کنیم؟</span>
           </div>
           <p className="text-xs sm:text-sm text-[#A0A3AD] leading-relaxed">
-            شما می‌توانید در مرکز فرماندهی Personal FC، انواع دارایی‌های طلا، ارز، سهام و تعهدات اقساطی خود را به آسانی ثبت کنید تا سیستم به صورت خودکار نسبت‌های تعادلی و ارزش روز پورتفولیو را بر اساس نرخ‌های لحظه‌ای محاسبه و نمایش دهد.
+            شما می‌توانید در سامانه مدیریت مالی تئا، انواع دارایی‌های طلا، ارز،
+            سهام و تعهدات اقساطی خود را به آسانی ثبت کنید تا سیستم به صورت
+            خودکار نسبت‌های تعادلی و ارزش روز پورتفولیو را بر اساس نرخ‌های
+            لحظه‌ای محاسبه و نمایش دهد.
           </p>
           <div className="pt-2">
             <Link

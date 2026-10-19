@@ -64,13 +64,19 @@ export default function PublicHomePage() {
   const { isAuthenticated } = useAuth();
 
   // Interactive Demo Tab State
-  const [demoTab, setDemoTab] = useState<"portfolio" | "cashflow" | "health" | "trajectory">("portfolio");
+  const [demoTab, setDemoTab] = useState<
+    "portfolio" | "cashflow" | "health" | "trajectory"
+  >("portfolio");
 
   // Interactive Ambient Mode Slider State (Reference styling from Media 2)
   const [ambientRisk, setAmbientRisk] = useState<number>(65);
 
   // Live Market Rates Query
-  const { data: marketData, isRefetching, refetch } = useQuery<MarketRatesResponse>({
+  const {
+    data: marketData,
+    isRefetching,
+    refetch,
+  } = useQuery<MarketRatesResponse>({
     queryKey: ["public-home-market-rates"],
     queryFn: async () => {
       try {
@@ -93,7 +99,14 @@ export default function PublicHomePage() {
       ...(marketData.commodities || []),
     ];
 
-    const targetSymbols = ["IR_GOLD_18K", "EMAMI_COIN", "USD", "BTC", "EUR", "XAUUSD"];
+    const targetSymbols = [
+      "IR_GOLD_18K",
+      "EMAMI_COIN",
+      "USD",
+      "BTC",
+      "EUR",
+      "XAUUSD",
+    ];
     return targetSymbols
       .map((sym) => all.find((q) => q.symbol === sym))
       .filter((q): q is MarketQuote => !!q);
@@ -119,7 +132,7 @@ export default function PublicHomePage() {
             <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-[#151619] border border-white/[0.08] shadow-[0_0_16px_rgba(240,174,85,0.12)]">
               <span className="w-2 h-2 rounded-full bg-[#F0AE55] animate-pulse" />
               <span className="text-xs font-semibold text-[#F0F0F1]">
-                مرکز هوشمند فرماندهی ثروت و تصمیم‌گیری مالی
+                مدیریت هوشمند ثروت و تصمیم‌گیری مالی
               </span>
             </div>
 
@@ -134,7 +147,9 @@ export default function PublicHomePage() {
 
             {/* Supporting Copy */}
             <p className="text-sm sm:text-base text-[#A0A3AD] leading-relaxed max-w-xl mx-auto lg:mx-0 font-normal">
-              دارایی‌ها، سرمایه‌گذاری‌ها، بدهی‌ها و جریان نقدینگی خود را در یک مکان مدیریت کنید؛ گذشته مالی‌تان را تحلیل کنید و با شبیه‌سازی و هوش مصنوعی، سناریوهای آینده را با اطمینان بشناسید.
+              دارایی‌ها، سرمایه‌گذاری‌ها، بدهی‌ها و جریان نقدینگی خود را در یک
+              مکان مدیریت کنید؛ گذشته مالی‌تان را تحلیل کنید و با شبیه‌سازی و
+              هوش مصنوعی، سناریوهای آینده را با اطمینان بشناسید.
             </p>
 
             {/* CTAs */}
@@ -143,7 +158,9 @@ export default function PublicHomePage() {
                 href={isAuthenticated ? "/dashboard" : "/register"}
                 className="w-full sm:w-auto px-7 py-3.5 rounded-[14px] bg-gradient-to-r from-[#F0AE55] to-[#E29D44] hover:from-[#F3BE76] hover:to-[#F0AE55] text-[#0D0E10] text-sm font-black transition-all shadow-[0_0_24px_rgba(240,174,85,0.35)] hover:shadow-[0_0_32px_rgba(240,174,85,0.5)] flex items-center justify-center gap-2 active:scale-95"
               >
-                <span>{isAuthenticated ? "ورود به مرکز فرماندهی (داشبورد)" : "شروع رایگان"}</span>
+                <span>
+                  {isAuthenticated ? "ورود به داشبورد" : "شروع رایگان"}
+                </span>
                 <ArrowLeft className="w-4 h-4 stroke-[2.5]" />
               </Link>
 
@@ -186,18 +203,24 @@ export default function PublicHomePage() {
                   </div>
                   <div>
                     <div className="flex items-center gap-1.5">
-                      <span className="text-xs font-bold text-[#F0F0F1]">مرکز فرماندهی تئا</span>
+                      <span className="text-xs font-bold text-[#F0F0F1]">
+                        مشاور مدیریت مالی تئا
+                      </span>
                       <span className="text-[10px] px-1.5 py-0.2 rounded-full bg-[#76A98C]/15 text-[#76A98C] font-semibold border border-[#76A98C]/30">
                         داده زنده
                       </span>
                     </div>
-                    <span className="text-[10px] text-[#707581]">نسخه پیش‌نمایش تعاملی</span>
+                    <span className="text-[10px] text-[#707581]">
+                      نسخه پیش‌نمایش تعاملی
+                    </span>
                   </div>
                 </div>
 
                 {/* Net worth readout */}
                 <div className="text-left">
-                  <span className="text-[10px] text-[#A0A3AD]">ارزش خالص کل (Net Worth)</span>
+                  <span className="text-[10px] text-[#A0A3AD]">
+                    ارزش خالص کل (Net Worth)
+                  </span>
                   <div className="flex items-baseline gap-1 mt-0.5">
                     <span className="text-lg font-black text-[#F0F0F1] font-mono">
                       ۸۴۵,۰۰۰,۰۰۰
@@ -233,7 +256,9 @@ export default function PublicHomePage() {
                       <Zap className="w-4 h-4 stroke-[2.2]" />
                     </div>
                     <div className="space-y-0.5">
-                      <span className="text-[10px] font-bold text-[#F0AE55]">روشن</span>
+                      <span className="text-[10px] font-bold text-[#F0AE55]">
+                        روشن
+                      </span>
                       <p className="text-[9px] text-[#707581]">تعدیل خودکار</p>
                     </div>
                   </div>
@@ -241,11 +266,15 @@ export default function PublicHomePage() {
                   {/* Middle: 30% Safe Reserve Card */}
                   <div className="col-span-4 rounded-[16px] bg-[#121316] border border-white/[0.06] p-3 flex flex-col justify-between relative overflow-hidden">
                     <div className="relative z-10">
-                      <span className="text-lg font-black text-[#F0F0F1]">۳۰٪</span>
+                      <span className="text-lg font-black text-[#F0F0F1]">
+                        ۳۰٪
+                      </span>
                       <p className="text-[10px] text-[#88A9BC] font-semibold mt-0.5">
                         ذخیره امن
                       </p>
-                      <span className="text-[9px] text-[#707581]">نقدینگی و بانکی</span>
+                      <span className="text-[9px] text-[#707581]">
+                        نقدینگی و بانکی
+                      </span>
                     </div>
                     <div className="w-full bg-[#88A9BC]/15 h-1.5 rounded-full mt-3 overflow-hidden">
                       <div className="bg-[#88A9BC] h-full w-[30%]" />
@@ -255,11 +284,15 @@ export default function PublicHomePage() {
                   {/* Right: 70% Investment & Gold Card (Warm Amber Fill) */}
                   <div className="col-span-5 rounded-[16px] bg-gradient-to-b from-[#1F1E1B] to-[#161513] border border-[#F0AE55]/30 p-3 flex flex-col justify-between relative overflow-hidden shadow-[0_0_20px_rgba(240,174,85,0.12)]">
                     <div className="relative z-10">
-                      <span className="text-lg font-black text-[#F0AE55]">۷۰٪</span>
+                      <span className="text-lg font-black text-[#F0AE55]">
+                        ۷۰٪
+                      </span>
                       <p className="text-[10px] text-[#F0AE55] font-semibold mt-0.5">
                         سرمایه‌گذاری
                       </p>
-                      <span className="text-[9px] text-[#A0A3AD]">طلا، ارز و سهام</span>
+                      <span className="text-[9px] text-[#A0A3AD]">
+                        طلا، ارز و سهام
+                      </span>
                     </div>
                     <div className="w-full bg-black/40 h-1.5 rounded-full mt-3 overflow-hidden">
                       <div className="bg-[#F0AE55] h-full w-[70%] shadow-[0_0_8px_#F0AE55]" />
@@ -300,8 +333,11 @@ export default function PublicHomePage() {
                   <Bot className="w-4 h-4" />
                 </div>
                 <p className="text-[11px] text-[#A0A3AD] leading-relaxed">
-                  <span className="text-[#F0AE55] font-semibold">تحلیل دستیار هوشمند: </span>
-                  با توجه به تورم دوره‌ای، بازتوزیع ۲۰ میلیون تومان نقدینگی مازاد به صندوق طلا، قدرت خرید شما را تثبیت می‌کند.
+                  <span className="text-[#F0AE55] font-semibold">
+                    تحلیل دستیار هوشمند:{" "}
+                  </span>
+                  با توجه به تورم دوره‌ای، بازتوزیع ۲۰ میلیون تومان نقدینگی
+                  مازاد به صندوق طلا، قدرت خرید شما را تثبیت می‌کند.
                 </p>
               </div>
             </div>
@@ -323,7 +359,8 @@ export default function PublicHomePage() {
               دیده‌بان زنده بازارهای مالی
             </h2>
             <p className="text-xs sm:text-sm text-[#A0A3AD]">
-              قیمت‌های لحظه‌ای متصل به سیستم پشتیبان تئا، بدون تاخیر و مبنای محاسبه سبدهای دارایی.
+              قیمت‌های لحظه‌ای متصل به سیستم پشتیبان تئا، بدون تاخیر و مبنای
+              محاسبه سبدهای دارایی.
             </p>
           </div>
 
@@ -365,7 +402,7 @@ export default function PublicHomePage() {
                       "px-2 py-0.5 rounded-[6px] text-[10px] font-bold flex items-center gap-1",
                       isPos
                         ? "bg-[#76A98C]/15 text-[#76A98C]"
-                        : "bg-[#C77A82]/15 text-[#C77A82]"
+                        : "bg-[#C77A82]/15 text-[#C77A82]",
                     )}
                   >
                     {isPos ? "+" : ""}
@@ -407,7 +444,8 @@ export default function PublicHomePage() {
             کنترل مالی مانند یک ابزار دقیق و مهندسی‌شده
           </h2>
           <p className="text-xs sm:text-sm text-[#A0A3AD]">
-            بر روی هر یک از بخش‌های زیر کلیک کنید تا نحوه تعامل و نمایش داده‌ها را در سامانه Theia مشاهده نمایید.
+            بر روی هر یک از بخش‌های زیر کلیک کنید تا نحوه تعامل و نمایش داده‌ها
+            را در سامانه Theia مشاهده نمایید.
           </p>
         </div>
 
@@ -415,10 +453,22 @@ export default function PublicHomePage() {
         <div className="flex justify-center">
           <div className="inline-flex p-1.5 rounded-[16px] bg-[#141519] border border-white/[0.08] gap-1">
             {[
-              { id: "portfolio", label: "دارایی‌ها و پورتفولیو", icon: PieChart },
-              { id: "cashflow", label: "جریان نقدینگی و بودجه", icon: ArrowDownUp },
+              {
+                id: "portfolio",
+                label: "دارایی‌ها و پورتفولیو",
+                icon: PieChart,
+              },
+              {
+                id: "cashflow",
+                label: "جریان نقدینگی و بودجه",
+                icon: ArrowDownUp,
+              },
               { id: "health", label: "سلامت مالی (Ambient)", icon: Activity },
-              { id: "trajectory", label: "مسیر ثروت (Trajectory)", icon: Layers },
+              {
+                id: "trajectory",
+                label: "مسیر ثروت (Trajectory)",
+                icon: Layers,
+              },
             ].map((tab) => {
               const Icon = tab.icon;
               const isActive = demoTab === tab.id;
@@ -431,7 +481,7 @@ export default function PublicHomePage() {
                     "flex items-center gap-2 px-4 py-2 rounded-[12px] text-xs font-bold transition-all cursor-pointer",
                     isActive
                       ? "bg-[#F0AE55] text-[#0D0E10] shadow-[0_0_14px_rgba(240,174,85,0.3)]"
-                      : "text-[#A0A3AD] hover:text-[#F0F0F1] hover:bg-white/[0.04]"
+                      : "text-[#A0A3AD] hover:text-[#F0F0F1] hover:bg-white/[0.04]",
                   )}
                 >
                   <Icon className="w-3.5 h-3.5" />
@@ -453,25 +503,37 @@ export default function PublicHomePage() {
             <div className="space-y-6">
               <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
                 <div className="rounded-[18px] bg-[#18191E] p-4 border border-white/[0.06]">
-                  <span className="text-xs text-[#A0A3AD]">طلای ۱۸ عیار و سکه</span>
+                  <span className="text-xs text-[#A0A3AD]">
+                    طلای ۱۸ عیار و سکه
+                  </span>
                   <p className="text-xl font-black text-[#F0AE55] mt-1 font-mono">
                     ۴۳۵,۰۰۰,۰۰۰ تومان
                   </p>
-                  <span className="text-[10px] text-[#76A98C]">۵۱.۴٪ کل پورتفولیو</span>
+                  <span className="text-[10px] text-[#76A98C]">
+                    ۵۱.۴٪ کل پورتفولیو
+                  </span>
                 </div>
                 <div className="rounded-[18px] bg-[#18191E] p-4 border border-white/[0.06]">
-                  <span className="text-xs text-[#A0A3AD]">سپرده‌های بانکی و نقدینگی</span>
+                  <span className="text-xs text-[#A0A3AD]">
+                    سپرده‌های بانکی و نقدینگی
+                  </span>
                   <p className="text-xl font-black text-[#F0F0F1] mt-1 font-mono">
                     ۲۵۰,۰۰۰,۰۰۰ تومان
                   </p>
-                  <span className="text-[10px] text-[#88A9BC]">۲۹.۵٪ کل پورتفولیو</span>
+                  <span className="text-[10px] text-[#88A9BC]">
+                    ۲۹.۵٪ کل پورتفولیو
+                  </span>
                 </div>
                 <div className="rounded-[18px] bg-[#18191E] p-4 border border-white/[0.06]">
-                  <span className="text-xs text-[#A0A3AD]">ارز و دارایی‌های بین‌المللی</span>
+                  <span className="text-xs text-[#A0A3AD]">
+                    ارز و دارایی‌های بین‌المللی
+                  </span>
                   <p className="text-xl font-black text-[#76A98C] mt-1 font-mono">
                     ۱۶۰,۰۰۰,۰۰۰ تومان
                   </p>
-                  <span className="text-[10px] text-[#76A98C]">۱۹.۱٪ کل پورتفولیو</span>
+                  <span className="text-[10px] text-[#76A98C]">
+                    ۱۹.۱٪ کل پورتفولیو
+                  </span>
                 </div>
               </div>
 
@@ -479,12 +541,26 @@ export default function PublicHomePage() {
               <div className="space-y-2">
                 <div className="flex justify-between text-xs text-[#A0A3AD]">
                   <span>تخصیص ساختار دارایی‌ها</span>
-                  <span className="text-[#F0AE55] font-semibold">پوشش کامل ریسک تورم</span>
+                  <span className="text-[#F0AE55] font-semibold">
+                    پوشش کامل ریسک تورم
+                  </span>
                 </div>
                 <div className="h-4 w-full rounded-full bg-black/40 overflow-hidden flex">
-                  <div style={{ width: "51.4%" }} className="bg-[#F0AE55]" title="طلا" />
-                  <div style={{ width: "29.5%" }} className="bg-[#88A9BC]" title="بانک" />
-                  <div style={{ width: "19.1%" }} className="bg-[#76A98C]" title="ارز" />
+                  <div
+                    style={{ width: "51.4%" }}
+                    className="bg-[#F0AE55]"
+                    title="طلا"
+                  />
+                  <div
+                    style={{ width: "29.5%" }}
+                    className="bg-[#88A9BC]"
+                    title="بانک"
+                  />
+                  <div
+                    style={{ width: "19.1%" }}
+                    className="bg-[#76A98C]"
+                    title="ارز"
+                  />
                 </div>
               </div>
             </div>
@@ -494,25 +570,37 @@ export default function PublicHomePage() {
             <div className="space-y-6">
               <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
                 <div className="rounded-[18px] bg-[#18191E] p-4 border border-white/[0.06]">
-                  <span className="text-xs text-[#76A98C]">ورودی جریان نقدی (درآمد)</span>
+                  <span className="text-xs text-[#76A98C]">
+                    ورودی جریان نقدی (درآمد)
+                  </span>
                   <p className="text-xl font-black text-[#76A98C] mt-1 font-mono">
                     +۵۵,۰۰۰,۰۰۰ تومان
                   </p>
-                  <span className="text-[10px] text-[#707581]">حقوق ثابت و سود سرمایه‌گذاری</span>
+                  <span className="text-[10px] text-[#707581]">
+                    حقوق ثابت و سود سرمایه‌گذاری
+                  </span>
                 </div>
                 <div className="rounded-[18px] bg-[#18191E] p-4 border border-white/[0.06]">
-                  <span className="text-xs text-[#C77A82]">کل هزینه‌ها و اقساط وام</span>
+                  <span className="text-xs text-[#C77A82]">
+                    کل هزینه‌ها و اقساط وام
+                  </span>
                   <p className="text-xl font-black text-[#C77A82] mt-1 font-mono">
                     -۳۴,۸۰۰,۰۰۰ تومان
                   </p>
-                  <span className="text-[10px] text-[#707581]">هزینه معیشت و خدمت بدهی</span>
+                  <span className="text-[10px] text-[#707581]">
+                    هزینه معیشت و خدمت بدهی
+                  </span>
                 </div>
                 <div className="rounded-[18px] bg-[#18191E] p-4 border border-[#F0AE55]/30">
-                  <span className="text-xs text-[#F0AE55]">جریان نقدی آزاد مازاد</span>
+                  <span className="text-xs text-[#F0AE55]">
+                    جریان نقدی آزاد مازاد
+                  </span>
                   <p className="text-xl font-black text-[#F0AE55] mt-1 font-mono">
                     +۲۰,۲۰۰,۰۰۰ تومان
                   </p>
-                  <span className="text-[10px] text-[#F0AE55]">آماده جهت سرمایه‌گذاری دوره‌ای</span>
+                  <span className="text-[10px] text-[#F0AE55]">
+                    آماده جهت سرمایه‌گذاری دوره‌ای
+                  </span>
                 </div>
               </div>
             </div>
@@ -521,19 +609,31 @@ export default function PublicHomePage() {
           {demoTab === "health" && (
             <div className="grid grid-cols-1 md:grid-cols-3 gap-5">
               <div className="rounded-[18px] bg-[#18191E] p-5 border border-white/[0.06] text-center space-y-2">
-                <span className="text-xs text-[#A0A3AD]">نسبت سلامت نقدینگی (Runway)</span>
+                <span className="text-xs text-[#A0A3AD]">
+                  نسبت سلامت نقدینگی (Runway)
+                </span>
                 <p className="text-3xl font-black text-[#76A98C]">۷.۲ ماه</p>
-                <p className="text-[11px] text-[#707581]">پوشش کامل هزینه‌های ضروری در حالت اضطرار</p>
+                <p className="text-[11px] text-[#707581]">
+                  پوشش کامل هزینه‌های ضروری در حالت اضطرار
+                </p>
               </div>
               <div className="rounded-[18px] bg-[#18191E] p-5 border border-white/[0.06] text-center space-y-2">
-                <span className="text-xs text-[#A0A3AD]">نسبت بدهی به درآمد (DTI)</span>
+                <span className="text-xs text-[#A0A3AD]">
+                  نسبت بدهی به درآمد (DTI)
+                </span>
                 <p className="text-3xl font-black text-[#F0AE55]">۲۴.۵٪</p>
-                <p className="text-[11px] text-[#707581]">در محدوده ایمن و استاندارد بانکی</p>
+                <p className="text-[11px] text-[#707581]">
+                  در محدوده ایمن و استاندارد بانکی
+                </p>
               </div>
               <div className="rounded-[18px] bg-[#18191E] p-5 border border-white/[0.06] text-center space-y-2">
-                <span className="text-xs text-[#A0A3AD]">نرخ تبدیل به دارایی سرمایه‌ای</span>
+                <span className="text-xs text-[#A0A3AD]">
+                  نرخ تبدیل به دارایی سرمایه‌ای
+                </span>
                 <p className="text-3xl font-black text-[#88A9BC]">۳۶.۷٪</p>
-                <p className="text-[11px] text-[#707581]">پس‌انداز مؤثر هدایت شده به رشد ثروت</p>
+                <p className="text-[11px] text-[#707581]">
+                  پس‌انداز مؤثر هدایت شده به رشد ثروت
+                </p>
               </div>
             </div>
           )}
@@ -541,8 +641,12 @@ export default function PublicHomePage() {
           {demoTab === "trajectory" && (
             <div className="space-y-4">
               <div className="flex justify-between items-center text-xs">
-                <span className="text-[#A0A3AD]">روند استهلاک وام‌ها در برابر انباشت ثروت خالص:</span>
-                <span className="text-[#F0AE55] font-mono">نقطه آزادی از بدهی: اردیبهشت ۱۴۰۶</span>
+                <span className="text-[#A0A3AD]">
+                  روند استهلاک وام‌ها در برابر انباشت ثروت خالص:
+                </span>
+                <span className="text-[#F0AE55] font-mono">
+                  نقطه آزادی از بدهی: اردیبهشت ۱۴۰۶
+                </span>
               </div>
               <div className="h-44 w-full rounded-[18px] bg-[#101114] p-4 flex items-end justify-between gap-3 border border-white/[0.05]">
                 {[
@@ -553,7 +657,10 @@ export default function PublicHomePage() {
                   { m: "۲۴ ماه", debt: 15, wealth: 95 },
                   { m: "۳۶ ماه", debt: 0, wealth: 130 },
                 ].map((item, i) => (
-                  <div key={i} className="flex-1 flex flex-col items-center gap-1.5 h-full justify-end">
+                  <div
+                    key={i}
+                    className="flex-1 flex flex-col items-center gap-1.5 h-full justify-end"
+                  >
                     <div className="w-full flex items-end justify-center gap-1 h-32">
                       <div
                         style={{ height: `${Math.min(100, item.debt)}%` }}
@@ -595,21 +702,31 @@ export default function PublicHomePage() {
               </h2>
 
               <p className="text-xs sm:text-sm text-[#A0A3AD] leading-relaxed">
-                تصمیم‌های مالی امروز (مانند دریافت یک وام جدید، خرید طلا یا افزایش ۱۰ درصدی پس‌انداز)، چه تاثیری در ثروت ۵ سال آینده شما دارند؟ ماژول Wealth Trajectory مسیر ثروت شما را با فرمول‌های آماری و ریاضی بدون حدس و گمان شبیه‌سازی می‌کند.
+                تصمیم‌های مالی امروز (مانند دریافت یک وام جدید، خرید طلا یا
+                افزایش ۱۰ درصدی پس‌انداز)، چه تاثیری در ثروت ۵ سال آینده شما
+                دارند؟ ماژول Wealth Trajectory مسیر ثروت شما را با فرمول‌های
+                آماری و ریاضی بدون حدس و گمان شبیه‌سازی می‌کند.
               </p>
 
               <div className="space-y-3 pt-2 text-xs">
                 <div className="flex items-center gap-2.5 text-[#E8E8E8]">
                   <span className="w-2.5 h-2.5 rounded-full bg-[#F0AE55]" />
-                  <span>سناریوی مبنا (Baseline): بر پایه تداوم جریان فعلی درآمد و هزینه</span>
+                  <span>
+                    سناریوی مبنا (Baseline): بر پایه تداوم جریان فعلی درآمد و
+                    هزینه
+                  </span>
                 </div>
                 <div className="flex items-center gap-2.5 text-[#E8E8E8]">
                   <span className="w-2.5 h-2.5 rounded-full bg-[#76A98C]" />
-                  <span>سناریوی پویا (Optimistic): بازدهی مضاعف سبد طلا و مهار مخارج</span>
+                  <span>
+                    سناریوی پویا (Optimistic): بازدهی مضاعف سبد طلا و مهار مخارج
+                  </span>
                 </div>
                 <div className="flex items-center gap-2.5 text-[#E8E8E8]">
                   <span className="w-2.5 h-2.5 rounded-full bg-[#88A9BC]" />
-                  <span>سناریوی محافظه‌کار (Conservative): شرایط رکود و هزینه فرصت</span>
+                  <span>
+                    سناریوی محافظه‌کار (Conservative): شرایط رکود و هزینه فرصت
+                  </span>
                 </div>
               </div>
 
@@ -627,16 +744,44 @@ export default function PublicHomePage() {
             {/* Trajectory Graphic Line Representation */}
             <div className="lg:col-span-7 rounded-[22px] bg-[#0E0F12] border border-white/[0.08] p-6 space-y-4">
               <div className="flex items-center justify-between text-xs border-b border-white/[0.06] pb-3">
-                <span className="font-bold text-[#F0F0F1]">نمودار تلاقی ثروت (Trajectory Forecast)</span>
-                <span className="text-[#F0AE55] font-mono text-[11px]">بازه: ۱ الی ۵ سال</span>
+                <span className="font-bold text-[#F0F0F1]">
+                  نمودار تلاقی ثروت (Trajectory Forecast)
+                </span>
+                <span className="text-[#F0AE55] font-mono text-[11px]">
+                  بازه: ۱ الی ۵ سال
+                </span>
               </div>
 
               <div className="h-56 w-full relative flex items-center justify-center">
-                <svg className="w-full h-full overflow-visible" viewBox="0 0 500 200">
+                <svg
+                  className="w-full h-full overflow-visible"
+                  viewBox="0 0 500 200"
+                >
                   {/* Grid Lines */}
-                  <line x1="0" y1="50" x2="500" y2="50" stroke="rgba(255,255,255,0.05)" strokeDasharray="4 4" />
-                  <line x1="0" y1="100" x2="500" y2="100" stroke="rgba(255,255,255,0.05)" strokeDasharray="4 4" />
-                  <line x1="0" y1="150" x2="500" y2="150" stroke="rgba(255,255,255,0.05)" strokeDasharray="4 4" />
+                  <line
+                    x1="0"
+                    y1="50"
+                    x2="500"
+                    y2="50"
+                    stroke="rgba(255,255,255,0.05)"
+                    strokeDasharray="4 4"
+                  />
+                  <line
+                    x1="0"
+                    y1="100"
+                    x2="500"
+                    y2="100"
+                    stroke="rgba(255,255,255,0.05)"
+                    strokeDasharray="4 4"
+                  />
+                  <line
+                    x1="0"
+                    y1="150"
+                    x2="500"
+                    y2="150"
+                    stroke="rgba(255,255,255,0.05)"
+                    strokeDasharray="4 4"
+                  />
 
                   {/* Historical Line */}
                   <path
@@ -647,8 +792,24 @@ export default function PublicHomePage() {
                   />
 
                   {/* Today Vertical Divider */}
-                  <line x1="220" y1="20" x2="220" y2="180" stroke="#F0AE55" strokeDasharray="3 3" strokeWidth="1.5" />
-                  <text x="215" y="195" fill="#F0AE55" fontSize="10" textAnchor="end">امروز</text>
+                  <line
+                    x1="220"
+                    y1="20"
+                    x2="220"
+                    y2="180"
+                    stroke="#F0AE55"
+                    strokeDasharray="3 3"
+                    strokeWidth="1.5"
+                  />
+                  <text
+                    x="215"
+                    y="195"
+                    fill="#F0AE55"
+                    fontSize="10"
+                    textAnchor="end"
+                  >
+                    امروز
+                  </text>
 
                   {/* Future Forecast Scenarios */}
                   {/* Optimistic Line (Green) */}
@@ -676,13 +837,22 @@ export default function PublicHomePage() {
                   />
 
                   {/* Crossover point circle */}
-                  <circle cx="360" cy="90" r="5" fill="#F0AE55" stroke="#0D0E10" strokeWidth="2" />
+                  <circle
+                    cx="360"
+                    cy="90"
+                    r="5"
+                    fill="#F0AE55"
+                    stroke="#0D0E10"
+                    strokeWidth="2"
+                  />
                 </svg>
               </div>
 
               <div className="flex justify-between items-center text-[11px] text-[#707581] pt-2 border-t border-white/[0.04]">
                 <span>گذشته (ثبت شده)</span>
-                <span className="text-[#F0AE55] font-semibold">تخمین آینده با قطعیت آماری</span>
+                <span className="text-[#F0AE55] font-semibold">
+                  تخمین آینده با قطعیت آماری
+                </span>
                 <span>۵ سال آینده</span>
               </div>
             </div>
@@ -704,7 +874,8 @@ export default function PublicHomePage() {
               یک دستیار خردمند برای درک تصمیم‌های مالی
             </h2>
             <p className="text-xs sm:text-sm text-[#A0A3AD]">
-              پاسخ به سوالات پولی شما بر مبنای توابع قطعی ریاضی پورتفولیو، نه ادعاهای خیالی بازارهای مالی.
+              پاسخ به سوالات پولی شما بر مبنای توابع قطعی ریاضی پورتفولیو، نه
+              ادعاهای خیالی بازارهای مالی.
             </p>
           </div>
 
@@ -715,7 +886,8 @@ export default function PublicHomePage() {
               <span className="text-[10px] text-[#F0AE55] font-bold block mb-1">
                 پرسش نمونه کاربر:
               </span>
-              "اگر هر ماه ۱۵٪ بیشتر پس‌انداز کنم، وضعیت مالی من در پنج سال آینده چگونه تغییر می‌کند؟"
+              "اگر هر ماه ۱۵٪ بیشتر پس‌انداز کنم، وضعیت مالی من در پنج سال آینده
+              چگونه تغییر می‌کند؟"
             </div>
 
             {/* AI Assistant Message */}
@@ -726,18 +898,26 @@ export default function PublicHomePage() {
               </div>
 
               <p>
-                بر مبنای متوسط درآمد خالص ماهانه فعلی شما، افزایش ۱۵ درصدی پس‌انداز معادل{" "}
-                <strong className="text-[#F0AE55]">۷,۲۰۰,۰۰۰ تومان</strong> در ماه خواهد بود.
+                بر مبنای متوسط درآمد خالص ماهانه فعلی شما، افزایش ۱۵ درصدی
+                پس‌انداز معادل{" "}
+                <strong className="text-[#F0AE55]">۷,۲۰۰,۰۰۰ تومان</strong> در
+                ماه خواهد بود.
               </p>
 
               <div className="rounded-[12px] bg-[#0E0F12] p-3 space-y-1.5 text-xs text-[#A0A3AD]">
                 <div className="flex justify-between">
                   <span>ارزش انباشته پس‌انداز خام (۵ ساله):</span>
-                  <span className="font-bold text-[#F0F0F1]">۴۳۲,۰۰۰,۰۰۰ تومان</span>
+                  <span className="font-bold text-[#F0F0F1]">
+                    ۴۳۲,۰۰۰,۰۰۰ تومان
+                  </span>
                 </div>
                 <div className="flex justify-between">
-                  <span>ارزش بازتوزیع شده در سبد متعادل (با فرض بازده ۲۲٪):</span>
-                  <span className="font-bold text-[#76A98C]">۷۱۵,۴۰۰,۰۰۰ تومان</span>
+                  <span>
+                    ارزش بازتوزیع شده در سبد متعادل (با فرض بازده ۲۲٪):
+                  </span>
+                  <span className="font-bold text-[#76A98C]">
+                    ۷۱۵,۴۰۰,۰۰۰ تومان
+                  </span>
                 </div>
                 <div className="flex justify-between">
                   <span>تسریع تاریخ آزادی کامل از وام‌ها:</span>
@@ -746,7 +926,8 @@ export default function PublicHomePage() {
               </div>
 
               <p className="text-[11px] text-[#707581]">
-                * توجه: این تحلیل صرفاً شبیه‌سازی عددی بر اساس متغیرهای فرضی است و تعهدی برای بازدهی آینده ایجاد نمی‌کند.
+                * توجه: این تحلیل صرفاً شبیه‌سازی عددی بر اساس متغیرهای فرضی است
+                و تعهدی برای بازدهی آینده ایجاد نمی‌کند.
               </p>
             </div>
           </div>
@@ -827,33 +1008,46 @@ export default function PublicHomePage() {
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
             <div className="rounded-[18px] bg-[#18191E] p-5 space-y-2 border border-white/[0.05]">
               <Lock className="w-5 h-5 text-[#F0AE55]" />
-              <h3 className="text-sm font-bold text-[#F0F0F1]">مالکیت مطلق داده‌ها</h3>
+              <h3 className="text-sm font-bold text-[#F0F0F1]">
+                مالکیت مطلق داده‌ها
+              </h3>
               <p className="text-xs text-[#A0A3AD] leading-relaxed">
-                داده‌های مالی شما محرمانه بوده و در سرورهای ایزوله و رمزنگاری‌شده نگهداری می‌شوند. ما هرگز داده‌ها را به شخص ثالث واگذار نمی‌کنیم.
+                داده‌های مالی شما محرمانه بوده و در سرورهای ایزوله و
+                رمزنگاری‌شده نگهداری می‌شوند. ما هرگز داده‌ها را به شخص ثالث
+                واگذار نمی‌کنیم.
               </p>
             </div>
 
             <div className="rounded-[18px] bg-[#18191E] p-5 space-y-2 border border-white/[0.05]">
               <Wallet className="w-5 h-5 text-[#76A98C]" />
-              <h3 className="text-sm font-bold text-[#F0F0F1]">عدم درخواست دسترسی حساب</h3>
+              <h3 className="text-sm font-bold text-[#F0F0F1]">
+                عدم درخواست دسترسی حساب
+              </h3>
               <p className="text-xs text-[#A0A3AD] leading-relaxed">
-                برای استفاده از تئا، هیچ نیازی به اتصال مستقیم رمز دوم یا دسترسی به حساب‌های بانکی نیست. شما کنترل کامل ورودی‌ها را در دست دارید.
+                برای استفاده از تئا، هیچ نیازی به اتصال مستقیم رمز دوم یا دسترسی
+                به حساب‌های بانکی نیست. شما کنترل کامل ورودی‌ها را در دست دارید.
               </p>
             </div>
 
             <div className="rounded-[18px] bg-[#18191E] p-5 space-y-2 border border-white/[0.05]">
               <LineChart className="w-5 h-5 text-[#88A9BC]" />
-              <h3 className="text-sm font-bold text-[#F0F0F1]">تفکیک واقعیت از برآورد</h3>
+              <h3 className="text-sm font-bold text-[#F0F0F1]">
+                تفکیک واقعیت از برآورد
+              </h3>
               <p className="text-xs text-[#A0A3AD] leading-relaxed">
-                سامانه به طور شفاف تفاوت میان تراکنش‌های قطعی ثبت‌شده و شبیه‌سازی‌های آینده‌نگرانه را برای شما مرزبندی می‌کند.
+                سامانه به طور شفاف تفاوت میان تراکنش‌های قطعی ثبت‌شده و
+                شبیه‌سازی‌های آینده‌نگرانه را برای شما مرزبندی می‌کند.
               </p>
             </div>
 
             <div className="rounded-[18px] bg-[#18191E] p-5 space-y-2 border border-white/[0.05]">
               <CheckCircle2 className="w-5 h-5 text-[#F0AE55]" />
-              <h3 className="text-sm font-bold text-[#F0F0F1]">محاسبات ریاضی اعشاری قطعی</h3>
+              <h3 className="text-sm font-bold text-[#F0F0F1]">
+                محاسبات ریاضی اعشاری قطعی
+              </h3>
               <p className="text-xs text-[#A0A3AD] leading-relaxed">
-                تمامی عملیات‌های پولی با مقیاس عددی استانداردهای بانکی (Python Decimal) محاسبه شده و دچار خطای گردکردن کامپیوتری نمی‌شوند.
+                تمامی عملیات‌های پولی با مقیاس عددی استانداردهای بانکی (Python
+                Decimal) محاسبه شده و دچار خطای گردکردن کامپیوتری نمی‌شوند.
               </p>
             </div>
           </div>
@@ -869,11 +1063,12 @@ export default function PublicHomePage() {
           <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[500px] h-[300px] bg-[radial-gradient(circle_at_center,rgba(240,174,85,0.12)_0%,transparent_70%)] pointer-events-none" />
 
           <h2 className="text-3xl sm:text-5xl font-black text-[#F0F0F1] tracking-tight relative z-10">
-            همین امروز فرماندهی امور مالی خود را آغاز کنید
+            همین امروز مدیریت امور مالی خود را آغاز کنید
           </h2>
 
           <p className="text-xs sm:text-sm text-[#A0A3AD] max-w-xl mx-auto leading-relaxed relative z-10">
-            بدون هزینه، بدون پیچیدگی و در کمتر از یک دقیقه؛ تصویری روشن از تمام دارایی‌ها، بدهی‌ها و آینده مالی خود به دست آورید.
+            بدون هزینه، بدون پیچیدگی و در کمتر از یک دقیقه؛ تصویری روشن از تمام
+            دارایی‌ها، بدهی‌ها و آینده مالی خود به دست آورید.
           </p>
 
           <div className="pt-4 flex flex-col sm:flex-row items-center justify-center gap-4 relative z-10">
@@ -881,7 +1076,11 @@ export default function PublicHomePage() {
               href={isAuthenticated ? "/dashboard" : "/register"}
               className="w-full sm:w-auto px-8 py-4 rounded-[14px] bg-[#F0AE55] hover:bg-[#F3BE76] text-[#0D0E10] text-sm font-black transition-all shadow-[0_0_24px_rgba(240,174,85,0.4)] hover:shadow-[0_0_36px_rgba(240,174,85,0.6)] flex items-center justify-center gap-2 cursor-pointer active:scale-95"
             >
-              <span>{isAuthenticated ? "ورود به مرکز فرماندهی شما" : "شروع رایگان و بی‌درنگ"}</span>
+              <span>
+                {isAuthenticated
+                  ? "ورود به داشبورد مدیریت شما"
+                  : "شروع رایگان و بی‌درنگ"}
+              </span>
               <ArrowLeft className="w-4 h-4 stroke-[2.5]" />
             </Link>
 

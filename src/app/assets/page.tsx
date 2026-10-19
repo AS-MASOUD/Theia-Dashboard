@@ -45,7 +45,9 @@ export default function AssetsPage() {
   // Derive the labels map from backend data
   const CLASS_LABELS: Record<string, string> = useMemo(() => {
     if (!assetClasses) return {};
-    return Object.fromEntries(assetClasses.map((c: AssetClass) => [c.code, c.label]));
+    return Object.fromEntries(
+      assetClasses.map((c: AssetClass) => [c.code, c.label]),
+    );
   }, [assetClasses]);
 
   const [marketCategory, setMarketCategory] = useState<
@@ -137,7 +139,8 @@ export default function AssetsPage() {
       toast.success("وضعیت فعال بودن دارایی بروزرسانی شد.", "تغییر وضعیت");
     },
     onError: (err: unknown) => {
-      const msg = err instanceof Error ? err.message : "خطا در تغییر وضعیت دارایی.";
+      const msg =
+        err instanceof Error ? err.message : "خطا در تغییر وضعیت دارایی.";
       toast.error(msg, "خطا");
     },
   });
@@ -167,10 +170,14 @@ export default function AssetsPage() {
       queryClient.invalidateQueries({ queryKey: ["positions"] });
       queryClient.invalidateQueries({ queryKey: ["overview"] });
       setSelectedAssetIds([]);
-      toast.success(`${ids.length} دارایی با موفقیت از کاتالوگ حذف شدند.`, "حذف دسته‌ای");
+      toast.success(
+        `${ids.length} دارایی با موفقیت از کاتالوگ حذف شدند.`,
+        "حذف دسته‌ای",
+      );
     },
     onError: (err: unknown) => {
-      const msg = err instanceof Error ? err.message : "خطا در حذف دسته‌ای دارایی‌ها.";
+      const msg =
+        err instanceof Error ? err.message : "خطا در حذف دسته‌ای دارایی‌ها.";
       toast.error(msg, "خطا در حذف دسته‌ای");
     },
   });
@@ -273,7 +280,6 @@ export default function AssetsPage() {
           </h2>
           <p className="text-xs text-slate-500 dark:text-slate-400 mt-0.5">
             پایش لحظه‌ای طلا، سکه، مس و کالاها، ارزهای جهانی و رمزارزها
-            (همگام‌سازی خودکار ۵ بار در روز)
           </p>
         </div>
 
@@ -443,7 +449,8 @@ export default function AssetsPage() {
                         </div>
                         {isUSD && quote.price_toman && (
                           <div className="text-[10px] text-slate-400 font-mono">
-                            ≈ {Number(quote.price_toman).toLocaleString("en-US")}{" "}
+                            ≈{" "}
+                            {Number(quote.price_toman).toLocaleString("en-US")}{" "}
                             تومان
                           </div>
                         )}
@@ -474,7 +481,8 @@ export default function AssetsPage() {
                 <span>دارایی‌های ثبت‌شده در سامانه</span>
               </h3>
               <p className="text-[11px] text-slate-400 mt-0.5">
-                مدیریت دارایی‌ها، انتخاب چندگانه و فعال‌سازی/غیرفعال‌سازی برای پورتفوی
+                مدیریت دارایی‌ها، انتخاب چندگانه و فعال‌سازی/غیرفعال‌سازی برای
+                پورتفوی
               </p>
             </div>
 
@@ -487,25 +495,23 @@ export default function AssetsPage() {
                     checked={
                       filteredRegisteredAssets.length > 0 &&
                       filteredRegisteredAssets.every((a) =>
-                        selectedAssetIds.includes(a.id)
+                        selectedAssetIds.includes(a.id),
                       )
                     }
                     onChange={() => {
                       const currentFilteredIds = filteredRegisteredAssets.map(
-                        (a) => a.id
+                        (a) => a.id,
                       );
                       const isAllSelected = currentFilteredIds.every((id) =>
-                        selectedAssetIds.includes(id)
+                        selectedAssetIds.includes(id),
                       );
                       if (isAllSelected) {
                         setSelectedAssetIds((prev) =>
-                          prev.filter((id) => !currentFilteredIds.includes(id))
+                          prev.filter((id) => !currentFilteredIds.includes(id)),
                         );
                       } else {
                         setSelectedAssetIds((prev) =>
-                          Array.from(
-                            new Set([...prev, ...currentFilteredIds])
-                          )
+                          Array.from(new Set([...prev, ...currentFilteredIds])),
                         );
                       }
                     }}
@@ -520,7 +526,7 @@ export default function AssetsPage() {
                   onClick={() => {
                     if (
                       confirm(
-                        `آیا از حذف ${selectedAssetIds.length} دارایی انتخاب شده مطمئن هستید؟`
+                        `آیا از حذف ${selectedAssetIds.length} دارایی انتخاب شده مطمئن هستید؟`,
                       )
                     ) {
                       bulkDeleteMutation.mutate(selectedAssetIds);
@@ -597,8 +603,8 @@ export default function AssetsPage() {
                       isSelected
                         ? "border-amber-500 bg-amber-500/10 ring-1 ring-amber-500/50"
                         : isActive
-                        ? "border-white/5 bg-white/[0.02] hover:border-amber-500/40 hover:shadow-lg"
-                        : "border-dashed border-white/10 opacity-70 bg-white/[0.01]"
+                          ? "border-white/5 bg-white/[0.02] hover:border-amber-500/40 hover:shadow-lg"
+                          : "border-dashed border-white/10 opacity-70 bg-white/[0.01]"
                     }`}
                   >
                     <div>
@@ -616,7 +622,7 @@ export default function AssetsPage() {
                                 ]);
                               } else {
                                 setSelectedAssetIds((prev) =>
-                                  prev.filter((id) => id !== asset.id)
+                                  prev.filter((id) => id !== asset.id),
                                 );
                               }
                             }}
@@ -704,7 +710,7 @@ export default function AssetsPage() {
                           onClick={() => {
                             if (
                               confirm(
-                                `آیا از حذف نماد «${asset.symbol} - ${asset.name}» مطمئن هستید؟`
+                                `آیا از حذف نماد «${asset.symbol} - ${asset.name}» مطمئن هستید؟`,
                               )
                             ) {
                               deleteMutation.mutate(asset.id);
@@ -812,7 +818,9 @@ export default function AssetsPage() {
                     className="w-full px-3 py-2 rounded-xl border border-white/10 bg-[#0a0c12] text-slate-100 focus:outline-none focus:ring-2 focus:ring-amber-500/40 focus:border-amber-500/60"
                   >
                     {assetClasses?.map((c) => (
-                      <option key={c.code} value={c.code}>{c.label}</option>
+                      <option key={c.code} value={c.code}>
+                        {c.label}
+                      </option>
                     ))}
                   </select>
                 </div>

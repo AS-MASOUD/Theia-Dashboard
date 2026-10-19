@@ -34,7 +34,7 @@ export default function AIAssistantPage() {
     {
       role: "assistant",
       content:
-        "به هسته هوشمند مرکز مدیریت مالی شخصی خوش آمدید. من می‌توانم ارزش خالص دارایی‌ها، تمرکز ریسک سرمایه‌گذاری، ساختار اقساط بدهی و سناریوهای آینده مالی شما را با اتکا به موتور محاسباتی قطعی تحلیل کنم. امروز چطور می‌توانم کمکتان کنم؟",
+        "به هسته هوشمند مدیریت مالی شخصی خوش آمدید. من می‌توانم ارزش خالص دارایی‌ها، تمرکز ریسک سرمایه‌گذاری، ساختار اقساط بدهی و سناریوهای آینده مالی شما را با اتکا به موتور محاسباتی قطعی تحلیل کنم. امروز چطور می‌توانم کمکتان کنم؟",
     },
   ]);
 
@@ -125,7 +125,9 @@ export default function AIAssistantPage() {
                 {!isUser && msg.tool_calls && (
                   <div className="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-[6px] text-[10px] font-mono font-medium bg-[#141518] text-[#F0AE55] border border-[#282A2F] mb-1">
                     <Wrench className="h-3 w-3 text-[#F0AE55]" />
-                    <span>فراخوانی ابزار محاسباتی: get_financial_overview()</span>
+                    <span>
+                      فراخوانی ابزار محاسباتی: get_financial_overview()
+                    </span>
                   </div>
                 )}
 
@@ -150,7 +152,9 @@ export default function AIAssistantPage() {
             </div>
             <div className="flex items-center gap-2 p-3.5 rounded-[16px] bg-[#1B1D21] border border-[#282A2F]">
               <Loader2 className="h-4 w-4 animate-spin text-[#F0AE55]" />
-              <span>در حال فراخوانی مدل‌های حسابداری و پردازش پاسخ تحلیلی...</span>
+              <span>
+                در حال فراخوانی مدل‌های حسابداری و پردازش پاسخ تحلیلی...
+              </span>
             </div>
           </div>
         )}

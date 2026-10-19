@@ -16,7 +16,14 @@ function isPublicRoute(pathname: string): boolean {
   if (pathname.startsWith("/features")) return true;
   if (pathname.startsWith("/insights")) return true;
   if (pathname.startsWith("/pricing")) return true;
-  const staticPublic = ["/contact", "/about", "/faq", "/support", "/releases", "/terms"];
+  const staticPublic = [
+    "/contact",
+    "/about",
+    "/faq",
+    "/support",
+    "/releases",
+    "/terms",
+  ];
   return staticPublic.includes(pathname);
 }
 
@@ -33,7 +40,9 @@ export function AppShell({ children }: { children: React.ReactNode }) {
   useEffect(() => {
     if (!isLoading) {
       if (!isAuthenticated && isProtected) {
-        const redirectParam = pathname ? `?redirect=${encodeURIComponent(pathname)}` : "";
+        const redirectParam = pathname
+          ? `?redirect=${encodeURIComponent(pathname)}`
+          : "";
         router.replace(`/login${redirectParam}`);
       } else if (isAuthenticated && isAuthOnly) {
         router.replace("/dashboard");
@@ -58,9 +67,7 @@ export function AppShell({ children }: { children: React.ReactNode }) {
     return (
       <div className="min-h-screen flex flex-col bg-[#0D0E10] text-[#F0F0F1] selection:bg-[#F0AE55]/20 selection:text-[#F0AE55]">
         <PublicHeader />
-        <main className="flex-1 w-full">
-          {children}
-        </main>
+        <main className="flex-1 w-full">{children}</main>
         <PublicFooter />
       </div>
     );
@@ -91,7 +98,7 @@ export function AppShell({ children }: { children: React.ReactNode }) {
       <div className="flex-1 flex flex-col min-w-0">
         <Header
           title="مشاور مدیریت مالی تئا"
-          subtitle="مرکز فرماندهی هوشمند دارایی‌ها، نسبت‌ها و پایش سبد سرمایه‌گذاری"
+          subtitle="مدیریت هوشمند دارایی‌ها، نسبت‌ها و پایش سبد سرمایه‌گذاری"
           onOpenQuickTx={() => setIsQuickTxOpen(true)}
         />
 

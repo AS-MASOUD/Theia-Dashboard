@@ -76,7 +76,7 @@ export function PublicHeader() {
                     "px-3 py-1.5 rounded-[10px] transition-all duration-200 relative",
                     isActive
                       ? "text-[#F0AE55] bg-[rgba(240,174,85,0.08)] font-semibold"
-                      : "text-[#A0A3AD] hover:text-[#F0F0F1] hover:bg-white/[0.04]"
+                      : "text-[#A0A3AD] hover:text-[#F0F0F1] hover:bg-white/[0.04]",
                   )}
                 >
                   {item.name}
@@ -101,8 +101,8 @@ export function PublicHeader() {
                   {user?.role === "sysmanager"
                     ? "مدیر ارشد سیستم"
                     : user?.role === "admin"
-                    ? "مدیر سامانه"
-                    : "مرکز فرماندهی"}
+                      ? "مدیر سامانه"
+                      : "داشبورد مدیریت"}
                 </span>
               </div>
               <button
@@ -171,7 +171,7 @@ export function PublicHeader() {
                     "flex items-center justify-between px-3.5 py-2.5 rounded-[12px] text-sm font-medium transition-colors",
                     isActive
                       ? "text-[#F0AE55] bg-[rgba(240,174,85,0.1)] border-r-2 border-[#F0AE55]"
-                      : "text-[#A0A3AD] hover:text-[#F0F0F1] hover:bg-white/[0.04]"
+                      : "text-[#A0A3AD] hover:text-[#F0F0F1] hover:bg-white/[0.04]",
                   )}
                 >
                   <span>{item.name}</span>
@@ -189,7 +189,7 @@ export function PublicHeader() {
                 className="w-full flex items-center justify-center gap-2 py-3 rounded-[13px] bg-[#F0AE55] text-[#0D0E10] font-bold text-sm shadow-[0_0_20px_rgba(240,174,85,0.3)]"
               >
                 <LayoutDashboard className="w-4 h-4" />
-                <span>ورود به مرکز فرماندهی (داشبورد)</span>
+                <span>ورود به داشبورد مدیریت</span>
               </Link>
             ) : (
               <>
@@ -242,13 +242,16 @@ export function PublicFooter() {
                   </span>
                 </div>
                 <span className="text-[11px] text-[#A0A3AD]">
-                  مرکز فرماندهی هوشمند مدیریت مالی و پورتفولیو
+                  مدیریت هوشمند مدیریت مالی و پورتفولیو
                 </span>
               </div>
             </Link>
 
             <p className="text-xs text-[#A0A3AD] leading-relaxed max-w-md">
-              سامانه جامع تئا به شما کمک می‌کند امروز وضعیت واقعی دارایی‌ها، بدهی‌ها، نقدینگی و جریان وجوه نقد خود را بشناسید، گذشته مالی‌تان را تحلیل کنید و با شبیه‌سازی و هوش مصنوعی، تصمیم‌های آینده را با آگاهی کامل اتخاذ نمایید.
+              سامانه جامع تئا به شما کمک می‌کند امروز وضعیت واقعی دارایی‌ها،
+              بدهی‌ها، نقدینگی و جریان وجوه نقد خود را بشناسید، گذشته مالی‌تان
+              را تحلیل کنید و با شبیه‌سازی و هوش مصنوعی، تصمیم‌های آینده را با
+              آگاهی کامل اتخاذ نمایید.
             </p>
 
             <div className="flex items-center gap-3 pt-2">
@@ -266,27 +269,42 @@ export function PublicFooter() {
             </h3>
             <ul className="space-y-2.5 text-xs">
               <li>
-                <Link href="/features#portfolio" className="text-[#A0A3AD] hover:text-[#F0AE55] transition-colors flex items-center gap-1.5">
+                <Link
+                  href="/features#portfolio"
+                  className="text-[#A0A3AD] hover:text-[#F0AE55] transition-colors flex items-center gap-1.5"
+                >
                   <span>سبد دارایی‌ها (پورتفولیو)</span>
                 </Link>
               </li>
               <li>
-                <Link href="/features#trajectory" className="text-[#A0A3AD] hover:text-[#F0AE55] transition-colors flex items-center gap-1.5">
+                <Link
+                  href="/features#trajectory"
+                  className="text-[#A0A3AD] hover:text-[#F0AE55] transition-colors flex items-center gap-1.5"
+                >
                   <span>مسیر ثروت (Trajectory)</span>
                 </Link>
               </li>
               <li>
-                <Link href="/features#liabilities" className="text-[#A0A3AD] hover:text-[#F0AE55] transition-colors flex items-center gap-1.5">
+                <Link
+                  href="/features#liabilities"
+                  className="text-[#A0A3AD] hover:text-[#F0AE55] transition-colors flex items-center gap-1.5"
+                >
                   <span>مدیریت وام‌ها و استهلاک</span>
                 </Link>
               </li>
               <li>
-                <Link href="/features#scenarios" className="text-[#A0A3AD] hover:text-[#F0AE55] transition-colors flex items-center gap-1.5">
+                <Link
+                  href="/features#scenarios"
+                  className="text-[#A0A3AD] hover:text-[#F0AE55] transition-colors flex items-center gap-1.5"
+                >
                   <span>شبیه‌ساز تصمیمات مالی</span>
                 </Link>
               </li>
               <li>
-                <Link href="/features#ai" className="text-[#A0A3AD] hover:text-[#F0AE55] transition-colors flex items-center gap-1.5">
+                <Link
+                  href="/features#ai"
+                  className="text-[#A0A3AD] hover:text-[#F0AE55] transition-colors flex items-center gap-1.5"
+                >
                   <span>دستیار هوشمند مالی (AI)</span>
                 </Link>
               </li>
@@ -300,27 +318,42 @@ export function PublicFooter() {
             </h3>
             <ul className="space-y-2.5 text-xs">
               <li>
-                <Link href="/markets" className="text-[#A0A3AD] hover:text-[#F0AE55] transition-colors">
+                <Link
+                  href="/markets"
+                  className="text-[#A0A3AD] hover:text-[#F0AE55] transition-colors"
+                >
                   دیده‌بان جامع طلا و مسکوکات
                 </Link>
               </li>
               <li>
-                <Link href="/markets?cat=currency" className="text-[#A0A3AD] hover:text-[#F0AE55] transition-colors">
+                <Link
+                  href="/markets?cat=currency"
+                  className="text-[#A0A3AD] hover:text-[#F0AE55] transition-colors"
+                >
                   نرخ مبادله‌ای و آزاد ارزها
                 </Link>
               </li>
               <li>
-                <Link href="/markets?cat=crypto" className="text-[#A0A3AD] hover:text-[#F0AE55] transition-colors">
+                <Link
+                  href="/markets?cat=crypto"
+                  className="text-[#A0A3AD] hover:text-[#F0AE55] transition-colors"
+                >
                   بازار رمزارزهای پایه
                 </Link>
               </li>
               <li>
-                <Link href="/insights" className="text-[#A0A3AD] hover:text-[#F0AE55] transition-colors">
+                <Link
+                  href="/insights"
+                  className="text-[#A0A3AD] hover:text-[#F0AE55] transition-colors"
+                >
                   مجموعه مقالات سواد مالی
                 </Link>
               </li>
               <li>
-                <Link href="/pricing" className="text-[#A0A3AD] hover:text-[#F0AE55] transition-colors">
+                <Link
+                  href="/pricing"
+                  className="text-[#A0A3AD] hover:text-[#F0AE55] transition-colors"
+                >
                   طرح‌ها و تعرفه‌های استفاده
                 </Link>
               </li>
@@ -334,27 +367,42 @@ export function PublicFooter() {
             </h3>
             <ul className="space-y-2.5 text-xs">
               <li>
-                <Link href="/about" className="text-[#A0A3AD] hover:text-[#F0AE55] transition-colors">
+                <Link
+                  href="/about"
+                  className="text-[#A0A3AD] hover:text-[#F0AE55] transition-colors"
+                >
                   درباره سامانه تئا
                 </Link>
               </li>
               <li>
-                <Link href="/terms#security" className="text-[#A0A3AD] hover:text-[#F0AE55] transition-colors">
+                <Link
+                  href="/terms#security"
+                  className="text-[#A0A3AD] hover:text-[#F0AE55] transition-colors"
+                >
                   اصول حریم خصوصی و امنیت داده
                 </Link>
               </li>
               <li>
-                <Link href="/faq" className="text-[#A0A3AD] hover:text-[#F0AE55] transition-colors">
+                <Link
+                  href="/faq"
+                  className="text-[#A0A3AD] hover:text-[#F0AE55] transition-colors"
+                >
                   پرسش‌های متداول (FAQ)
                 </Link>
               </li>
               <li>
-                <Link href="/support" className="text-[#A0A3AD] hover:text-[#F0AE55] transition-colors">
+                <Link
+                  href="/support"
+                  className="text-[#A0A3AD] hover:text-[#F0AE55] transition-colors"
+                >
                   مرکز راهنمایی و تماس
                 </Link>
               </li>
               <li>
-                <Link href="/releases" className="text-[#A0A3AD] hover:text-[#F0AE55] transition-colors">
+                <Link
+                  href="/releases"
+                  className="text-[#A0A3AD] hover:text-[#F0AE55] transition-colors"
+                >
                   یادداشت انتشار نسخه v0.1.0
                 </Link>
               </li>
@@ -365,7 +413,8 @@ export function PublicFooter() {
         {/* Bottom bar */}
         <div className="pt-8 border-t border-white/[0.07] flex flex-col sm:flex-row items-center justify-between gap-4 text-xs text-[#707581]">
           <p>
-            © {new Date().getFullYear()} Theia Personal Finance Consultant (Personal FC). تمامی حقوق محفوظ است.
+            © {new Date().getFullYear()} Theia Personal Finance Consultant
+            (Personal FC). تمامی حقوق محفوظ است.
           </p>
           <div className="flex flex-wrap items-center gap-4 text-[11px]">
             <a

@@ -8,10 +8,8 @@ import {
   YAxis,
   Tooltip,
   ResponsiveContainer,
-  PieChart,
-  Pie,
-  Cell,
 } from "recharts";
+import { PieChart } from "@mui/x-charts/PieChart";
 
 import { useCurrency } from "@/components/currency-provider";
 
@@ -195,6 +193,15 @@ export function AllocationDonut({ data }: AllocationDonutProps) {
   const chartData = data && data.length > 0 ? data : [];
   const { formatMoney } = useCurrency();
 
+  const pieSeriesData = React.useMemo(() => {
+    return chartData.map((item, index) => ({
+      id: `${item.category}-${index}`,
+      value: item.amount,
+      label: CATEGORY_FA[item.category] || item.category,
+      color: ALLOCATION_COLORS[index % ALLOCATION_COLORS.length],
+    }));
+  }, [chartData]);
+
   return (
     <div className="bg-[#141518] border border-[#282A2F] rounded-[22px] p-5 flex flex-col justify-between h-[360px]">
       <div>
@@ -212,45 +219,27 @@ export function AllocationDonut({ data }: AllocationDonutProps) {
         </div>
       ) : (
         <div className="flex-1 flex flex-col md:flex-row items-center justify-center gap-4 mt-2">
-          <div className="h-[180px] w-[180px] shrink-0">
-            <ResponsiveContainer width="100%" height="100%">
-              <PieChart>
-                <Pie
-                  data={chartData}
-                  cx="50%"
-                  cy="50%"
-                  innerRadius={50}
-                  outerRadius={80}
-                  paddingAngle={3}
-                  dataKey="amount"
-                >
-                  {chartData.map((entry, index) => (
-                    <Cell
-                      key={`cell-${index}`}
-                      fill={ALLOCATION_COLORS[index % ALLOCATION_COLORS.length]}
-                    />
-                  ))}
-                </Pie>
-                <Tooltip
-                  content={({ active, payload }) => {
-                    if (active && payload && payload.length) {
-                      const item = payload[0];
-                      return (
-                        <div className="bg-[#1B1D21] border border-[#282A2F] text-[#E8E8E8] p-2.5 rounded-xl shadow-xl text-xs space-y-0.5 text-right" dir="rtl">
-                          <div className="font-medium text-[#F0AE55]">
-                            {CATEGORY_FA[item.name as string] || item.name}
-                          </div>
-                          <div className="text-[#E8E8E8] font-semibold font-number">
-                            {formatMoney(Number(item.value))}
-                          </div>
-                        </div>
-                      );
-                    }
-                    return null;
-                  }}
-                />
-              </PieChart>
-            </ResponsiveContainer>
+          <div className="w-[300px] h-[250px] shrink-0 flex items-center justify-center">
+            <PieChart
+              series={[
+                {
+                  data: pieSeriesData,
+                  innerRadius: 30,
+                  outerRadius: 100,
+                  paddingAngle: 5,
+                  cornerRadius: 5,
+                  startAngle: -45,
+                  endAngle: 225,
+                  cx: 150,
+                  cy: 150,
+                  valueFormatter: (item: { value: number }) =>
+                    item ? formatMoney(item.value) : "",
+                },
+              ]}
+              width={300}
+              height={250}
+              hideLegend
+            />
           </div>
 
           {/* Clean Categorical Legend */}

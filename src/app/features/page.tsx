@@ -28,7 +28,8 @@ const FEATURES_DATA = [
     icon: PieChart,
     badge: "ماژول تخصصی پورتفولیو",
     title: "تمام دارایی‌های شما، در یک نمای یکپارچه و هوشمند",
-    headline: "یکپارچه‌سازی طلای فیزیکی، حساب‌های بانکی، سهام، رمزارز و دارایی‌های سرمایه‌ای",
+    headline:
+      "یکپارچه‌سازی طلای فیزیکی، حساب‌های بانکی، سهام، رمزارز و دارایی‌های سرمایه‌ای",
     description:
       "دیگر نیازی به استفاده از چندین جدول اکسل یا اپلیکیشن‌های پراکنده نیست. در تئا، دارایی‌های شما به تفکیک طبقات دارایی (نقدی، سپر تورمی، سرمایه‌گذاری مولد) دسته‌بندی شده و ارزش روز آن‌ها بر مبنای آخرین قیمت‌های بازار محاسبه می‌شود.",
     highlights: [
@@ -44,7 +45,8 @@ const FEATURES_DATA = [
     icon: ShieldAlert,
     badge: "ماژول تسهیلات و تعهدات",
     title: "تعهدات و وام‌های مالی خود را شفاف‌تر از همیشه مدیریت کنید",
-    headline: "جدول دقیق استهلاک اقساط، تفکیک اصل و فرع بدهی و تخمین روز آزادی از بدهی (Debt-Free)",
+    headline:
+      "جدول دقیق استهلاک اقساط، تفکیک اصل و فرع بدهی و تخمین روز آزادی از بدهی (Debt-Free)",
     description:
       "تسهیلات بانکی و وام‌ها بخش جدایی‌ناپذیر اقتصاد تورمی هستند. ماژول بدهی‌ها به شما نشان می‌دهد چقدر از اقساط پرداخت شده، چقدر باقی مانده و هر قسط چه میزان از اصل بدهی را کاهش می‌دهد.",
     highlights: [
@@ -60,7 +62,8 @@ const FEATURES_DATA = [
     icon: ArrowDownUp,
     badge: "جریان نقدینگی و بودجه",
     title: "داستان مالی گذشته‌تان را با وضوح و دقت بالا ببینید",
-    headline: "رهگیری دقیق ورودی‌ها و خروجی‌های پولی با دسته‌بندی‌های بصری و قابل تحلیل",
+    headline:
+      "رهگیری دقیق ورودی‌ها و خروجی‌های پولی با دسته‌بندی‌های بصری و قابل تحلیل",
     description:
       "بدانید هر ماه پول شما از کجا آمده و دقیقا صرف چه اموری شده است. نمودارهای جریان نقدی به شما امکان می‌دهند سوراخ‌های پنهان بودجه را شناسایی کرده و نرخ پسانداز واقعی خود را افزایش دهید.",
     highlights: [
@@ -76,7 +79,8 @@ const FEATURES_DATA = [
     icon: Layers,
     badge: "مسیر ثروت (Wealth Trajectory)",
     title: "آینده مالی خود را با سناریوهای مختلف شبیه‌سازی کنید",
-    headline: "ترسیم تلاقی خط استهلاک بدهی و رشد سرمایه‌گذاری در افق ۱ تا ۵ ساله",
+    headline:
+      "ترسیم تلاقی خط استهلاک بدهی و رشد سرمایه‌گذاری در افق ۱ تا ۵ ساله",
     description:
       "یکی از امضاهای منحصربه‌فرد سامانه Theia، ماژول مسیر ثروت است. این ابزار گذشته مالی شما را به آینده متصل می‌کند و سناریوهای رشد محافظه‌کارانه، مبنا و بهینه را بر اساس تصمیمات شما ترسیم می‌نماید.",
     highlights: [
@@ -92,7 +96,8 @@ const FEATURES_DATA = [
     icon: Bot,
     badge: "دستیار هوشمند مالی (AI)",
     title: "یک همراه خردمند برای تفسیر اعداد و درک تصمیم‌های پولی",
-    headline: "تحلیل الگوهای هزینه‌کرد و پاسخ به پرسش‌های سناریویی بدون توهم و وعده پوچ",
+    headline:
+      "تحلیل الگوهای هزینه‌کرد و پاسخ به پرسش‌های سناریویی بدون توهم و وعده پوچ",
     description:
       "دستیار هوشمند تئا سیگنال‌های فریبنده یا ادعاهای سود قطعی ارائه نمی‌دهد. در عوض، با اتصال امن به داده‌های حسابداری قطعی شما، به پرسش‌های کاربردی درباره سناریوهای پس‌انداز، وام و بودجه به زبان ساده پاسخ می‌دهد.",
     highlights: [
@@ -121,7 +126,9 @@ export default function FeaturesPage() {
             ابزارهای واقعی برای تسلط کامل بر ثروت و تصمیم‌گیری مالی
           </h1>
           <p className="text-sm md:text-base text-[#A0A3AD] leading-relaxed">
-            از پایش زنده طلا و ارز تا شبیه‌سازی پیشرفته استهلاک وام و مسیر ثروت؛ هر آنچه برای درک وضعیت مالی نیاز دارید در یک محیط یکپارچه گردآوری شده است.
+            از پایش زنده طلا و ارز تا شبیه‌سازی پیشرفته استهلاک وام و مسیر ثروت؛
+            هر آنچه برای درک وضعیت مالی نیاز دارید در یک محیط یکپارچه گردآوری
+            شده است.
           </p>
         </div>
 
@@ -137,7 +144,7 @@ export default function FeaturesPage() {
                 id={feat.id}
                 className={cn(
                   "grid grid-cols-1 lg:grid-cols-12 gap-10 items-center rounded-[28px] bg-[#141519] border border-white/[0.08] p-6 sm:p-10 relative overflow-hidden",
-                  index === 0 && "shadow-[0_20px_60px_rgba(240,174,85,0.06)]"
+                  index === 0 && "shadow-[0_20px_60px_rgba(240,174,85,0.06)]",
                 )}
               >
                 {/* Ambient glow in corner */}
@@ -146,7 +153,7 @@ export default function FeaturesPage() {
                     "absolute w-72 h-72 pointer-events-none rounded-full",
                     isEven
                       ? "top-0 right-0 bg-[radial-gradient(circle_at_center,rgba(240,174,85,0.08)_0%,transparent_70%)]"
-                      : "bottom-0 left-0 bg-[radial-gradient(circle_at_center,rgba(118,169,140,0.08)_0%,transparent_70%)]"
+                      : "bottom-0 left-0 bg-[radial-gradient(circle_at_center,rgba(118,169,140,0.08)_0%,transparent_70%)]",
                   )}
                 />
 
@@ -154,7 +161,7 @@ export default function FeaturesPage() {
                 <div
                   className={cn(
                     "space-y-6 relative z-10",
-                    isEven ? "lg:col-span-7" : "lg:col-span-7 lg:order-2"
+                    isEven ? "lg:col-span-7" : "lg:col-span-7 lg:order-2",
                   )}
                 >
                   <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-[#1B1D22] border border-white/[0.08] text-xs font-semibold text-[#F0AE55]">
@@ -202,7 +209,7 @@ export default function FeaturesPage() {
                 <div
                   className={cn(
                     "relative z-10 rounded-[22px] bg-[#0E0F12] border border-white/[0.07] p-6 shadow-inner",
-                    isEven ? "lg:col-span-5" : "lg:col-span-5 lg:order-1"
+                    isEven ? "lg:col-span-5" : "lg:col-span-5 lg:order-1",
                   )}
                 >
                   {/* Dynamic mock widget rendering */}
@@ -219,15 +226,23 @@ export default function FeaturesPage() {
 
                       <div className="grid grid-cols-2 gap-3">
                         <div className="rounded-[16px] bg-[#18191E] p-4 space-y-2 border border-white/[0.05]">
-                          <span className="text-[10px] text-[#A0A3AD]">سپر نقدینگی امن</span>
-                          <p className="text-xl font-black text-[#F0F0F1]">۳۰٪</p>
+                          <span className="text-[10px] text-[#A0A3AD]">
+                            سپر نقدینگی امن
+                          </span>
+                          <p className="text-xl font-black text-[#F0F0F1]">
+                            ۳۰٪
+                          </p>
                           <div className="w-full bg-white/5 h-1.5 rounded-full overflow-hidden">
                             <div className="bg-[#88A9BC] h-full w-[30%]" />
                           </div>
                         </div>
                         <div className="rounded-[16px] bg-[#18191E] p-4 space-y-2 border border-[#F0AE55]/30 shadow-[0_0_14px_rgba(240,174,85,0.1)]">
-                          <span className="text-[10px] text-[#F0AE55]">سرمایه‌گذاری و طلا</span>
-                          <p className="text-xl font-black text-[#F0AE55]">۷۰٪</p>
+                          <span className="text-[10px] text-[#F0AE55]">
+                            سرمایه‌گذاری و طلا
+                          </span>
+                          <p className="text-xl font-black text-[#F0AE55]">
+                            ۷۰٪
+                          </p>
                           <div className="w-full bg-white/5 h-1.5 rounded-full overflow-hidden">
                             <div className="bg-[#F0AE55] h-full w-[70%]" />
                           </div>
@@ -236,13 +251,17 @@ export default function FeaturesPage() {
 
                       <div className="rounded-[16px] bg-[#18191E] p-4 space-y-2 border border-white/[0.05]">
                         <div className="flex justify-between text-xs">
-                          <span className="text-[#A0A3AD]">مجموع ارزش پورتفولیو:</span>
+                          <span className="text-[#A0A3AD]">
+                            مجموع ارزش پورتفولیو:
+                          </span>
                           <span className="font-bold text-[#F0F0F1] font-mono">
                             ۸۴۵,۰۰۰,۰۰۰ تومان
                           </span>
                         </div>
                         <div className="flex justify-between text-xs">
-                          <span className="text-[#A0A3AD]">سود تحقق‌نیافته:</span>
+                          <span className="text-[#A0A3AD]">
+                            سود تحقق‌نیافته:
+                          </span>
                           <span className="font-bold text-[#76A98C] font-mono">
                             +۱۲۸,۴۰۰,۰۰۰ تومان (+۱۷.۸٪)
                           </span>
@@ -255,7 +274,7 @@ export default function FeaturesPage() {
                     <div className="space-y-4">
                       <div className="flex items-center justify-between border-b border-white/[0.06] pb-3">
                         <span className="text-xs font-bold text-[#F0F0F1]">
-                          اقلیم بدهی‌ها و سررسیدها
+                          وام، اقساط و سررسیدهای مالی
                         </span>
                         <span className="text-[10px] text-[#C77A82] px-2 py-0.5 rounded-full bg-[#C77A82]/10 border border-[#C77A82]/20">
                           نیاز به توجه
@@ -264,8 +283,12 @@ export default function FeaturesPage() {
 
                       <div className="rounded-[16px] bg-[#18191E] p-4 space-y-2 border border-white/[0.05]">
                         <div className="flex justify-between text-xs">
-                          <span className="text-[#A0A3AD]">تسهیلات خرید مسکن:</span>
-                          <span className="font-bold text-[#F0F0F1]">۳۸۵,۷۰۰,۰۰۰ ت</span>
+                          <span className="text-[#A0A3AD]">
+                            تسهیلات خرید مسکن:
+                          </span>
+                          <span className="font-bold text-[#F0F0F1]">
+                            ۳۸۵,۷۰۰,۰۰۰ ت
+                          </span>
                         </div>
                         <div className="flex justify-between text-[11px] text-[#707581]">
                           <span>قسط ماهانه: ۹,۴۵۰,۰۰۰ ت</span>
@@ -278,7 +301,9 @@ export default function FeaturesPage() {
 
                       <div className="rounded-[14px] bg-[#151619] p-3 text-center text-xs text-[#A0A3AD]">
                         <span>تاریخ پیش‌بینی آزادی از بدهی: </span>
-                        <span className="font-bold text-[#F0AE55]">۱۴۰۶/۰۵/۲۲</span>
+                        <span className="font-bold text-[#F0AE55]">
+                          ۱۴۰۶/۰۵/۲۲
+                        </span>
                       </div>
                     </div>
                   )}
@@ -289,24 +314,32 @@ export default function FeaturesPage() {
                         <span className="text-xs font-bold text-[#F0F0F1]">
                           جریان ماهانه نقدینگی
                         </span>
-                        <span className="text-[10px] text-[#76A98C]">مازاد مثبت</span>
+                        <span className="text-[10px] text-[#76A98C]">
+                          مازاد مثبت
+                        </span>
                       </div>
 
                       <div className="space-y-2">
                         <div className="flex justify-between text-xs">
-                          <span className="text-[#76A98C]">درآمد ناخالص ماهانه</span>
+                          <span className="text-[#76A98C]">
+                            درآمد ناخالص ماهانه
+                          </span>
                           <span className="font-bold text-[#76A98C] font-mono">
                             +۴۸,۰۰۰,۰۰۰ تومان
                           </span>
                         </div>
                         <div className="flex justify-between text-xs">
-                          <span className="text-[#C77A82]">کل هزینه‌ها و اقساط</span>
+                          <span className="text-[#C77A82]">
+                            کل هزینه‌ها و اقساط
+                          </span>
                           <span className="font-bold text-[#C77A82] font-mono">
                             -۳۱,۲۰۰,۰۰۰ تومان
                           </span>
                         </div>
                         <div className="pt-2 border-t border-white/[0.05] flex justify-between text-xs font-bold">
-                          <span className="text-[#F0AE55]">جریان نقدی آزاد (Free Cashflow)</span>
+                          <span className="text-[#F0AE55]">
+                            جریان نقدی آزاد (Free Cashflow)
+                          </span>
                           <span className="text-[#F0AE55] font-mono">
                             +۱۶,۸۰۰,۰۰۰ تومان
                           </span>
@@ -315,7 +348,8 @@ export default function FeaturesPage() {
 
                       <div className="rounded-[14px] bg-[#18191E] p-3 text-center text-xs text-[#A0A3AD]">
                         نرخ پسانداز ماه جاری:{" "}
-                        <span className="text-[#76A98C] font-bold">۳۵٪</span> (عالی)
+                        <span className="text-[#76A98C] font-bold">۳۵٪</span>{" "}
+                        (عالی)
                       </div>
                     </div>
                   )}
@@ -326,7 +360,9 @@ export default function FeaturesPage() {
                         <span className="text-xs font-bold text-[#F0F0F1]">
                           شبیه‌سازی مسیر ثروت (۵ ساله)
                         </span>
-                        <span className="text-[10px] text-[#F0AE55]">الگوریتم قطعی</span>
+                        <span className="text-[10px] text-[#F0AE55]">
+                          الگوریتم قطعی
+                        </span>
                       </div>
 
                       <div className="h-32 flex items-end justify-between gap-2 px-2 pt-4">
@@ -348,7 +384,9 @@ export default function FeaturesPage() {
                               style={{ height: b.h }}
                               className="w-full rounded-t-[6px] bg-gradient-to-t from-[#B37834] to-[#F0AE55] shadow-[0_0_12px_rgba(240,174,85,0.2)]"
                             />
-                            <span className="text-[9px] text-[#707581]">{b.year}</span>
+                            <span className="text-[9px] text-[#707581]">
+                              {b.year}
+                            </span>
                           </div>
                         ))}
                       </div>
@@ -365,7 +403,8 @@ export default function FeaturesPage() {
                       </div>
 
                       <div className="rounded-[14px] bg-[#18191E] p-3 text-xs text-[#E8E8E8]">
-                        "اگر ماهانه ۱۰٪ بیشتر پس‌انداز کنم، ارزش خالص من در سال آینده چقدر تغییر می‌کند؟"
+                        "اگر ماهانه ۱۰٪ بیشتر پس‌انداز کنم، ارزش خالص من در سال
+                        آینده چقدر تغییر می‌کند؟"
                       </div>
 
                       <div className="rounded-[14px] bg-[#1A1C24] border border-[#F0AE55]/20 p-3 space-y-1.5 text-xs text-[#A0A3AD]">
@@ -374,7 +413,10 @@ export default function FeaturesPage() {
                           پاسخ تحلیلی تئا:
                         </p>
                         <p className="leading-relaxed">
-                          با توجه به جریان نقدینگی فعلی، افزایش ۱۰ درصدی پس‌انداز معادل ۴.۸ میلیون تومان در ماه است. با احتساب نرخ بازده فرضی ۲۵٪ پورتفولیو، ارزش خالص شما تا پایان سال آینده حدود ۶۵ میلیون تومان رشد مازاد خواهد داشت.
+                          با توجه به جریان نقدینگی فعلی، افزایش ۱۰ درصدی
+                          پس‌انداز معادل ۴.۸ میلیون تومان در ماه است. با احتساب
+                          نرخ بازده فرضی ۲۵٪ پورتفولیو، ارزش خالص شما تا پایان
+                          سال آینده حدود ۶۵ میلیون تومان رشد مازاد خواهد داشت.
                         </p>
                       </div>
                     </div>
@@ -391,7 +433,8 @@ export default function FeaturesPage() {
             کنترل آینده مالی خود را از همین امروز آغاز کنید
           </h2>
           <p className="text-xs sm:text-sm text-[#A0A3AD] max-w-xl mx-auto leading-relaxed">
-            ثبت‌نام کمتر از ۱ دقیقه زمان می‌برد. تمامی قابلیت‌های پایه به صورت کاملاً رایگان در اختیار شما قرار می‌گیرد.
+            ثبت‌نام کمتر از ۱ دقیقه زمان می‌برد. تمامی قابلیت‌های پایه به صورت
+            کاملاً رایگان در اختیار شما قرار می‌گیرد.
           </p>
           <div className="pt-2">
             <Link
