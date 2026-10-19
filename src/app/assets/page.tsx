@@ -28,12 +28,17 @@ import { api } from "@/lib/api";
 import { formatDate } from "@/lib/utils";
 import { useCurrency } from "@/components/currency-provider";
 import { useToast } from "@/components/toast-provider";
+import { useAuth } from "@/components/auth-provider";
+import { useConfirm } from "@/components/confirm-modal-provider";
+import { useDragScroll } from "@/hooks/use-drag-scroll";
 import { Asset, AssetClass, MarketQuote } from "@/types/financial";
 
 export default function AssetsPage() {
   const queryClient = useQueryClient();
   const { formatMoney } = useCurrency();
   const { toast } = useToast();
+  const { user, isSysManager } = useAuth();
+  const { confirm } = useConfirm();
 
   // Fetch asset class definitions from backend
   const { data: assetClasses } = useQuery({
@@ -53,6 +58,7 @@ export default function AssetsPage() {
   const [marketCategory, setMarketCategory] = useState<
     "all" | "gold" | "commodities" | "currencies" | "crypto"
   >("all");
+  const categorySelectorRef = useDragScroll<HTMLDivElement>({ direction: "horizontal" });
 
   // Assets Filter: All, Active, Inactive
   const [activeFilter, setActiveFilter] = useState<
@@ -71,6 +77,28 @@ export default function AssetsPage() {
   const [price, setPrice] = useState("");
   const [isActiveNew, setIsActiveNew] = useState(false);
   const [notes, setNotes] = useState("");
+
+  // User tracked assets state (by default for a new user, starts empty)
+  const [trackedAssetIds, setTrackedAssetIds] = useState<string[] | null>(null);
+
+  React.useEffect(() => {
+    if (!user) return;
+    if (isSysManager) return; // Sysmanager sees all catalog assets
+
+    const storageKey = `theia_user_assets_${user.id}`;
+    const stored = localStorage.getItem(storageKey);
+    if (stored !== null) {
+      try {
+        setTrackedAssetIds(JSON.parse(stored));
+      } catch {
+        setTrackedAssetIds([]);
+      }
+    } else {
+      // By default for a new user, start with an empty asset list
+      setTrackedAssetIds([]);
+      localStorage.setItem(storageKey, JSON.stringify([]));
+    }
+  }, [user, isSysManager]);
 
   // Query assets catalog
   const { data: assets, isLoading: isAssetsLoading } = useQuery({
@@ -112,8 +140,15 @@ export default function AssetsPage() {
         is_active: isActiveNew,
         notes: notes.trim() || undefined,
       }),
-    onSuccess: () => {
+    onSuccess: (newAsset: Asset) => {
       queryClient.invalidateQueries({ queryKey: ["assets"] });
+      if (user && !isSysManager && newAsset?.id) {
+        setTrackedAssetIds((prev) => {
+          const next = Array.from(new Set([...(prev || []), newAsset.id]));
+          localStorage.setItem(`theia_user_assets_${user.id}`, JSON.stringify(next));
+          return next;
+        });
+      }
       setIsAddOpen(false);
       setSymbol("");
       setName("");
@@ -148,10 +183,17 @@ export default function AssetsPage() {
   // Delete Asset Mutation
   const deleteMutation = useMutation({
     mutationFn: (id: string) => api.deleteAsset(id),
-    onSuccess: () => {
+    onSuccess: (_, deletedId) => {
       queryClient.invalidateQueries({ queryKey: ["assets"] });
       queryClient.invalidateQueries({ queryKey: ["positions"] });
       queryClient.invalidateQueries({ queryKey: ["overview"] });
+      if (user && !isSysManager) {
+        setTrackedAssetIds((prev) => {
+          const next = (prev || []).filter((id) => id !== deletedId);
+          localStorage.setItem(`theia_user_assets_${user.id}`, JSON.stringify(next));
+          return next;
+        });
+      }
       toast.success("دارایی با موفقیت حذف شد.", "حذف دارایی");
     },
     onError: (err: unknown) => {
@@ -170,6 +212,13 @@ export default function AssetsPage() {
       queryClient.invalidateQueries({ queryKey: ["positions"] });
       queryClient.invalidateQueries({ queryKey: ["overview"] });
       setSelectedAssetIds([]);
+      if (user && !isSysManager) {
+        setTrackedAssetIds((prev) => {
+          const next = (prev || []).filter((id) => !ids.includes(id));
+          localStorage.setItem(`theia_user_assets_${user.id}`, JSON.stringify(next));
+          return next;
+        });
+      }
       toast.success(
         `${ids.length} دارایی با موفقیت از کاتالوگ حذف شدند.`,
         "حذف دسته‌ای",
@@ -244,10 +293,16 @@ export default function AssetsPage() {
         };
       }
 
+      // For regular / new users, filter to only their tracked assets (default empty for new users)
+      let baseAssets = assets;
+      if (user && !isSysManager && trackedAssetIds !== null) {
+        baseAssets = assets.filter((a) => trackedAssetIds.includes(a.id));
+      }
+
       let activeCount = 0;
       let inactiveCount = 0;
 
-      assets.forEach((a) => {
+      baseAssets.forEach((a) => {
         if (a.is_active !== false) {
           activeCount++;
         } else {
@@ -255,11 +310,11 @@ export default function AssetsPage() {
         }
       });
 
-      let filtered = assets;
+      let filtered = baseAssets;
       if (activeFilter === "active") {
-        filtered = assets.filter((a) => a.is_active !== false);
+        filtered = baseAssets.filter((a) => a.is_active !== false);
       } else if (activeFilter === "inactive") {
-        filtered = assets.filter((a) => a.is_active === false);
+        filtered = baseAssets.filter((a) => a.is_active === false);
       }
 
       return {
@@ -267,7 +322,7 @@ export default function AssetsPage() {
         inactiveAssetsCount: inactiveCount,
         filteredRegisteredAssets: filtered,
       };
-    }, [assets, activeFilter]);
+    }, [assets, activeFilter, user, isSysManager, trackedAssetIds]);
 
   return (
     <div className="space-y-6 ">
@@ -337,7 +392,10 @@ export default function AssetsPage() {
             </div>
 
             {/* Market Category Selector */}
-            <div className="flex items-center gap-1 bg-white/[0.04] border border-white/5 p-1 rounded-xl text-xs font-medium overflow-x-auto max-w-full">
+            <div
+              ref={categorySelectorRef}
+              className="flex items-center gap-1 bg-white/[0.04] border border-white/5 p-1 pb-1.5 rounded-xl text-xs font-medium overflow-x-auto max-w-full custom-scrollbar cursor-grab active:cursor-grabbing select-none"
+            >
               {[
                 { id: "all", label: "همه بازارها" },
                 { id: "gold", label: "طلا و سکه ایران" },
@@ -352,7 +410,7 @@ export default function AssetsPage() {
                     onClick={() =>
                       setMarketCategory(tab.id as typeof marketCategory)
                     }
-                    className={`px-2.5 py-1 rounded-lg transition-all whitespace-nowrap cursor-pointer text-xs ${
+                    className={`px-2.5 py-1 rounded-lg transition-all whitespace-nowrap cursor-pointer text-xs select-none ${
                       active
                         ? "bg-amber-500/15 text-amber-400 border border-amber-500/30 font-bold shadow-xs"
                         : "text-slate-400 hover:text-slate-200"
@@ -380,7 +438,7 @@ export default function AssetsPage() {
               نرخی یافت نشد. دکمه «بروزرسانی نرخ‌های بازار» را کلیک فرمایید.
             </div>
           ) : (
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 max-h-[750px] overflow-y-auto pr-1">
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 max-h-[750px] overflow-y-auto pr-1 custom-scrollbar">
               {filteredQuotes.map((quote) => {
                 const isUSD = quote.unit === "دلار";
                 const isPositive = (quote.change_percent ?? 0) >= 0;
@@ -523,12 +581,16 @@ export default function AssetsPage() {
 
               {selectedAssetIds.length > 0 && (
                 <button
-                  onClick={() => {
-                    if (
-                      confirm(
-                        `آیا از حذف ${selectedAssetIds.length} دارایی انتخاب شده مطمئن هستید؟`,
-                      )
-                    ) {
+                  onClick={async () => {
+                    const isConfirmed = await confirm({
+                      title: "حذف دسته‌ای دارایی‌ها",
+                      message: `آیا از حذف ${selectedAssetIds.length} دارایی انتخاب شده مطمئن هستید؟`,
+                      description: "تمام نمادهای انتخاب‌شده از فهرست دارایی‌های شما حذف خواهند شد.",
+                      confirmText: `حذف ${selectedAssetIds.length} دارایی`,
+                      cancelText: "انصراف",
+                      variant: "danger",
+                    });
+                    if (isConfirmed) {
                       bulkDeleteMutation.mutate(selectedAssetIds);
                     }
                   }}
@@ -591,7 +653,7 @@ export default function AssetsPage() {
               ))}
             </div>
           ) : filteredRegisteredAssets.length > 0 ? (
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 max-h-[750px] overflow-y-auto pr-1">
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 max-h-[750px] overflow-y-auto pr-1 custom-scrollbar">
               {filteredRegisteredAssets.map((asset) => {
                 const isActive = asset.is_active !== false;
                 const isSelected = selectedAssetIds.includes(asset.id);
@@ -707,12 +769,16 @@ export default function AssetsPage() {
 
                         {/* Delete Asset Button */}
                         <button
-                          onClick={() => {
-                            if (
-                              confirm(
-                                `آیا از حذف نماد «${asset.symbol} - ${asset.name}» مطمئن هستید؟`,
-                              )
-                            ) {
+                          onClick={async () => {
+                            const isConfirmed = await confirm({
+                              title: "حذف دارایی از سامانه",
+                              message: `آیا از حذف نماد «${asset.symbol} - ${asset.name}» مطمئن هستید؟`,
+                              description: "این نماد و تنظیمات مربوط به آن از فهرست دارایی‌های شما حذف خواهد شد.",
+                              confirmText: "حذف دارایی",
+                              cancelText: "انصراف",
+                              variant: "danger",
+                            });
+                            if (isConfirmed) {
                               deleteMutation.mutate(asset.id);
                             }
                           }}

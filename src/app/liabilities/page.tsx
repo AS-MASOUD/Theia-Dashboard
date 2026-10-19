@@ -26,6 +26,7 @@ import { useCurrency } from "@/components/currency-provider";
 import { useUserPlatforms } from "@/hooks/use-user-platforms";
 import { LiabilityDetailModal } from "@/components/financial/liability-detail-modal";
 import { LenderLogo } from "@/components/financial/lender-logo";
+import { useConfirm } from "@/components/confirm-modal-provider";
 import { Liability } from "@/types/financial";
 
 const ICON_MAP: Record<string, React.ElementType> = {
@@ -40,6 +41,7 @@ const ICON_MAP: Record<string, React.ElementType> = {
 
 export default function LiabilitiesPage() {
   const queryClient = useQueryClient();
+  const { confirm } = useConfirm();
   const [activeTab, setActiveTab] = useState<
     "loans" | "new_liability" | "calculator"
   >("loans");
@@ -930,13 +932,17 @@ export default function LiabilitiesPage() {
                           مشاهده جزییات ←
                         </span>
                         <button
-                          onClick={(e) => {
+                          onClick={async (e) => {
                             e.stopPropagation();
-                            if (
-                              confirm(
-                                `آیا از حذف یا تسویه کامل «${l.name}» مطمئن هستید؟`,
-                              )
-                            ) {
+                            const isConfirmed = await confirm({
+                              title: "تسویه و حذف بدهی",
+                              message: `آیا از حذف یا تسویه کامل «${l.name}» مطمئن هستید؟`,
+                              description: "این بدهی و تمام اقساط ثبت‌شده آن از سامانه حذف خواهد شد.",
+                              confirmText: "حذف تعهد",
+                              cancelText: "انصراف",
+                              variant: "danger",
+                            });
+                            if (isConfirmed) {
                               deleteMutation.mutate(l.id);
                             }
                           }}

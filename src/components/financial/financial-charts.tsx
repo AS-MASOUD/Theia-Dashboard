@@ -35,9 +35,18 @@ export function NetWorthChart({ data }: NetWorthChartProps) {
     const factor = currency === "USD" ? 1 / exchangeRate : 1;
 
     return slice.map((item) => {
-      const rawNw = typeof item.net_worth === "string" ? parseFloat(item.net_worth) : item.net_worth || 0;
-      const rawAssets = typeof item.total_assets === "string" ? parseFloat(item.total_assets) : item.total_assets || 0;
-      const rawLiab = typeof item.total_liabilities === "string" ? parseFloat(item.total_liabilities) : item.total_liabilities || 0;
+      const rawNw =
+        typeof item.net_worth === "string"
+          ? parseFloat(item.net_worth)
+          : item.net_worth || 0;
+      const rawAssets =
+        typeof item.total_assets === "string"
+          ? parseFloat(item.total_assets)
+          : item.total_assets || 0;
+      const rawLiab =
+        typeof item.total_liabilities === "string"
+          ? parseFloat(item.total_liabilities)
+          : item.total_liabilities || 0;
 
       return {
         date: item.snapshot_date ? item.snapshot_date.slice(5) : "",
@@ -56,7 +65,7 @@ export function NetWorthChart({ data }: NetWorthChartProps) {
       <div className="flex items-center justify-between mb-4">
         <div>
           <h3 className="text-sm font-semibold text-[#E8E8E8]">
-            روند ارزش خالص (Net Worth)
+            روند ارزش خالص کل
           </h3>
           <p className="text-xs text-[#9A9DA5] font-normal">
             سیر تاریخی تغییرات ارزش پورتفولیو و تعهدات بدهی
@@ -92,7 +101,10 @@ export function NetWorthChart({ data }: NetWorthChartProps) {
           </div>
         ) : (
           <ResponsiveContainer width="100%" height="100%">
-            <AreaChart data={formattedData} margin={{ top: 10, right: 10, left: 0, bottom: 0 }}>
+            <AreaChart
+              data={formattedData}
+              margin={{ top: 10, right: 10, left: 0, bottom: 0 }}
+            >
               <defs>
                 <linearGradient id="netWorthGrad" x1="0" y1="0" x2="0" y2="1">
                   <stop offset="5%" stopColor="#F0AE55" stopOpacity={0.15} />
@@ -122,8 +134,13 @@ export function NetWorthChart({ data }: NetWorthChartProps) {
                   if (active && payload && payload.length) {
                     const row = payload[0]?.payload;
                     return (
-                      <div className="bg-[#1B1D21] text-[#E8E8E8] p-3 rounded-2xl shadow-xl text-xs space-y-1.5 border border-[#282A2F] text-right" dir="rtl">
-                        <div className="font-medium text-[#F0AE55]">{label}</div>
+                      <div
+                        className="bg-[#1B1D21] text-[#E8E8E8] p-3 rounded-2xl shadow-xl text-xs space-y-1.5 border border-[#282A2F] text-right"
+                        dir="rtl"
+                      >
+                        <div className="font-medium text-[#F0AE55]">
+                          {label}
+                        </div>
                         <div className="text-[#E8E8E8] font-semibold font-number">
                           ارزش خالص: {formatMoney(row?.rawNetWorth)}
                         </div>
@@ -253,7 +270,8 @@ export function AllocationDonut({ data }: AllocationDonutProps) {
                   <span
                     className="h-2 w-2 rounded-full"
                     style={{
-                      backgroundColor: ALLOCATION_COLORS[idx % ALLOCATION_COLORS.length],
+                      backgroundColor:
+                        ALLOCATION_COLORS[idx % ALLOCATION_COLORS.length],
                     }}
                   />
                   <span className="font-normal text-[#E8E8E8]">

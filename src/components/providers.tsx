@@ -8,6 +8,7 @@ import { CurrencyProvider } from "@/components/currency-provider";
 import { AuthProvider } from "@/components/auth-provider";
 import { ToastProvider } from "@/components/toast-provider";
 import { ConfirmModalProvider } from "@/components/confirm-modal-provider";
+import { GlobalDragScroll } from "@/components/drag-scroll-provider";
 
 export function Providers({ children }: { children: React.ReactNode }) {
   const [queryClient] = useState(
@@ -29,7 +30,10 @@ export function Providers({ children }: { children: React.ReactNode }) {
         <AuthProvider>
           <CurrencyProvider>
             <ToastProvider>
-              <ConfirmModalProvider>{children}</ConfirmModalProvider>
+              <ConfirmModalProvider>
+                <GlobalDragScroll />
+                {children}
+              </ConfirmModalProvider>
             </ToastProvider>
           </CurrencyProvider>
         </AuthProvider>

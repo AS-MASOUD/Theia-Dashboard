@@ -219,7 +219,7 @@ export default function PublicHomePage() {
                 {/* Net worth readout */}
                 <div className="text-left">
                   <span className="text-[10px] text-[#A0A3AD]">
-                    ارزش خالص کل (Net Worth)
+                    ارزش خالص کل
                   </span>
                   <div className="flex items-baseline gap-1 mt-0.5">
                     <span className="text-lg font-black text-[#F0F0F1] font-mono">

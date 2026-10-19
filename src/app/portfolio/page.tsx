@@ -21,6 +21,7 @@ import { formatPercent } from "@/lib/utils";
 import { useCurrency } from "@/components/currency-provider";
 import { useToast } from "@/components/toast-provider";
 import { useAuth } from "@/components/auth-provider";
+import { useConfirm } from "@/components/confirm-modal-provider";
 import { AssetClass, AssetPosition } from "@/types/financial";
 import { calculatePortfolioAllocationCompliance } from "@/lib/allocation-utils";
 import { CustomAllocationModal } from "@/components/financial/custom-allocation-modal";
@@ -29,6 +30,7 @@ export default function PortfolioPage() {
   const queryClient = useQueryClient();
   const { toast } = useToast();
   const { user } = useAuth();
+  const { confirm } = useConfirm();
   const [selectedClass, setSelectedClass] = useState<string>("ALL");
   const [showCustomAllocModal, setShowCustomAllocModal] = useState(false);
   const { formatMoney } = useCurrency();
@@ -427,12 +429,16 @@ export default function PortfolioPage() {
 
                           {/* Delete Position */}
                           <button
-                            onClick={() => {
-                              if (
-                                confirm(
-                                  `آیا از حذف موقعیت دارایی «${pos.asset_symbol} - ${pos.asset_name}» از پورتفوی خود مطمئن هستید؟`
-                                )
-                              ) {
+                            onClick={async () => {
+                              const isConfirmed = await confirm({
+                                title: "حذف موقعیت از پورتفوی",
+                                message: `آیا از حذف موقعیت دارایی «${pos.asset_symbol} - ${pos.asset_name}» از پورتفوی خود مطمئن هستید؟`,
+                                description: "این موقعیت از پورتفوی شما حذف خواهد شد و در محاسبات ارزش خالص منظور نمی‌گردد.",
+                                confirmText: "حذف موقعیت",
+                                cancelText: "انصراف",
+                                variant: "danger",
+                              });
+                              if (isConfirmed) {
                                 deleteMutation.mutate(pos.id);
                               }
                             }}

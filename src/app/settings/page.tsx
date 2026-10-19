@@ -14,9 +14,11 @@ import {
   Sparkles,
 } from "lucide-react";
 import { api } from "@/lib/api";
+import { useConfirm } from "@/components/confirm-modal-provider";
 
 export default function SettingsPage() {
   const queryClient = useQueryClient();
+  const { showAlert } = useConfirm();
   const [snapshotSuccess, setSnapshotSuccess] = useState(false);
 
   const { data: health } = useQuery({
@@ -140,7 +142,14 @@ export default function SettingsPage() {
 
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 text-xs">
           <button
-            onClick={() => alert("درخواست خروجی JSON از پایگاه داده ارسال شد.")}
+            onClick={() =>
+              showAlert({
+                title: "تهیه خروجی داده‌ها",
+                message: "درخواست خروجی JSON از پایگاه داده با موفقیت ثبت و ارسال شد.",
+                description: "فایل پشتیبان پس از آماده‌سازی به صورت خودکار دانلود خواهد شد.",
+                variant: "info",
+              })
+            }
             className="p-4 rounded-[14px] border border-[#282A2F] bg-[#1B1D21] hover:bg-[#222327] hover:border-[#32343A] flex items-center justify-between text-[#E8E8E8] font-medium transition-colors cursor-pointer"
           >
             <span className="flex items-center gap-2.5">
@@ -150,7 +159,14 @@ export default function SettingsPage() {
           </button>
 
           <button
-            onClick={() => alert("فرم ورود دسته‌ای تراکنش‌ها فعال شد.")}
+            onClick={() =>
+              showAlert({
+                title: "بارگذاری تراکنش‌ها",
+                message: "فرم ورود دسته‌ای تراکنش‌ها از طریق فایل اکسل/CSV فعال شد.",
+                description: "می‌توانید فایل‌های تراکنش استاندارد کارگزاری‌ها را بارگذاری نمایید.",
+                variant: "info",
+              })
+            }
             className="p-4 rounded-[14px] border border-[#282A2F] bg-[#1B1D21] hover:bg-[#222327] hover:border-[#32343A] flex items-center justify-between text-[#E8E8E8] font-medium transition-colors cursor-pointer"
           >
             <span className="flex items-center gap-2.5">

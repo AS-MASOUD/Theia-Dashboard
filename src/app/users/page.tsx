@@ -4,6 +4,7 @@ import React, { useState, useEffect } from "react";
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { api } from "@/lib/api";
 import { useAuth } from "@/components/auth-provider";
+import { useConfirm } from "@/components/confirm-modal-provider";
 import { SystemRole, User, UserCreateInput } from "@/types/auth";
 import {
   ShieldCheck,
@@ -23,6 +24,7 @@ import {
 
 export default function UsersPage() {
   const { user: currentUser, isSysManager, isAdmin, isLoading: authLoading } = useAuth();
+  const { confirm } = useConfirm();
   const [mounted, setMounted] = useState(false);
   const queryClient = useQueryClient();
 
@@ -171,8 +173,16 @@ export default function UsersPage() {
     });
   };
 
-  const handleDeleteUser = (user: User) => {
-    if (confirm(`آیا از حذف دائم کاربر "${user.full_name}" (${user.email}) اطمینان دارید؟`)) {
+  const handleDeleteUser = async (user: User) => {
+    const isConfirmed = await confirm({
+      title: "حذف دائم کاربر",
+      message: `آیا از حذف دائم کاربر "${user.full_name}" (${user.email || user.phone_number}) اطمینان دارید؟`,
+      description: "با این اقدام، تمامی اطلاعات حساب، دسترسی‌ها و سوابق فعالیت این کاربر به طور قطعی حذف می‌گردد.",
+      confirmText: "حذف کاربر",
+      cancelText: "انصراف",
+      variant: "danger",
+    });
+    if (isConfirmed) {
       setActionError(null);
       deleteMutation.mutate(user.id);
     }

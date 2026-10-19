@@ -26,6 +26,7 @@ import {
 } from "lucide-react";
 import { api } from "@/lib/api";
 import { useCurrency } from "@/components/currency-provider";
+import { useConfirm } from "@/components/confirm-modal-provider";
 import { formatDate } from "@/lib/utils";
 import { Liability, LiabilityPayment } from "@/types/financial";
 import { LenderLogo, getLenderBrand } from "./lender-logo";
@@ -49,6 +50,7 @@ export function LiabilityDetailModal({
   const queryClient = useQueryClient();
   const { formatMoney } = useCurrency();
   const { platforms } = useUserPlatforms();
+  const { confirm } = useConfirm();
 
   // Mode: "view" | "edit" | "payment"
   const [mode, setMode] = useState<"view" | "edit" | "payment">("view");
@@ -477,8 +479,16 @@ export function LiabilityDetailModal({
 
               <button
                 type="button"
-                onClick={() => {
-                  if (confirm(`آیا از حذف کامل «${liability.name}» مطمئن هستید؟`)) {
+                onClick={async () => {
+                  const isConfirmed = await confirm({
+                    title: "حذف کامل تعهد بدهی",
+                    message: `آیا از حذف کامل «${liability.name}» مطمئن هستید؟`,
+                    description: "این بدهی و تمامی سوابق اقساط و محاسبات مربوط به آن از سامانه حذف خواهد شد.",
+                    confirmText: "حذف بدهی",
+                    cancelText: "انصراف",
+                    variant: "danger",
+                  });
+                  if (isConfirmed) {
                     deleteMutation.mutate();
                   }
                 }}

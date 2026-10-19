@@ -376,7 +376,7 @@ export default function OverviewDashboardPage() {
           {/* 2. Top Metric Cards (Direct Obsidian Pod Translation) */}
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
             <MetricCard
-              title="ارزش خالص کل (Net Worth)"
+              title="ارزش خالص کل"
               value={netWorthValue}
               change={netWorthChange}
               changePeriod="نسبت به ماه گذشته"

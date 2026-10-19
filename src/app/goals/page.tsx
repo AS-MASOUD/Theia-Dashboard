@@ -6,11 +6,13 @@ import { Plus, Clock, Calendar, Check, X, Loader2, Trash2, Target, AlertCircle, 
 import { api } from "@/lib/api";
 import { formatDate } from "@/lib/utils";
 import { useCurrency } from "@/components/currency-provider";
+import { useConfirm } from "@/components/confirm-modal-provider";
 import { GoalCategory } from "@/types/financial";
 
 export default function GoalsPage() {
   const queryClient = useQueryClient();
   const { formatMoney } = useCurrency();
+  const { confirm } = useConfirm();
 
   // Fetch goal categories from backend
   const { data: goalCategories } = useQuery({
@@ -152,13 +154,21 @@ export default function GoalsPage() {
                         {pct.toFixed(0)}% تکمیل
                       </span>
                       <button
-                        onClick={() => {
-                          if (confirm(`آیا از حذف هدف «${goal.name}» مطمئن هستید؟`)) {
+                        onClick={async () => {
+                          const isConfirmed = await confirm({
+                            title: "حذف هدف مالی",
+                            message: `آیا از حذف هدف «${goal.name}» مطمئن هستید؟`,
+                            description: "این هدف و تمام سوابق پس‌انداز ماهانه مربوط به آن از سامانه حذف خواهد شد.",
+                            confirmText: "حذف هدف",
+                            cancelText: "انصراف",
+                            variant: "danger",
+                          });
+                          if (isConfirmed) {
                             deleteMutation.mutate(goal.id);
                           }
                         }}
                         disabled={deleteMutation.isPending}
-                        className="p-1.5 rounded-[8px] text-[#696D77] hover:text-[#C77A82] hover:bg-[#C77A82]/10 transition-colors"
+                        className="p-1.5 rounded-[8px] text-[#696D77] hover:text-[#C77A82] hover:bg-[#C77A82]/10 transition-colors cursor-pointer"
                         title="حذف هدف"
                       >
                         <Trash2 className="h-3.5 w-3.5" />
