@@ -10,9 +10,7 @@ import {
   User,
   ArrowLeft,
   AlertCircle,
-  Smartphone,
   RotateCcw,
-  CheckCircle2,
   KeyRound,
   Eye,
   EyeOff,
@@ -20,10 +18,10 @@ import {
   Mail,
 } from "lucide-react";
 import { normalizeDigitsToEnglish, isValidIranPhone, getSafeRedirect } from "@/lib/utils";
-import { GlassAuthCard } from "@/components/auth/glass-auth-card";
+import { GlassAuthCard, AuthTransitionState } from "@/components/auth/glass-auth-card";
 
 function RegisterContent() {
-  const { register, registerWithOTP, requestRegisterOTP } = useAuth();
+  const { register, registerWithOTP, setAuthTransitioning } = useAuth();
   const { toast } = useToast();
   const router = useRouter();
   const searchParams = useSearchParams();
@@ -46,10 +44,17 @@ function RegisterContent() {
   const [countdown, setCountdown] = useState(0);
   const [otpChannel, setOtpChannel] = useState<string>("sms");
 
-  // Animation / Submission state
-  const [isSubmitting, setIsSubmitting] = useState(false);
+  // Animation / Transition state machine
+  const [transitionState, setTransitionState] = useState<AuthTransitionState>("idle");
   const [statusText, setStatusText] = useState("در حال ایجاد حساب کاربری و پیکربندی اولیه...");
   const [error, setError] = useState<string | null>(null);
+
+  // Release transition lock on unmount
+  useEffect(() => {
+    return () => {
+      setAuthTransitioning(false);
+    };
+  }, [setAuthTransitioning]);
 
   // Countdown timer
   useEffect(() => {
@@ -72,7 +77,6 @@ function RegisterContent() {
     }
 
     if (!cleanPhone && identifier.includes("@")) {
-      // If user provided email instead of phone, generate a temporary valid phone or inform
       cleanPhone = "09" + Math.floor(100000000 + Math.random() * 900000000).toString();
     }
 
@@ -106,8 +110,10 @@ function RegisterContent() {
     const valid = validateInputs();
     if (!valid) return;
 
+    setError(null);
+    setAuthTransitioning(true);
+    setTransitionState("authenticating");
     setStatusText("در حال ایجاد حساب کاربری و راه‌اندازی کیف دارایی‌ها...");
-    setIsSubmitting(true);
 
     try {
       await register({
@@ -116,6 +122,7 @@ function RegisterContent() {
         password: password,
       });
 
+      setTransitionState("success");
       setStatusText("حساب شما با موفقیت ایجاد شد! در حال انتقال به سامانه...");
       toast.success("ثبت‌نام شما با موفقیت انجام شد. خوش آمدید!", "ثبت‌نام موفق");
 
@@ -125,10 +132,15 @@ function RegisterContent() {
         : "/dashboard?onboarding=1";
 
       setTimeout(() => {
-        router.push(targetUrl);
-      }, 700);
+        setTransitionState("exiting");
+        setTimeout(() => {
+          router.push(targetUrl);
+        }, 220);
+      }, 950);
     } catch (err: unknown) {
-      setIsSubmitting(false);
+      setAuthTransitioning(false);
+      setTransitionState("error");
+
       const errorObj = err as Error & { code?: string; status?: number };
       const isConflict =
         errorObj.status === 409 ||
@@ -161,8 +173,10 @@ function RegisterContent() {
       return;
     }
 
+    setError(null);
+    setAuthTransitioning(true);
+    setTransitionState("authenticating");
     setStatusText("در حال تایید کد یکبار مصرف و ثبت‌نام نهایی...");
-    setIsSubmitting(true);
 
     try {
       await registerWithOTP({
@@ -172,13 +186,19 @@ function RegisterContent() {
         code: cleanOtp,
       });
 
+      setTransitionState("success");
       setStatusText("ثبت‌نام تایید شد! در حال هدایت به میز کار...");
       toast.success("ثبت‌نام با موفقیت انجام شد. خوش آمدید!", "ثبت‌نام موفق");
+
       setTimeout(() => {
-        router.push("/dashboard?onboarding=1");
-      }, 700);
+        setTransitionState("exiting");
+        setTimeout(() => {
+          router.push("/dashboard?onboarding=1");
+        }, 220);
+      }, 950);
     } catch (err: unknown) {
-      setIsSubmitting(false);
+      setAuthTransitioning(false);
+      setTransitionState("error");
       const msg = err instanceof Error ? err.message : "کد تایید نامعتبر است.";
       setError(msg);
       toast.error(msg, "خطای اعتبارسنجی");
@@ -193,32 +213,35 @@ function RegisterContent() {
 
   return (
     <GlassAuthCard
-      isSubmitting={isSubmitting}
+      transitionState={transitionState}
       statusText={statusText}
-      onCancelSubmitting={() => setIsSubmitting(false)}
+      onCancelSubmitting={() => {
+        setAuthTransitioning(false);
+        setTransitionState("idle");
+      }}
     >
-      {/* Header section (strictly matching Image 1: یک شروع تازه) */}
-      <div className="text-center mb-6">
-        <h1 className="text-2xl sm:text-3xl font-extrabold text-[#F4F4F5] tracking-tight">
-          یک شروع <span className="text-[#FACC15]">تازه</span>
+      {/* Header section (matching Reference Image 1) */}
+      <div className="text-center mb-3.5">
+        <h1 className="text-2xl sm:text-[26px] font-extrabold text-[#F4F4F5] tracking-tight">
+          یک شروع <span className="text-[#F0AE55]">تازه</span>
         </h1>
-        <p className="mt-2 text-xs sm:text-sm text-[#A1A1AA]">
+        <p className="mt-1 text-xs text-[#A1A1AA]">
           حساب خود را بسازید؛ به جمع ما خوش آمدید
         </p>
       </div>
 
       {/* Error alert */}
       {error && (
-        <div className="mb-4 p-3 rounded-2xl bg-[#C77A82]/15 border border-[#C77A82]/30 text-[#E08A92] text-xs flex items-center gap-2">
-          <AlertCircle className="h-4 w-4 shrink-0" />
+        <div className="mb-2.5 p-2 rounded-xl bg-[#C77A82]/15 border border-[#C77A82]/30 text-[#E08A92] text-xs flex items-center gap-1.5">
+          <AlertCircle className="h-3.5 w-3.5 shrink-0" />
           <span>{error}</span>
         </div>
       )}
 
       {step === "details" ? (
-        <form onSubmit={handleRegisterSubmit} className="space-y-4">
+        <form onSubmit={handleRegisterSubmit} className="space-y-3">
           {/* Field 1: نام و نام خانوادگی */}
-          <div className="space-y-1.5 text-right">
+          <div className="space-y-1 text-right">
             <label className="block text-xs font-medium text-[#D1D5DB]">
               نام و نام خانوادگی
             </label>
@@ -228,7 +251,7 @@ function RegisterContent() {
                 value={fullName}
                 onChange={(e) => setFullName(e.target.value)}
                 placeholder="کاربر آزمایشی"
-                className="w-full h-12 pr-11 pl-4 text-sm rounded-2xl bg-[#141519] border border-white/10 text-[#F4F4F5] placeholder:text-[#636773] focus:outline-none focus:border-[#FACC15]/60 focus:ring-1 focus:ring-[#FACC15]/40 transition-all text-right"
+                className="auth-input h-[46px] pr-10 pl-3 text-sm text-right"
               />
               <div className="absolute right-3.5 top-1/2 -translate-y-1/2 text-[#8E929E] pointer-events-none">
                 <User className="h-4 w-4" />
@@ -236,8 +259,8 @@ function RegisterContent() {
             </div>
           </div>
 
-          {/* Field 2: آدرس ایمیل / شماره موبایل */}
-          <div className="space-y-1.5 text-right">
+          {/* Field 2: آدرس ایمیل یا شماره موبایل */}
+          <div className="space-y-1 text-right">
             <label className="block text-xs font-medium text-[#D1D5DB]">
               آدرس ایمیل یا شماره موبایل
             </label>
@@ -251,7 +274,7 @@ function RegisterContent() {
                 }}
                 placeholder="demo@loreg.test یا 09121111111"
                 dir="ltr"
-                className="w-full h-12 pr-11 pl-4 text-sm rounded-2xl bg-[#141519] border border-white/10 text-[#F4F4F5] placeholder:text-[#636773] focus:outline-none focus:border-[#FACC15]/60 focus:ring-1 focus:ring-[#FACC15]/40 transition-all text-left font-mono"
+                className="auth-input h-[46px] pr-10 pl-3 text-sm text-left font-mono"
               />
               <div className="absolute right-3.5 top-1/2 -translate-y-1/2 text-[#8E929E] pointer-events-none">
                 <Mail className="h-4 w-4" />
@@ -260,7 +283,7 @@ function RegisterContent() {
           </div>
 
           {/* Field 3: رمز عبور */}
-          <div className="space-y-1.5 text-right">
+          <div className="space-y-1 text-right">
             <label className="block text-xs font-medium text-[#D1D5DB]">
               رمز عبور
             </label>
@@ -271,7 +294,7 @@ function RegisterContent() {
                 onChange={(e) => setPassword(e.target.value)}
                 placeholder="••••••••"
                 dir="ltr"
-                className="w-full h-12 pr-11 pl-11 text-sm rounded-2xl bg-[#141519] border border-white/10 text-[#F4F4F5] placeholder:text-[#636773] focus:outline-none focus:border-[#FACC15]/60 focus:ring-1 focus:ring-[#FACC15]/40 transition-all text-left"
+                className="auth-input h-[46px] pr-10 pl-10 text-sm text-left"
               />
               <div className="absolute right-3.5 top-1/2 -translate-y-1/2 text-[#8E929E] pointer-events-none">
                 <Lock className="h-4 w-4" />
@@ -279,7 +302,7 @@ function RegisterContent() {
               <button
                 type="button"
                 onClick={() => setShowPassword(!showPassword)}
-                className="absolute left-3.5 top-1/2 -translate-y-1/2 text-[#8E929E] hover:text-[#F4F4F5] transition-colors cursor-pointer"
+                className="absolute left-3 top-1/2 -translate-y-1/2 text-[#8E929E] hover:text-[#F4F4F5] transition-colors cursor-pointer"
                 aria-label={showPassword ? "مخفی کردن رمز" : "نمایش رمز"}
               >
                 {showPassword ? <EyeOff className="h-4 w-4" /> : <Eye className="h-4 w-4" />}
@@ -288,17 +311,17 @@ function RegisterContent() {
           </div>
 
           {/* Checkbox: مرا به خاطر بسپار */}
-          <div className="flex items-center gap-2 pt-1 select-none">
+          <div className="flex items-center gap-1.5 pt-0.5 select-none">
             <button
               type="button"
               onClick={() => setRememberMe(!rememberMe)}
-              className={`w-5 h-5 rounded-md flex items-center justify-center transition-all cursor-pointer ${
+              className={`w-4 h-4 rounded flex items-center justify-center transition-all cursor-pointer ${
                 rememberMe
-                  ? "bg-[#FACC15] text-[#0A0A0B] shadow-sm shadow-[#FACC15]/30"
+                  ? "bg-[#F0AE55] text-[#0D0E10] shadow-sm shadow-[#F0AE55]/30"
                   : "bg-[#18191E] border border-white/15 text-transparent"
               }`}
             >
-              <Check className="h-3.5 w-3.5 stroke-[3]" />
+              <Check className="h-3 w-3 stroke-[3]" />
             </button>
             <span
               onClick={() => setRememberMe(!rememberMe)}
@@ -311,7 +334,7 @@ function RegisterContent() {
           {/* Primary Action Button: ساخت حساب کاربری ← */}
           <button
             type="submit"
-            className="w-full h-12 mt-2 rounded-2xl bg-[#FACC15] hover:bg-[#FCD34D] active:scale-[0.99] text-[#0A0A0B] font-bold text-sm transition-all duration-200 flex items-center justify-center gap-2 cursor-pointer shadow-[0_0_24px_rgba(250,204,21,0.25)] hover:shadow-[0_0_30px_rgba(250,204,21,0.4)]"
+            className="w-full h-[46px] mt-1.5 rounded-2xl bg-gradient-to-r from-[#F3BE76] via-[#F0AE55] to-[#E89E3E] hover:brightness-105 active:scale-[0.99] text-[#0D0E10] font-bold text-sm transition-all duration-200 flex items-center justify-center gap-2 cursor-pointer shadow-[0_4px_20px_rgba(240,174,85,0.25)] hover:shadow-[0_4px_28px_rgba(240,174,85,0.38)]"
           >
             <span>ساخت حساب کاربری</span>
             <ArrowLeft className="h-4 w-4 stroke-[2.5]" />
@@ -319,8 +342,8 @@ function RegisterContent() {
         </form>
       ) : (
         /* OTP Step (if OTP verification is required) */
-        <form onSubmit={handleVerifyOTP} className="space-y-4">
-          <div className="space-y-1.5 text-right">
+        <form onSubmit={handleVerifyOTP} className="space-y-3">
+          <div className="space-y-1 text-right">
             <div className="flex items-center justify-between">
               <label className="block text-xs font-medium text-[#D1D5DB]">
                 کد تایید ۵ رقمی ({otpChannel === "bale" ? "بله" : "پیامک"})
@@ -328,7 +351,7 @@ function RegisterContent() {
               <button
                 type="button"
                 onClick={() => setStep("details")}
-                className="text-[11px] text-[#FACC15] hover:underline cursor-pointer"
+                className="text-[11px] text-[#F0AE55] hover:underline cursor-pointer"
               >
                 ویرایش مشخصات
               </button>
@@ -346,7 +369,7 @@ function RegisterContent() {
                 placeholder="•••••"
                 dir="ltr"
                 autoFocus
-                className="w-full h-12 pr-11 pl-4 text-lg rounded-2xl bg-[#141519] border border-white/10 text-[#FACC15] placeholder:text-[#636773] focus:outline-none focus:border-[#FACC15] transition-all text-center tracking-[0.4em] font-semibold"
+                className="auth-input h-[46px] pr-10 pl-3 text-base text-[#F0AE55] text-center tracking-[0.4em] font-semibold"
               />
               <div className="absolute right-3.5 top-1/2 -translate-y-1/2 text-[#8E929E] pointer-events-none">
                 <KeyRound className="h-4 w-4" />
@@ -361,9 +384,9 @@ function RegisterContent() {
               <button
                 type="button"
                 onClick={() => setCountdown(120)}
-                className="flex items-center gap-1 text-[#FACC15] hover:underline font-medium cursor-pointer"
+                className="flex items-center gap-1 text-[#F0AE55] hover:underline font-medium cursor-pointer"
               >
-                <RotateCcw className="h-3.5 w-3.5" />
+                <RotateCcw className="h-3 w-3" />
                 <span>ارسال مجدد کد تایید</span>
               </button>
             )}
@@ -372,26 +395,26 @@ function RegisterContent() {
           <button
             type="submit"
             disabled={otpCode.length < 5}
-            className="w-full h-12 rounded-2xl bg-[#FACC15] hover:bg-[#FCD34D] text-[#0A0A0B] font-bold text-sm transition-all flex items-center justify-center gap-2 cursor-pointer shadow-[0_0_24px_rgba(250,204,21,0.25)] disabled:opacity-40"
+            className="w-full h-[46px] rounded-2xl bg-gradient-to-r from-[#F3BE76] via-[#F0AE55] to-[#E89E3E] text-[#0D0E10] font-bold text-sm transition-all flex items-center justify-center gap-2 cursor-pointer shadow-[0_4px_20px_rgba(240,174,85,0.25)] disabled:opacity-40"
           >
-            <span>تایید و ساخت حساب کاربری</span>
+            <span>تایید و ساخت حساب</span>
             <ArrowLeft className="h-4 w-4 stroke-[2.5]" />
           </button>
         </form>
       )}
 
       {/* Divider: یا ادامه دهید با */}
-      <div className="relative my-6">
+      <div className="relative my-3">
         <div className="absolute inset-0 flex items-center">
           <div className="w-full border-t border-white/10" />
         </div>
-        <div className="relative flex justify-center text-xs">
-          <span className="bg-[#101115] px-3 text-[#71717A]">یا ادامه دهید با</span>
+        <div className="relative flex justify-center text-[11px]">
+          <span className="bg-[#111216] px-2.5 text-[#71717A]">یا ادامه دهید با</span>
         </div>
       </div>
 
       {/* Social Auth Buttons (Google & Apple) */}
-      <div className="grid grid-cols-2 gap-3">
+      <div className="grid grid-cols-2 gap-2.5">
         <button
           type="button"
           onClick={() => {
@@ -400,9 +423,8 @@ function RegisterContent() {
             setPassword("demo1234");
             toast.info("اطلاعات نمونه بارگذاری شد. روی ساخت حساب کلیک فرمایید.", "نمونه آزمایشی");
           }}
-          className="h-11 rounded-2xl bg-[#15161A] hover:bg-[#1B1D22] border border-white/10 flex items-center justify-center gap-2 text-xs font-medium text-[#E4E4E7] transition-all cursor-pointer"
+          className="h-[38px] rounded-xl bg-[#15161A] hover:bg-[#1B1D22] border border-white/10 flex items-center justify-center gap-2 text-xs font-medium text-[#E4E4E7] transition-all cursor-pointer"
         >
-          {/* Google Icon */}
           <svg className="w-4 h-4 shrink-0" viewBox="0 0 24 24">
             <path
               fill="#4285F4"
@@ -429,9 +451,8 @@ function RegisterContent() {
           onClick={() => {
             toast.info("ثبت‌نام با حساب اپل به‌زودی فعال خواهد شد.", "در حال توسعه");
           }}
-          className="h-11 rounded-2xl bg-[#15161A] hover:bg-[#1B1D22] border border-white/10 flex items-center justify-center gap-2 text-xs font-medium text-[#E4E4E7] transition-all cursor-pointer"
+          className="h-[38px] rounded-xl bg-[#15161A] hover:bg-[#1B1D22] border border-white/10 flex items-center justify-center gap-2 text-xs font-medium text-[#E4E4E7] transition-all cursor-pointer"
         >
-          {/* Apple Icon */}
           <svg className="w-4 h-4 fill-current shrink-0" viewBox="0 0 24 24">
             <path d="M18.71 19.5c-.83 1.24-1.71 2.45-3.05 2.47-1.34.03-1.77-.79-3.29-.79-1.53 0-2 .77-3.27.82-1.31.05-2.3-1.32-3.14-2.53C4.25 17 2.94 12.45 4.7 9.39c.87-1.52 2.43-2.48 4.12-2.51 1.28-.02 2.5.87 3.29.87.78 0 2.26-1.07 3.81-.91.65.03 2.47.26 3.64 1.98-.09.06-2.17 1.28-2.15 3.81.03 3.02 2.65 4.03 2.68 4.04-.03.07-.42 1.44-1.38 2.83M15.97 6.37c.63-.77 1.06-1.85.94-2.93-1 .04-2.13.67-2.77 1.44-.57.66-1.06 1.76-.92 2.82 1.12.09 2.13-.57 2.75-1.33z" />
           </svg>
@@ -440,11 +461,11 @@ function RegisterContent() {
       </div>
 
       {/* Footer Switch to Login */}
-      <div className="mt-7 text-center text-xs text-[#A1A1AA]">
+      <div className="mt-3.5 text-center text-xs text-[#A1A1AA]">
         <span>قبلاً ثبت‌نام کرده‌اید؟ </span>
         <Link
           href="/login"
-          className="text-[#FACC15] font-bold hover:underline transition-all"
+          className="text-[#F0AE55] font-bold hover:underline transition-all"
         >
           ورود به حساب
         </Link>
@@ -457,8 +478,8 @@ export default function RegisterPage() {
   return (
     <Suspense
       fallback={
-        <div className="min-h-[90vh] flex items-center justify-center p-4 bg-[#08090B]">
-          <div className="h-8 w-8 border-2 border-[#FACC15] border-t-transparent rounded-full animate-spin" />
+        <div className="h-full w-full flex items-center justify-center p-4 bg-[#0A0B0E]">
+          <div className="h-8 w-8 border-2 border-[#F0AE55] border-t-transparent rounded-full animate-spin" />
         </div>
       }
     >

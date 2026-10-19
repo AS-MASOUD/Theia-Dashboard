@@ -29,7 +29,7 @@ function isPublicRoute(pathname: string): boolean {
 
 export function AppShell({ children }: { children: React.ReactNode }) {
   const [isQuickTxOpen, setIsQuickTxOpen] = useState(false);
-  const { isAuthenticated, isLoading } = useAuth();
+  const { isAuthenticated, isLoading, isAuthTransitioning } = useAuth();
   const pathname = usePathname();
   const router = useRouter();
 
@@ -44,19 +44,19 @@ export function AppShell({ children }: { children: React.ReactNode }) {
           ? `?redirect=${encodeURIComponent(pathname)}`
           : "";
         router.replace(`/login${redirectParam}`);
-      } else if (isAuthenticated && isAuthOnly) {
+      } else if (isAuthenticated && isAuthOnly && !isAuthTransitioning) {
         router.replace("/dashboard");
       }
     }
-  }, [isLoading, isAuthenticated, isProtected, isAuthOnly, pathname, router]);
+  }, [isLoading, isAuthenticated, isProtected, isAuthOnly, isAuthTransitioning, pathname, router]);
 
   // If on login or register page
   if (isAuthOnly) {
-    if (isAuthenticated) {
+    if (isAuthenticated && !isAuthTransitioning) {
       return null;
     }
     return (
-      <div className="min-h-screen bg-[#0D0E10] text-[#E8E8E8] flex items-center justify-center">
+      <div className="h-[100dvh] w-full bg-[#0A0B0E] text-[#E8E8E8] flex items-center justify-center overflow-hidden p-2 sm:p-4">
         {children}
       </div>
     );
@@ -97,7 +97,7 @@ export function AppShell({ children }: { children: React.ReactNode }) {
       {/* Main Content Area */}
       <div className="flex-1 flex flex-col min-w-0">
         <Header
-          title="مشاور مدیریت مالی تئا"
+          title="مشاور هوشمند مدیریت مالی تئا"
           subtitle="مدیریت هوشمند دارایی‌ها، نسبت‌ها و پایش سبد سرمایه‌گذاری"
           onOpenQuickTx={() => setIsQuickTxOpen(true)}
         />

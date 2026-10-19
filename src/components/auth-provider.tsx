@@ -29,6 +29,8 @@ interface AuthContextType {
   updateProfile: (payload: ProfileUpdateInput) => Promise<User>;
   logout: () => void;
   refreshProfile: () => Promise<void>;
+  isAuthTransitioning: boolean;
+  setAuthTransitioning: (val: boolean) => void;
   hasRole: (...roles: SystemRole[]) => boolean;
 }
 
@@ -38,6 +40,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   const [user, setUser] = useState<User | null>(null);
   const [token, setToken] = useState<string | null>(null);
   const [isLoading, setIsLoading] = useState<boolean>(true);
+  const [isAuthTransitioning, setAuthTransitioning] = useState<boolean>(false);
   const router = useRouter();
 
   useEffect(() => {
@@ -178,12 +181,16 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
       updateProfile,
       logout,
       refreshProfile,
+      isAuthTransitioning,
+      setAuthTransitioning,
       hasRole,
     }),
     [
       user,
       token,
       isLoading,
+      isAuthTransitioning,
+      setAuthTransitioning,
       login,
       requestOTP,
       loginWithOTP,

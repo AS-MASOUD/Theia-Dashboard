@@ -394,3 +394,61 @@ input[dir="ltr"] {
   font-weight: 600 !important;
 }
 
+/* ============================================================ */
+/* PREMIUM DARK GLASS AUTH INPUT & AUTOFILL SUPPRESSION         */
+/* ============================================================ */
+.auth-input {
+  width: 100%;
+  min-height: 52px;
+  background: linear-gradient(
+    145deg,
+    rgba(38, 40, 47, 0.6),
+    rgba(18, 19, 23, 0.75)
+  ) !important;
+  border: 1px solid rgba(255, 255, 255, 0.12) !important;
+  border-radius: 16px !important;
+  color: #f2f2f4 !important;
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.05),
+    0 4px 16px rgba(0, 0, 0, 0.16);
+  transition:
+    border-color 200ms ease,
+    background 200ms ease,
+    box-shadow 200ms ease;
+}
+
+.auth-input:focus {
+  outline: none !important;
+  border-color: rgba(240, 174, 85, 0.55) !important;
+  box-shadow:
+    0 0 0 3px rgba(240, 174, 85, 0.08),
+    inset 0 1px 0 rgba(255, 255, 255, 0.05) !important;
+}
+
+.auth-input::placeholder {
+  color: rgba(160, 163, 173, 0.5) !important;
+}
+
+/* Neutralize bright yellow / light blue Chrome, Edge & Safari autofill */
+input.auth-input:-webkit-autofill,
+input.auth-input:-webkit-autofill:hover,
+input.auth-input:-webkit-autofill:focus,
+input.auth-input:-webkit-autofill:active {
+  -webkit-text-fill-color: #f2f2f4 !important;
+  box-shadow: 0 0 0 1000px #15161a inset !important;
+  -webkit-box-shadow: 0 0 0 1000px #15161a inset !important;
+  border-color: rgba(255, 255, 255, 0.16) !important;
+  transition: background-color 50000s ease-in-out 0s;
+  caret-color: #f0ae55;
+}
+
+/* Firefox dark autofill */
+input.auth-input:-moz-autofill {
+  background-color: #15161a !important;
+  color: #f2f2f4 !important;
+  box-shadow: 0 0 0 1000px #15161a inset !important;
+}
+
+
