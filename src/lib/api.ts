@@ -48,8 +48,11 @@ import {
 function getApiBase(): string {
   const isServer = typeof window === "undefined";
   if (!isServer) {
-    if (window.location.hostname.includes("theia-finance.ir")) {
-      return "https://api.theia-finance.ir";
+    if (
+      window.location.hostname === "app.theia-finance.ir" ||
+      window.location.hostname === "m.theia-finance.ir"
+    ) {
+      return window.location.origin;
     }
     if (process.env.NEXT_PUBLIC_API_URL) {
       let clientBase = process.env.NEXT_PUBLIC_API_URL.replace(/\/+$/, "");
